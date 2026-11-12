@@ -115,10 +115,10 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 .rule{font-weight:700;color:var(--ink);background:var(--raised);border-radius:8px;padding:8px 12px}
 .rid{display:flex;flex-direction:column;gap:10px;padding-block:14px;border-top:1px solid var(--line)}
 .rid .btn{text-align:right;border-radius:8px;width:100%}
-.rid .btn.right{border:3px solid var(--ok);background:var(--ok-bg);color:var(--ink)}
-.rid .btn.right::before{content:"✓ נכון · ";color:var(--ok-ink)}
-.rid .btn.wrong{border:3px solid var(--bad);background:var(--bad-bg);color:var(--ink)}
-.rid .btn.wrong::before{content:"✗ לא נכון · ";color:var(--bad-ink)}
+.btn.right,.btn.right.on{border:3px solid var(--ok);background:var(--ok-bg);color:var(--ink)}
+.btn.wrong,.btn.wrong.on{border:3px solid var(--bad);background:var(--bad-bg);color:var(--ink)}
+.slot.filled{cursor:grab;touch-action:none}
+.sound{display:inline-flex;align-items:center;gap:6px}
 .foot{color:var(--muted);font-size:18px}
 .theme{margin-inline-start:auto}
 @media (prefers-reduced-motion:reduce){.steps .eqn.show{animation:none}.who p,.slot{transition:none}}
@@ -132,8 +132,8 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <p class="hint"><a href="../" style="color:var(--cyan-ink)">דף פתיחה</a> · <a href="../forces-deck/" style="color:var(--cyan-ink)">למצגת</a></p>
 <h1>מעבדת כוחות</h1>
 <p class="lead">שש תחנות לתרגול כוחות. בכל תחנה קראו את ההוראות שבמסגרת, בצעו ובדקו את התשובה.</p>
-<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button></div>
-<p class="hint">גררו מספר או סימון אל המשבצת המתאימה. אפשר גם ללחוץ עליו ואז על המשבצת. ΣF מסמן את הכוח השקול, ו־N היא יחידת המידה ניוטון.</p>
+<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button><button class="btn ghost sound" id="soundBtn" type="button" aria-pressed="true">צליל: פועל</button></div>
+<p class="hint">גררו מספר או סימון אל המשבצת המתאימה. אפשר גם ללחוץ עליו ואז על המשבצת. כדי להחזיר, גררו מהמשבצת החוצה או לחצו עליה. ΣF מסמן את הכוח השקול, ו־N היא יחידת המידה ניוטון.</p>
 <nav aria-label="תחנות"><a href="#st1">1 · ימינה ושמאלה</a><a href="#st2">2 · ספר</a><a href="#st3">3 · החוק השלישי</a><a href="#st4">4 · כדור ואדם</a><a href="#st5">5 · כוחות בזווית</a><a href="#st6">6 · חידות</a></nav>
 </header>
 
@@ -297,7 +297,7 @@ function Arrow(p,cls,w){const g=el('g',{class:'arr '+cls},p),ln=el('line',{'stro
  set(x1,y1,x2,y2){const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy);g.style.display=L<3?'none':'';if(L<3)return o;const ux=dx/L,uy=dy/L,h=Math.min(22,L*.6);ln.setAttribute('x1',x1);ln.setAttribute('y1',y1);ln.setAttribute('x2',x2-ux*h*.8);ln.setAttribute('y2',y2-uy*h*.8);hd.setAttribute('points',`${x2},${y2} ${x2-ux*h-uy*h*.5},${y2-uy*h+ux*h*.5} ${x2-ux*h+uy*h*.5},${y2-uy*h-ux*h*.5}`);return o},
  hide(){g.style.display='none';return o},cls(c){g.setAttribute('class','arr '+c);return o},
  grow(x1,y1,x2,y2,ms){return tween(ms||600,k=>o.set(x1,y1,x1+(x2-x1)*k,y1+(y2-y1)*k))}};o.hide();return o;}
-function say(box,ok,html){box.hidden=false;box.className='fb '+(ok?'ok':'no');box.innerHTML=ok?html.replace(/^(נכון|מדויק)\.\s*/,''):html.replace(/^לא נכון\.\s*/,'');}
+function say(box,ok,html){SND.fx(ok?'ok':'no');box.hidden=false;box.className='fb '+(ok?'ok':'no');box.innerHTML=ok?html.replace(/^(נכון|מדויק)\.\s*/,''):html.replace(/^לא נכון\.\s*/,'');}
 function pt(svg,e){const m=svg.getScreenCTM();return m?new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()):{x:0,y:0};}
 const fmt=v=>String(v).replace('-','−');
 const sg=v=>(v<0?'−':'+')+Math.abs(v);
@@ -306,7 +306,14 @@ async function fly(from,to,html,ms){if(RM)return;const a=from.getBoundingClientR
  await tween(ms||950,k=>{const x=ax+(bx-ax)*k,y=ay+(by-ay)*k-Math.sin(Math.PI*k)*70;d.style.transform=`translate(${x}px,${y}px) scale(${1+.3*Math.sin(Math.PI*k)})`});d.remove();}
 function pulse(e){e.classList.add('pop');setTimeout(()=>e.classList.remove('pop'),280);}
 function glow(list,on){list.forEach(e=>e&&e.classList.toggle('glow',on))}
-function choice(box,items,onpick){const bs=items.map((it,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=it;b.setAttribute('aria-pressed','false');b.onclick=()=>{bs.forEach(o=>{o.classList.remove('on');o.setAttribute('aria-pressed','false')});b.classList.add('on');b.setAttribute('aria-pressed','true');onpick(i)};box.appendChild(b);return b});return bs;}
+function choice(box,items,onpick,right){const bs=items.map((it,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=it;b.setAttribute('aria-pressed','false');b.onclick=()=>{bs.forEach(o=>{o.classList.remove('on','right','wrong');o.setAttribute('aria-pressed','false')});b.classList.add('on');if(right!=null)b.classList.add(i===right?'right':'wrong');b.setAttribute('aria-pressed','true');onpick(i)};box.appendChild(b);return b});return bs;}
+/* Sound: short tones made in the browser. A tick for buttons, a soft pop for a placed tile, two notes for a correct answer, a low tone for a wrong one. */
+const SND=(()=>{let ctx=null,on=true,pend=false;try{on=localStorage.getItem('lab-sound')!=='off'}catch(e){}
+ const ac=()=>{if(!ctx){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;ctx=new A()}if(ctx.state==='suspended')ctx.resume();return ctx};
+ function tone(f,t0,d,type,vol,f2){const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||.08,t+.012);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.02)}
+ const play={tick(){tone(880,0,.05,'sine',.05)},drop(){tone(520,0,.08,'triangle',.08,700)},ok(){tone(660,0,.14,'sine',.09);tone(990,.11,.22,'sine',.09)},no(){tone(240,0,.26,'triangle',.1,170)}};
+ document.addEventListener('click',e=>{if(!on||!e.target.closest('button'))return;pend=true;setTimeout(()=>{if(pend)play.tick();pend=false},0)},true);
+ return{fx(k){pend=false;if(on)play[k]()},get on(){return on},set(v){on=v;try{localStorage.setItem('lab-sound',v?'on':'off')}catch(e){}}}})();
 /* A step-by-step player: each click on the button runs one step. */
 function Stepper(btn,label,list,before){let i=-1,busy=false;const reset=()=>{i=-1;btn.textContent=label};
  btn.addEventListener('click',async()=>{if(busy)return;busy=true;try{if(i===-1&&before)await before();i++;await list[i]();if(i>=list.length-1)reset();else btn.textContent=`שלב הבא (${i+2} מתוך ${list.length})`}finally{busy=false}});return{reset};}
@@ -320,14 +327,20 @@ function DnD(root,onchange){let sel=null,drag=null;const slots=()=>[...root.quer
  const clearSel=()=>{if(sel)sel.classList.remove('sel');sel=null;root.classList.remove('picking');(root._extra||[]).forEach(x=>x.classList.remove('picking'))};
  const pick=t=>{clearSel();sel=t;t.classList.add('sel');root.classList.add('picking');(root._extra||[]).forEach(x=>x.classList.add('picking'))};
  function slotAt(x,y){const e=document.elementFromPoint(x,y),s=e&&e.closest&&e.closest('.slot');return s&&slots().includes(s)?s:null}
- function put(t,s){setSlot(s,t.dataset.v);if(!(s instanceof SVGElement))pulse(s);onchange&&onchange(s)}
+ function put(t,s){setSlot(s,t.dataset.v);SND.fx('drop');if(!(s instanceof SVGElement))pulse(s);onchange&&onchange(s)}
+ let sdrag=null,noClick=false;
+ function ghostOf(v){const g=document.createElement('div');g.className='tile dragging'+(/^[12]$/.test(v)?' idt':'');g.style.cssText='display:inline-flex;align-items:center;justify-content:center';g.innerHTML=/^[12]$/.test(v)?'גוף '+v:(SHOW[v]||fmt(v));document.body.appendChild(g);return g}
+ function slotDown(e){if(e.button>0||sel)return;const s=e.target.closest&&e.target.closest('.slot');if(!s||!slots().includes(s)||!s.dataset.v)return;e.preventDefault();sdrag={s,v:s.dataset.v,x:e.clientX,y:e.clientY,g:null}}
+ addEventListener('pointermove',e=>{if(!sdrag)return;if(!sdrag.g&&Math.hypot(e.clientX-sdrag.x,e.clientY-sdrag.y)>8){sdrag.g=ghostOf(sdrag.v);setSlot(sdrag.s,'')}if(sdrag.g)sdrag.g.style.transform=`translate(${e.clientX-sdrag.g.offsetWidth/2}px,${e.clientY-sdrag.g.offsetHeight/2}px)`});
+ addEventListener('pointerup',e=>{if(!sdrag)return;const d=sdrag;sdrag=null;if(!d.g)return;d.g.remove();noClick=true;setTimeout(()=>{noClick=false},0);const t=slotAt(e.clientX,e.clientY);if(t){setSlot(t,d.v);SND.fx('drop');if(!(t instanceof SVGElement))pulse(t)}onchange&&onchange(d.s)});
+ addEventListener('pointercancel',()=>{if(!sdrag)return;if(sdrag.g){sdrag.g.remove();setSlot(sdrag.s,sdrag.v)}sdrag=null});
  root.addEventListener('pointerdown',e=>{const t=e.target.closest('.tile');if(!t||!root.contains(t))return;e.preventDefault();try{t.setPointerCapture(e.pointerId)}catch(_){}drag={t,x:e.clientX,y:e.clientY,g:null}});
  root.addEventListener('pointermove',e=>{if(!drag)return;if(!drag.g&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>8){drag.g=drag.t.cloneNode(true);drag.g.classList.add('dragging');drag.g.classList.remove('sel');document.body.appendChild(drag.g)}if(drag.g)drag.g.style.transform=`translate(${e.clientX-drag.g.offsetWidth/2}px,${e.clientY-drag.g.offsetHeight/2}px)`});
  root.addEventListener('pointerup',e=>{if(!drag)return;const{t,g}=drag;drag=null;if(g){g.remove();const s=slotAt(e.clientX,e.clientY);if(s){put(t,s);clearSel()}}else sel===t?clearSel():pick(t)});
  root.addEventListener('pointercancel',()=>{if(drag&&drag.g)drag.g.remove();drag=null});
  root.addEventListener('click',e=>{const t=e.target.closest('.tile');if(t&&e.detail===0){sel===t?clearSel():pick(t)}});
  const onSlot=s=>{if(sel){put(sel,s);clearSel()}else if(s.dataset.v){setSlot(s,'');onchange&&onchange(s)}};
- const bind=r=>{r.addEventListener('click',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&slots().includes(s))onSlot(s)});r.addEventListener('keydown',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&s instanceof SVGElement&&(e.key==='Enter'||e.key===' ')){e.preventDefault();onSlot(s)}})};
+ const bind=r=>{r.addEventListener('pointerdown',slotDown);r.addEventListener('click',e=>{if(noClick)return;const s=e.target.closest&&e.target.closest('.slot');if(s&&slots().includes(s))onSlot(s)});r.addEventListener('keydown',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&s instanceof SVGElement&&(e.key==='Enter'||e.key===' ')){e.preventDefault();onSlot(s)}})};
  bind(root);return{extra(x){root._extra=(root._extra||[]).concat(x);bind(x)},clear(){slots().forEach(s=>setSlot(s,''))}};}
 function svgSlot(p,x,y,w,h,k,label){const g=el('g',{class:'slot svgslot',tabindex:0,role:'button','data-k':k,'aria-label':label},p);el('rect',{x,y,width:w,height:h,rx:10},g);el('text',{x:x+w/2,y:y+h/2+8,'text-anchor':'middle'},g);setSlot(g,'');return g;}
 
@@ -402,7 +415,7 @@ $('s2c').onclick=async()=>{const fb=$('s2fb');if(done)return;const on=toks.filte
  if(ups.length>1||dn.length>1)return say(fb,false,'בחרו חץ אחד לכל כוח: אחד למשיכת כדור הארץ ואחד לדחיפת השולחן.');
  if(Math.abs(ups[0].dy)!==Math.abs(dn[0].dy))return say(fb,false,'הספר במנוחה, ולכן הכוחות עליו מאזנים זה את זה. שני החצים צריכים להיות שווים באורכם.');
  say(fb,true,'מדויק. <b>כדור הארץ מושך את הספר למטה</b>, ו<b>השולחן דוחף את הספר למעלה</b>.<br>הספר נשאר במנוחה. לכן הכוחות שווים בגודלם והכוח השקול עליו אפס, בהתאם לחוק הראשון של ניוטון.');await solved()};
-choice($('s2qa'),['כן, כי הכוחות שווים והפוכים','לא, כי שני הכוחות פועלים על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שני הכוחות פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר. כאן הכוחות שווים כי הספר נשאר במנוחה.'):say(f,false,'בדקו על מי פועל כל כוח. שניהם פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.')});})();
+choice($('s2qa'),['כן, כי הכוחות שווים והפוכים','לא, כי שני הכוחות פועלים על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שני הכוחות פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר. כאן הכוחות שווים כי הספר נשאר במנוחה.'):say(f,false,'בדקו על מי פועל כל כוח. שניהם פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.')},1);})();
 
 /* ---------- Station 4: contact, third law, reading the indices ---------- */
 (function(){const svg=$('s4'),S={busy:false};grid(svg,'g4',600,240);el('line',{x1:10,y1:202,x2:590,y2:202,class:'floor'},svg);
@@ -431,7 +444,7 @@ const fb=$('s4fb');let qa=null,qb=null;const chk=()=>{if(qa==null||qb==null)retu
  if(qa!==0)return say(fb,false,'<span class="m">F<sub>2,1</sub></span> הוא הכוח שגוף 2 מפעיל. על מי? המספר השני אומר: על גוף 1.');
  if(qb!==1)return say(fb,false,'הכוחות ששני הגופים מפעילים זה על זה שווים בגודלם, גם אם אחד הגופים כבד יותר.');
  say(fb,true,'נכון. <span class="m">F<sub>2,1</sub></span> פועל על גוף 1, ושווה בגודלו ל־<span class="m">F<sub>1,2</sub></span>. כל כוח פועל על גוף אחר. בחישוב השקול על גוף 1 כוללים רק את הכוח שפועל עליו.')};
-choice($('s4qa'),['על גוף 1','על גוף 2'],i=>{qa=i;chk()});choice($('s4qb'),['קטן יותר','שווה','גדול יותר'],i=>{qb=i;chk()});})();
+choice($('s4qa'),['על גוף 1','על גוף 2'],i=>{qa=i;chk()},0);choice($('s4qb'),['קטן יותר','שווה','גדול יותר'],i=>{qb=i;chk()},1);})();
 
 /* ---------- Station 5: ball hits a person ---------- */
 (function(){const svg=$('s5'),S={busy:false,frozen:false};grid(svg,'g5',600,330);el('line',{x1:10,y1:312,x2:590,y2:312,class:'floor'},svg);
@@ -513,13 +526,14 @@ $('s6c').onclick=()=>{const fb=$('s6fb'),v=k=>sv(k).dataset.v;if(!v('a')||!v('b'
 
 /* ---------- Station 7: riddles ---------- */
 (function(){const box=$('s7');C.riddles.forEach((r,n)=>{const d=document.createElement('div');d.className='rid';const q=document.createElement('p');q.className='q';q.textContent=(n+1)+'. '+r.q;d.appendChild(q);const fb=document.createElement('div');fb.hidden=true;
- const bs=r.o.map((o,i)=>{const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent=o;b.onclick=()=>{bs.forEach(x=>x.classList.remove('right','wrong'));b.classList.add(i===r.a?'right':'wrong');say(fb,i===r.a,r.why[i])};d.appendChild(b);return b});d.appendChild(fb);box.appendChild(d)});})();
+ const bs=r.o.map((o,i)=>{const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent=o;b.onclick=()=>{bs.forEach(x=>{x.classList.remove('right','wrong');x.setAttribute('aria-pressed','false')});b.classList.add(i===r.a?'right':'wrong');b.setAttribute('aria-pressed','true');say(fb,i===r.a,r.why[i])};d.appendChild(b);return b});d.appendChild(fb);box.appendChild(d)});})();
 
 
 /* Theme: night by default, day for a bright classroom */
 (function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let day=false;try{day=localStorage.getItem('maslul-theme')==='day'}catch(e){}
 function set(d){day=d;if(d)r.setAttribute('data-theme','day');else r.removeAttribute('data-theme');b.textContent=d?'ערכת לילה':'ערכת יום';b.setAttribute('aria-pressed',String(d));try{localStorage.setItem('maslul-theme',d?'day':'night')}catch(e){}}
 set(day);b.onclick=()=>set(!day);})();
+(function(){const b=document.getElementById('soundBtn');const show=()=>{b.textContent=SND.on?'צליל: פועל':'צליל: כבוי';b.setAttribute('aria-pressed',String(SND.on))};show();b.addEventListener('click',()=>{SND.set(!SND.on);show()});})();
 /* Deep links from the slides: #st1 ... #st6 */
 function go(){const t=location.hash&&document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView({behavior:RM?'auto':'smooth'})}
 addEventListener('hashchange',go);setTimeout(go,60);
