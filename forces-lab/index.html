@@ -122,31 +122,31 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <header style="display:flex;flex-direction:column;gap:12px">
 <div class="bar"></div>
 <h1>מעבדת כוחות</h1>
-<p class="lead">שש תחנות. בכל תחנה המשימה כתובה במסגרת שליד מה שעושים.</p>
+<p class="lead">שש תחנות לתרגול כוחות. בכל תחנה קראו את ההוראות שבמסגרת, בצעו ובדקו את התשובה.</p>
 <div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button></div>
-<p class="hint">גוררים אריח אל משבצת. בטלפון אפשר גם להקיש על אריח ואז על משבצת.</p>
-<nav aria-label="תחנות"><a href="#st1">1 · ציר אחד</a><a href="#st2">2 · ספר</a><a href="#st3">3 · מגע</a><a href="#st4">4 · כדור</a><a href="#st5">5 · מקבילית</a><a href="#st6">6 · חידות</a></nav>
+<p class="hint">גררו מספר או סימון אל המשבצת המתאימה. אפשר גם ללחוץ עליו ואז על המשבצת. ΣF מסמן את הכוח השקול, ו־N היא יחידת המידה ניוטון.</p>
+<nav aria-label="תחנות"><a href="#st1">1 · ימינה ושמאלה</a><a href="#st2">2 · ספר</a><a href="#st3">3 · החוק השלישי</a><a href="#st4">4 · כדור ואדם</a><a href="#st5">5 · כוחות בזווית</a><a href="#st6">6 · חידות</a></nav>
 </header>
 
 <section class="station" id="st1">
-<span class="tag">תחנה 1 · כוחות על ציר אחד</span>
+<span class="tag">תחנה 1 · כוחות ימינה ושמאלה</span>
 <h2>דנה ויואב דוחפים ארגז</h2>
 <div class="cols">
 <div class="scene">
 <p class="story">דנה דוחפת בכוח <span class="m">F<sub>1</sub> = 4 N</span>, ויואב בכוח <span class="m">F<sub>2</sub> = 2 N</span>.</p>
 <div class="stage"><svg id="s1" viewBox="0 0 600 270" role="img" aria-label="ארגז ושני כוחות אופקיים"></svg></div>
-<div class="row"><button class="btn ghost" id="s1f1">הפוך את הכוח של דנה</button><button class="btn ghost" id="s1f2">הפוך את הכוח של יואב</button></div>
-<button class="btn" id="s1r">הפעלה: לאן הארגז יזוז?</button>
+<div class="row"><button class="btn ghost" id="s1f1">שנו את כיוון הכוח של דנה</button><button class="btn ghost" id="s1f2">שנו את כיוון הכוח של יואב</button></div>
+<button class="btn" id="s1r">הפעלה: הארגז מתחיל לנוע</button>
 </div>
 <div class="work">
-<ol class="task"><li>הציבו כל כוח עם הסימן שלו: ימינה פלוס, שמאלה מינוס.</li><li>השלימו תוצאה ויחידה, ולחצו "בדיקה".</li><li>תקועים? "הצבה צעד אחר צעד".</li></ol>
+<ol class="task"><li>בחרו לכל כוח מספר עם סימן: ימינה פלוס, שמאלה מינוס. גררו אותו למשבצת המתאימה.</li><li>חברו את המספרים עם הסימנים. השלימו תוצאה ויחידת מידה ולחצו "בדיקה".</li><li>לעזרה לחצו "פתרון צעד אחר צעד".</li></ol>
 <div class="bench" id="b1">
 <div class="eqn sym"><span>ΣF</span><span>=</span><span id="y1">F<sub>1</sub></span><span>+</span><span id="y2">F<sub>2</sub></span></div>
 <div class="eqn"><span>ΣF</span><span>=</span><button class="slot" data-k="a" aria-label="משבצת לכוח של דנה"></button><span>+</span><button class="slot" data-k="b" aria-label="משבצת לכוח של יואב"></button><span>=</span><button class="slot" data-k="r" aria-label="משבצת לתוצאה"></button><button class="slot u" data-k="u" aria-label="משבצת ליחידה"></button></div>
 <div class="tray"><button class="tile" data-v="+4">+4</button><button class="tile" data-v="-4">−4</button><button class="tile" data-v="+2">+2</button><button class="tile" data-v="-2">−2</button><button class="tile" data-v="+6">+6</button><button class="tile" data-v="-6">−6</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button><button class="tile unit" data-v="m">m</button></div>
 </div>
 <p class="narr" id="s1n" hidden></p>
-<div class="row"><button class="btn primary" id="s1c">בדיקה</button><button class="btn" id="s1d">הצבה צעד אחר צעד</button></div>
+<div class="row"><button class="btn primary" id="s1c">בדיקה</button><button class="btn" id="s1d">פתרון צעד אחר צעד</button></div>
 <div id="s1fb" hidden></div>
 </div>
 </div>
@@ -154,17 +154,17 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 
 <section class="station" id="st2">
 <span class="tag">תחנה 2 · ספר על שולחן</span>
-<h2>אילו כוחות פועלים על הספר?</h2>
+<h2>הספר נשאר במנוחה. אילו כוחות פועלים עליו?</h2>
 <div class="cols">
 <div class="scene">
 <div class="stage drag"><svg id="s2" viewBox="0 0 600 470" role="img" aria-label="ספר על שולחן ומגש של חצים לגרירה"></svg></div>
 </div>
 <div class="work">
-<ol class="task"><li>גררו אל נקודת המגע בין הספר לשולחן רק את החצים של כוחות שפועלים <b>על הספר</b>. אפשר גם להקיש על חץ.</li><li>לחצו "בדיקה".</li></ol>
+<ol class="task"><li>בחרו חצים לכוחות שפועלים <b>על הספר</b>. גררו את תחילת כל חץ למקום שבו הספר נוגע בשולחן. אפשר גם ללחוץ על חץ.</li><li>לחצו "בדיקה".</li></ol>
 <div class="row"><button class="btn primary" id="s2c">בדיקה</button><button class="btn ghost" id="s2r">התחלה מחדש</button></div>
 <div id="s2fb" hidden></div>
 <div id="s2q" hidden class="bench">
-<p class="q">משיכת כדור הארץ ודחיפת השולחן שוות ומנוגדות. האם הן זוג פעולה ותגובה?</p>
+<p class="q">כדור הארץ מושך את הספר למטה והשולחן דוחף אותו למעלה. הכוחות שווים בגודלם. האם הם זוג פעולה ותגובה?</p>
 <div class="row" id="s2qa"></div>
 <div id="s2qfb" hidden></div>
 </div>
@@ -177,20 +177,20 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <h2>שני גופים במגע</h2>
 <div class="cols">
 <div class="scene">
-<p class="story">גוף 1 מחליק ונתקל בגוף 2. צפו מה קורה ברגע המגע.</p>
+<p class="story">גוף 1 מחליק ימינה ופוגע בגוף 2. צפו בכוחות בזמן שהגופים נוגעים זה בזה.</p>
 <div class="stage"><svg id="s4" viewBox="0 0 600 240" role="img" aria-label="גוף 1 נתקל בגוף 2, וכוחות פועלים במשטח המגע"></svg></div>
 <button class="btn primary" id="s4p">הפעלה</button>
 </div>
 <div class="work">
-<ol class="task"><li>לחצו "הפעלה" וצפו איך המספרים 1 ו־2 נכנסים לסימון.</li><li>ענו על שתי השאלות.</li></ol>
+<ol class="task"><li>לחצו "הפעלה". עקבו אחר המספרים שמופיעים ליד האות F: הראשון מציין מי מפעיל כוח, והשני על מי הוא פועל.</li><li>בסיום הצפייה ענו: על מי הכוח פועל, ומה גודלו ביחס לכוח השני?</li></ol>
 <div class="bench who" id="s4w">
-<p id="s4l1" class="dim"><span class="m cf" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i1a">?</b>,<b class="ix" id="i1b">?</b></sub></span> &nbsp;החץ הכחול: <b>מי מפעיל?</b> גוף 1. <b>על מי?</b> גוף 2.</p>
-<p id="s4l2" class="dim"><span class="m co" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i2a">?</b>,<b class="ix" id="i2b">?</b></sub></span> &nbsp;החץ האדום: <b>מי מפעיל?</b> גוף 2. <b>על מי?</b> גוף 1.</p>
+<p id="s4l1" class="dim"><span class="m cf" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i1a">?</b>,<b class="ix" id="i1b">?</b></sub></span> &nbsp;החץ הכתום: <b>מי מפעיל?</b> גוף 1. <b>על מי?</b> גוף 2.</p>
+<p id="s4l2" class="dim"><span class="m co" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i2a">?</b>,<b class="ix" id="i2b">?</b></sub></span> &nbsp;החץ התכלת: <b>מי מפעיל?</b> גוף 2. <b>על מי?</b> גוף 1.</p>
 <div class="steps"><div class="eqn" id="s4e"><span class="cf"><span class="vec">F</span><sub>1,2</sub></span><span>=</span><span class="co">−<span class="vec">F</span><sub>2,1</sub></span></div></div>
 <p class="rule">המספר הראשון: מי מפעיל. המספר השני: על מי הכוח פועל.</p>
 </div>
 <div class="row"><span class="lbl">על מי פועל <span class="m">F<sub>2,1</sub></span>?</span><div class="row" id="s4qa"></div></div>
-<div class="row"><span class="lbl">גודלו לעומת <span class="m">F<sub>1,2</sub></span></span><div class="row" id="s4qb"></div></div>
+<div class="row"><span class="lbl">מה גודלו ביחס ל־<span class="m">F<sub>1,2</sub></span>?</span><div class="row" id="s4qb"></div></div>
 <div id="s4fb" hidden></div>
 </div>
 </div>
@@ -201,12 +201,12 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <h2>כדור פוגע באדם</h2>
 <div class="cols">
 <div class="scene">
-<p class="story">הכדור פוגע ביד של האדם. הגוף שפוגע הוא גוף 1.</p>
+<p class="story">הכדור פוגע ביד של האדם. בדוגמה הזאת הכדור הוא גוף 1, והאדם הוא גוף 2.</p>
 <div class="stage"><svg id="s5" viewBox="0 0 600 330" role="img" aria-label="כדור פוגע ביד של אדם, וכוחות ברגע המגע"></svg></div>
 <div class="row"><button class="btn primary" id="s5p">הפעלה</button><button class="btn" id="s5go" disabled>המשך ההנפשה</button></div>
 </div>
 <div class="work">
-<ol class="task"><li>לחצו "הפעלה". ברגע המגע ההנפשה נעצרת.</li><li>גררו "גוף 1" ו"גוף 2" אל העצמים, ואת הסימונים אל החצים.</li><li>"בדיקה", ואז "המשך ההנפשה".</li></ol>
+<ol class="task"><li>לחצו "הפעלה". ברגע המגע ההנפשה נעצרת.</li><li>גררו "גוף 1" ו"גוף 2" למשבצות שליד הכדור והאדם. לכל חץ התאימו סימון: מי מפעיל כוח ועל מי.</li><li>לחצו "בדיקה" וקראו את ההסבר. אחר כך לחצו "המשך ההנפשה".</li></ol>
 <div class="bench" id="b5">
 <div class="tray"><button class="tile idt" data-v="1">גוף 1</button><button class="tile idt" data-v="2">גוף 2</button><button class="tile" data-v="F12"><span class="vec">F</span><sub>1,2</sub></button><button class="tile" data-v="F21"><span class="vec">F</span><sub>2,1</sub></button></div>
 </div>
@@ -217,11 +217,11 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 </section>
 
 <section class="station" id="st5">
-<span class="tag">תחנה 5 · כלל המקבילית</span>
+<span class="tag">תחנה 5 · חיבור כוחות בזווית</span>
 <h2>שני חוטים וסירה אחת</h2>
 <div class="cols">
 <div class="scene">
-<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. גררו את העיגול הצהוב או הזיזו את המחוון.</p>
+<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. שנו את הזווית: גררו את העיגול בצבע טורקיז, או הזיזו את הסמן שמתחת לציור.</p>
 <div class="stage drag"><svg id="s6" viewBox="0 0 600 380" role="img" aria-label="סירה, שני כוחות והכוח השקול לפי כלל המקבילית"></svg></div>
 <label for="s6a" class="q">הזווית בין החוטים</label>
 <input type="range" id="s6a" min="0" max="180" step="1" value="60">
@@ -230,7 +230,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <div class="row" id="s6m"></div>
 </div>
 <div class="work">
-<ol class="task"><li>מצאו במחוון את ארבע המשימות.</li><li>לחצו "בניית המקבילית" וצפו.</li><li>"חישוב בזווית ישרה": כל משתנה מסומן לחוד ואז מוצב. לחצו "שלב הבא" בקצב שלכם.</li></ol>
+<ol class="task"><li>שנו את הזווית עד שתמצאו כל אחת מארבע התוצאות שמופיעות מתחת לציור. תוצאה שמצאתם תסומן ב־✓.</li><li>לחצו "בניית המקבילית". צפו איך קווי העזר יוצרים מקבילית, והאלכסון מייצג את השקול.</li><li>לחצו "חישוב בזווית ישרה" לפתרון בפיתגורס. בכל שלב רואים איזה מספר כותבים בנוסחה. לחצו "שלב הבא" כדי להתקדם.</li></ol>
 <div class="row"><button class="btn" id="s6b">בניית המקבילית</button><button class="btn primary" id="s6y">חישוב בזווית ישרה</button></div>
 <div class="bench" id="s6calc">
 <div class="eqn sym"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><span id="q1">F<sub>1</sub></span><sup>2</sup></span><span>+</span><span class="pw"><span id="q2">F<sub>2</sub></span><sup>2</sup></span><span>)</span></div>
@@ -243,7 +243,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <p class="narr" id="s6t" hidden></p>
 </div>
 <div class="bench" id="b6">
-<p class="q">תורכם: 3N ו־4N בזווית ישרה.</p>
+<p class="q">תורכם: שני כוחות, 3N ו־4N, פועלים על גוף בזווית ישרה. השלימו את חישוב גודל השקול.</p>
 <div class="eqn"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><button class="slot" data-k="a" aria-label="כוח ראשון"></button><sup>2</sup></span><span>+</span><span class="pw"><button class="slot" data-k="b" aria-label="כוח שני"></button><sup>2</sup></span><span>)</span><span>=</span><button class="slot" data-k="r" aria-label="תוצאה"></button><button class="slot u" data-k="u" aria-label="יחידה"></button></div>
 <div class="tray"><button class="tile" data-v="3">3</button><button class="tile" data-v="4">4</button><button class="tile" data-v="5">5</button><button class="tile" data-v="7">7</button><button class="tile" data-v="12">12</button><button class="tile" data-v="25">25</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button></div>
 </div>
@@ -260,18 +260,18 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <div id="s7"></div>
 </section>
 
-<p class="foot">הדף תואם למצגת "כוחות וכוח שקול": אותם צבעים, אותם סימונים ואותן דוגמאות.</p>
+<p class="foot">לסיום, בדקו שאתם יכולים להסביר: על מי פועל כל כוח, מהו גודל השקול ולאיזה כיוון הוא פועל.</p>
 </div>
 <script>
 /* CONTENT: mirrors the teacher deck. Change numbers, stories and riddles here when the deck changes. */
 const C={F1:4,F2:2,W:10,LIFT:{rest:0,up:2,down:-2},
 riddles:[
-{q:'ספר מונח במנוחה על שולחן. כדור הארץ מושך אותו מטה, והשולחן דוחף אותו מעלה באותו גודל. האם אלה זוג פעולה ותגובה?',o:['כן, כי הם שווים ומנוגדים','לא, כי שניהם פועלים על הספר','כן, כי הספר במנוחה'],a:1,why:['שוויון וכיוון הפוך אינם מספיקים. בדקו על איזה גוף פועל כל כוח.','נכון. זוג פעולה ותגובה פועל תמיד על שני גופים שונים. השוויון כאן נובע מכך שהספר במנוחה (החוק הראשון).','המנוחה מסבירה למה הם שווים (החוק הראשון), אבל לא הופכת אותם לזוג.']},
-{q:'במעלית שמאיצה למעלה השולחן דוחף את הספר ב־12N. באיזה כוח הספר לוחץ על השולחן?',o:['10N, כמו משיכת כדור הארץ','12N בדיוק','2N, ההפרש','14N'],a:1,why:['10N היא המשיכה של כדור הארץ על הספר. זו אינטראקציה אחרת.','נכון. זה זוג פעולה ותגובה, ולכן הכוחות שווים תמיד, גם בתאוצה.','2N הוא הכוח השקול על הספר, לא הכוח בין הספר לשולחן.','החוק השלישי לא מאפשר לאחד מבני הזוג להיות גדול יותר.']},
-{q:'זבוב מתנגש בשמשה של משאית נוסעת. על מי פועל כוח גדול יותר?',o:['על הזבוב','על המשאית','הכוחות שווים בגודלם'],a:2,why:['הזבוב נפגע יותר, אבל זה בגלל המסה הזעירה שלו. הכוח עצמו שווה בגודלו.','המשאית גדולה, אבל גודל הגוף אינו קובע את הכוח באינטראקציה.','נכון. לפי החוק השלישי הכוחות שווים בגודלם. התוצאה שונה כי המסות שונות.']},
-{q:'סוס מושך עגלה, והעגלה מושכת את הסוס בכוח שווה ומנוגד. למה העגלה זזה בכל זאת?',o:['כי הסוס מושך חזק יותר מהעגלה','כי שני הכוחות פועלים על גופים שונים','כי החוק השלישי לא חל על גופים בתנועה'],a:1,why:['הכוחות בין הסוס לעגלה שווים בגודלם תמיד.','נכון. על העגלה פועלים משיכת הסוס והחיכוך. הכוח שהיא מפעילה על הסוס אינו פועל עליה.','החוק השלישי חל תמיד, גם בתנועה.']},
-{q:'שני כוחות של 5N פועלים על גוף אחד. איזה כוח שקול אינו אפשרי?',o:['אפס','בערך 7N','10N','12N'],a:3,why:['אפשרי, כשהכוחות מנוגדים.','אפשרי, בזווית ישרה: שורש 50.','אפשרי, כשהכוחות באותו כיוון.','נכון. השקול לא יכול להיות גדול מסכום הגדלים, 10N.']},
-{q:'על גוף פועלים כוח של 4N שמאלה וכוח של 2N ימינה. מהו הכוח השקול?',o:['6N שמאלה','2N ימינה','2N שמאלה','גודל שלילי: מינוס 2N'],a:2,why:['מחברים גדלים רק כשהכוחות באותו כיוון.','הגודל נכון, אבל השקול פונה לכיוון הכוח הגדול יותר.','נכון. הרכיב הוא −4 + 2 = −2. הסימן אומר שמאלה, והגודל 2N.','הסימן השלילי מתאר כיוון. גודל של כוח אינו שלילי.']}
+{q:'ספר נשאר במנוחה על שולחן. כדור הארץ מושך אותו למטה והשולחן דוחף אותו למעלה בכוח שווה בגודלו. האם שני הכוחות הם זוג פעולה ותגובה?',o:['כן, כי הם שווים ומנוגדים','לא, כי שניהם פועלים על הספר','כן, כי הספר במנוחה'],a:1,why:['בדקו על מי פועל כל כוח. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.','נכון. זוג פעולה ותגובה פועל תמיד על שני גופים שונים. השוויון כאן נובע מכך שהספר במנוחה (החוק הראשון).','הספר נשאר במנוחה ולכן הכוחות עליו שווים. שניהם פועלים על הספר, ולכן אינם זוג פעולה ותגובה.']},
+{q:'ספר מונח על שולחן במעלית. כדור הארץ מושך אותו למטה בכוח של 10N. כשהמעלית מתחילה לנסוע למעלה, השולחן דוחף את הספר בכוח של 12N. באיזה כוח הספר דוחף את השולחן?',o:['10N, כמו משיכת כדור הארץ','12N בדיוק','2N, ההפרש','14N'],a:1,why:['10N הוא גודל המשיכה של כדור הארץ. השאלה עוסקת בכוחות שהספר והשולחן מפעילים זה על זה.','נכון. השולחן דוחף את הספר והספר דוחף את השולחן. אלה כוחות של פעולה ותגובה: גודלם שווה גם כשהתנועה משתנה.','2N הוא הכוח השקול על הספר, לא הכוח בין הספר לשולחן.','לפי החוק השלישי, הכוחות שהספר והשולחן מפעילים זה על זה שווים בגודלם.']},
+{q:'זבוב מתנגש בשמשה של משאית נוסעת. על מי פועל כוח גדול יותר?',o:['על הזבוב','על המשאית','הכוחות שווים בגודלם'],a:2,why:['לזבוב מסה קטנה מאוד ולכן תנועתו משתנה הרבה יותר. הכוחות שהזבוב והשמשה מפעילים זה על זה שווים בגודלם.','גם כשגוף אחד גדול מהאחר, הכוחות שהם מפעילים זה על זה שווים בגודלם.','נכון. הזבוב והשמשה מפעילים זה על זה כוחות שווים בגודלם. תנועת הזבוב משתנה הרבה יותר, כי מסתו קטנה בהרבה.']},
+{q:'סוס מושך עגלה והיא מתחילה לנוע. העגלה מושכת את הסוס בכוח שווה והפוך. מדוע שני הכוחות אינם מאזנים זה את זה?',o:['כי הסוס מושך חזק יותר מהעגלה','כי שני הכוחות פועלים על גופים שונים','כי החוק השלישי לא חל על גופים בתנועה'],a:1,why:['הכוחות בין הסוס לעגלה שווים בגודלם תמיד.','נכון. משיכת הסוס פועלת על העגלה, ומשיכת העגלה פועלת על הסוס. בחישוב השקול על העגלה כוללים את משיכת הסוס ואת הכוחות שמתנגדים לתנועתה.','החוק השלישי חל תמיד, גם בתנועה.']},
+{q:'שני כוחות של 5N פועלים על גוף אחד. איזה כוח שקול אינו אפשרי?',o:['אפס','בערך 7N','10N','12N'],a:3,why:['אפשרי, כשהכוחות מנוגדים.','אפשרי כשהכוחות בזווית ישרה. בפיתגורס מקבלים שורש של 50, בערך 7.07N.','אפשרי, כשהכוחות באותו כיוון.','נכון. השקול לא יכול להיות גדול מסכום הגדלים, 10N.']},
+{q:'על גוף פועלים כוח של 4N שמאלה וכוח של 2N ימינה. מהו הכוח השקול?',o:['6N שמאלה','2N ימינה','2N שמאלה','גודל שלילי: מינוס 2N'],a:2,why:['מחברים גדלים רק כשהכוחות באותו כיוון.','הגודל נכון, אבל השקול פונה לכיוון הכוח הגדול יותר.','נכון. בחרנו ימינה כחיובי, ולכן מחשבים: −4 + 2 = −2. המינוס מציין שמאלה. גודל השקול הוא 2N.','הסימן השלילי מתאר כיוון. גודל של כוח אינו שלילי.']}
 ]};
 
 /* ---------- engine ---------- */
@@ -337,19 +337,19 @@ const clearHL=()=>{glow([a1.g,a2.g,l1,l2],false);$('y1').classList.remove('hl');
 let st;function flip(i){if(S.busy)return;S['d'+i]*=-1;full();clearHL();st.reset();n1.hidden=true;$('s1fb').hidden=true;B.querySelectorAll('.slot').forEach(s=>s.classList.remove('ok','bad'))}
 $('s1f1').onclick=()=>flip(1);$('s1f2').onclick=()=>flip(2);
 const dirw=d=>d>0?'ימינה':'שמאלה';
-st=Stepper($('s1d'),'הצבה צעד אחר צעד',[
+st=Stepper($('s1d'),'פתרון צעד אחר צעד',[
  async()=>{const E=ends();glow([a1.g,l1],true);$('y1').classList.add('hl');n1.innerHTML=`שלב 1: מסמנים את <span class="m">F<sub>1</sub></span>, הכוח של דנה. גודלו 4N, וכיוונו ${dirw(S.d1)}.`},
- async()=>{const E=ends();n1.innerHTML=`שלב 2: מציבים. ${dirw(S.d1)}, ולכן ${S.d1>0?'פלוס':'מינוס'}: <span class="m">${sg(E.A)}</span>.`;await fly(l1,sl('a'),sg(E.A));setSlot(sl('a'),ss(E.A));pulse(sl('a'));clearHL()},
+ async()=>{const E=ends();n1.innerHTML=`שלב 2: החץ פונה ${dirw(S.d1)}, ולכן ${S.d1>0?'פלוס':'מינוס'}: <span class="m">${sg(E.A)}</span>.`;await fly(l1,sl('a'),sg(E.A));setSlot(sl('a'),ss(E.A));pulse(sl('a'));clearHL()},
  async()=>{glow([a2.g,l2],true);$('y2').classList.add('hl');n1.innerHTML=`שלב 3: מסמנים את <span class="m">F<sub>2</sub></span>, הכוח של יואב. גודלו 2N, וכיוונו ${dirw(S.d2)}.`},
- async()=>{const E=ends();n1.innerHTML=`שלב 4: מציבים. ${dirw(S.d2)}, ולכן ${S.d2>0?'פלוס':'מינוס'}: <span class="m">${sg(E.B)}</span>.`;await fly(l2,sl('b'),sg(E.B));setSlot(sl('b'),ss(E.B));pulse(sl('b'));clearHL()},
+ async()=>{const E=ends();n1.innerHTML=`שלב 4: החץ פונה ${dirw(S.d2)}, ולכן ${S.d2>0?'פלוס':'מינוס'}: <span class="m">${sg(E.B)}</span>.`;await fly(l2,sl('b'),sg(E.B));setSlot(sl('b'),ss(E.B));pulse(sl('b'));clearHL()},
  async()=>{const E=ends();n1.innerHTML=`שלב 5: מחברים עם הסימנים: <span class="m">(${sg(E.A)}) + (${sg(E.B)}) = ${sg(E.net)}</span>.`;setSlot(sl('r'),ss(E.net));pulse(sl('r'))},
- async()=>{n1.innerHTML='שלב 6: מוסיפים יחידה. כוח מודדים בניוטון, N.';await fly(l1,sl('u'),'N',700);setSlot(sl('u'),'N');pulse(sl('u'));const E=ends();say($('s1fb'),true,`זו ההצבה המלאה. התוצאה <span class="m">${sg(E.net)} N</span>: גודל ${Math.abs(E.net)}N, כיוון ${dirw(Math.sign(E.net))}. עכשיו נסו לבד אחרי שתהפכו כיוון.`)}
+ async()=>{n1.innerHTML='שלב 6: מוסיפים יחידה. כוח מודדים בניוטון, N.';await fly(l1,sl('u'),'N',700);setSlot(sl('u'),'N');pulse(sl('u'));const E=ends();say($('s1fb'),true,`זה הפתרון המלא. התוצאה <span class="m">${sg(E.net)} N</span>: גודל ${Math.abs(E.net)}N, כיוון ${dirw(Math.sign(E.net))}. כעת שנו את כיוון אחד הכוחות ונסו לפתור בעצמכם.`)}
 ],async()=>{full();dnd.clear();clearHL();n1.hidden=false;$('s1fb').hidden=true});
 $('s1c').onclick=()=>{const fb=$('s1fb'),v=k=>sl(k).dataset.v,E=ends();
  if(!v('a')||!v('b')||!v('r')||!v('u'))return say(fb,false,'השלימו את כל המשבצות: שני כוחות, תוצאה ויחידה.');
  const a=+v('a'),b=+v('b'),pair=(a===E.A&&b===E.B)||(a===E.B&&b===E.A);const mark=(k,ok)=>sl(k).classList.add(ok?'ok':'bad');
  if(!pair){mark('a',a===E.A||a===E.B);mark('b',b===E.B||b===E.A);
-  if(Math.abs(a)+Math.abs(b)!==6||Math.abs(a)===Math.abs(b))return say(fb,false,'בכל משבצת מציבים את גודל הכוח: 4 של דנה ו־2 של יואב.');
+  if(Math.abs(a)+Math.abs(b)!==6||Math.abs(a)===Math.abs(b))return say(fb,false,'השתמשו ב־4 לכוח של דנה וב־2 לכוח של יואב. את הסימן בוחרים לפי כיוון החץ.');
   const bad4=Math.abs(a)===4?Math.sign(a)!==Math.sign(E.A):Math.sign(b)!==Math.sign(E.A);const who=bad4?'של דנה':'של יואב',d=bad4?S.d1:S.d2;
   return say(fb,false,`בדקו את הסימן של הכוח ${who}. הוא פונה ${d>0?'ימינה, ולכן הסימן חיובי':'שמאלה, ולכן הסימן שלילי'}.`);}
  mark('a',true);mark('b',true);
@@ -389,11 +389,11 @@ $('s2c').onclick=async()=>{const fb=$('s2fb');if(done)return;const on=toks.filte
  if(!on.length)return say(fb,false,'עדיין אין חצים על הספר. גררו חצים אל נקודת המגע בין הספר לשולחן.');
  if(on.some(t=>t.dx))return say(fb,false,'אף אחד לא דוחף את הספר הצידה, ולכן אין עליו כוח אופקי.');
  if(!dn.length)return say(fb,false,'חסרה משיכת כדור הארץ. כדור הארץ מושך כל גוף כלפי מטה, גם את הספר.');
- if(!ups.length)return say(fb,false,'אם רק כדור הארץ היה מושך, הספר היה נופל. מי מחזיק אותו במקום?');
- if(ups.length>1||dn.length>1)return say(fb,false,'מספיק חץ אחד לכל כוח: אחד למשיכה ואחד לדחיפה.');
+ if(!ups.length)return say(fb,false,'אם רק כדור הארץ היה מושך, הספר היה נופל. איזה גוף דוחף את הספר למעלה?');
+ if(ups.length>1||dn.length>1)return say(fb,false,'בחרו חץ אחד לכל כוח: אחד למשיכת כדור הארץ ואחד לדחיפת השולחן.');
  if(Math.abs(ups[0].dy)!==Math.abs(dn[0].dy))return say(fb,false,'הספר במנוחה, ולכן הכוחות עליו מאזנים זה את זה. שני החצים צריכים להיות שווים באורכם.');
- say(fb,true,'מדויק. על הספר פועלים שני כוחות: <b>כדור הארץ מושך את הספר מטה</b>, ו<b>השולחן דוחף את הספר מעלה</b>.<br>הם שווים כי הספר במנוחה, והשקול עליו אפס. זה <b>החוק הראשון</b>, לא השלישי.');await solved()};
-choice($('s2qa'),['כן, כי הן שוות ומנוגדות','לא, כי שתיהן פועלות על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שתיהן פועלות על אותו גוף, ולכן הן לא זוג. הן שוות רק כי הספר במנוחה.'):say(f,false,'שוויון וכיוון הפוך אינם מספיקים. בדקו על איזה גוף פועל כל כוח: שתיהן פועלות על הספר.')});})();
+ say(fb,true,'מדויק. <b>כדור הארץ מושך את הספר למטה</b>, ו<b>השולחן דוחף את הספר למעלה</b>.<br>הספר נשאר במנוחה. לכן הכוחות שווים בגודלם והכוח השקול עליו אפס, בהתאם לחוק הראשון של ניוטון.');await solved()};
+choice($('s2qa'),['כן, כי הכוחות שווים והפוכים','לא, כי שני הכוחות פועלים על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שני הכוחות פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר. כאן הכוחות שווים כי הספר נשאר במנוחה.'):say(f,false,'בדקו על מי פועל כל כוח. שניהם פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.')});})();
 
 /* ---------- Station 4: contact, third law, reading the indices ---------- */
 (function(){const svg=$('s4'),S={busy:false};grid(svg,'g4',600,240);el('line',{x1:10,y1:202,x2:590,y2:202,class:'floor'},svg);
@@ -414,14 +414,14 @@ $('s4p').onclick=async()=>{if(S.busy)return;S.busy=true;resetIdx();ab.hide();ar.
  $('s4l1').classList.add('show');await idx(n1,'i1a','1');await idx(n2,'i1b','2');await sleep(250);
  $('s4l2').classList.add('show');await idx(n2,'i2a','2');await idx(n1,'i2b','1');await sleep(250);
  $('s4e').classList.add('show');await sleep(1300);
- cap.textContent='הכוחות קיימים רק בזמן המגע';ab.hide();ar.hide();vis(false);cl.setAttribute('opacity',0);
+ cap.textContent='כוחות הדחיפה האלה פועלים רק בזמן המגע';ab.hide();ar.hide();vis(false);cl.setAttribute('opacity',0);
  await tween(1300,k=>at2(170*k));await sleep(1600);
  contactFrame();S.busy=false};
 at1(110);
 const fb=$('s4fb');let qa=null,qb=null;const chk=()=>{if(qa==null||qb==null)return;
  if(qa!==0)return say(fb,false,'<span class="m">F<sub>2,1</sub></span> הוא הכוח שגוף 2 מפעיל. על מי? המספר השני אומר: על גוף 1.');
- if(qb!==1)return say(fb,false,'באינטראקציה שני הכוחות שווים בגודלם תמיד, גם אם אחד הגופים כבד יותר.');
- say(fb,true,'נכון. <span class="m">F<sub>2,1</sub></span> פועל על גוף 1, ושווה בגודלו ל־<span class="m">F<sub>1,2</sub></span>. הכוחות פועלים על גופים שונים, ולכן אינם מתבטלים.')};
+ if(qb!==1)return say(fb,false,'הכוחות ששני הגופים מפעילים זה על זה שווים בגודלם, גם אם אחד הגופים כבד יותר.');
+ say(fb,true,'נכון. <span class="m">F<sub>2,1</sub></span> פועל על גוף 1, ושווה בגודלו ל־<span class="m">F<sub>1,2</sub></span>. כל כוח פועל על גוף אחר. בחישוב השקול על גוף 1 כוללים רק את הכוח שפועל עליו.')};
 choice($('s4qa'),['על גוף 1','על גוף 2'],i=>{qa=i;chk()});choice($('s4qb'),['קטן יותר','שווה','גדול יותר'],i=>{qb=i;chk()});})();
 
 /* ---------- Station 5: ball hits a person ---------- */
@@ -437,7 +437,7 @@ const atB=x=>ball.setAttribute('transform',`translate(${x},0)`);
 const CX=344,ab=Arrow(svg,'f',8),ar=Arrow(svg,'o',8),cap=htx(svg,300,36,'');
 const vb=txt(svg,520,196,'8 N','t f'),vr=txt(svg,286,170,'8 N','t o');const vis=v=>{vb.style.display=vr.style.display=v?'':'none'};vis(false);
 const B=$('b5'),dnd=DnD(B,()=>{$('s5fb').hidden=true});const sl=el('g',{},svg);
-const sB=svgSlot(sl,288,214,112,44,'ball','מספר הגוף של הכדור'),sP=svgSlot(sl,478,254,112,44,'person','מספר הגוף של האדם'),sFb=svgSlot(sl,470,104,112,44,'blue','סימון החץ הכחול'),sFr=svgSlot(sl,150,192,112,44,'red','סימון החץ האדום');
+const sB=svgSlot(sl,288,214,112,44,'ball','מספר הגוף של הכדור'),sP=svgSlot(sl,478,254,112,44,'person','מספר הגוף של האדם'),sFb=svgSlot(sl,470,104,112,44,'blue','סימון החץ הכתום'),sFr=svgSlot(sl,150,192,112,44,'red','סימון החץ התכלת');
 sl.style.display='none';dnd.extra(svg);
 const contact=()=>{atB(CX);ab.set(386,160,516,160);ar.set(374,184,244,184);vis(true);cap.textContent='רגע המגע: ההנפשה עצרה';sl.style.display=''};
 $('s5p').onclick=async()=>{if(S.busy)return;S.busy=true;S.frozen=false;$('s5go').disabled=true;$('s5fb').hidden=true;sl.style.display='none';ab.hide();ar.hide();vis(false);per.setAttribute('transform','');cap.textContent='הכדור נע ימינה';
@@ -448,11 +448,11 @@ $('s5c').onclick=()=>{const fb=$('s5fb');if(!S.frozen)return say(fb,false,'קו�
  if(v(sB)===v(sP))return say(fb,false,'לכל גוף מספר אחר. אחד הוא גוף 1 והשני גוף 2.');
  if(v(sB)!=='1')return say(fb,false,'לפי הסיפור, הגוף שפוגע הוא גוף 1. מי פוגע במי?');
  if(v(sFb)===v(sFr))return say(fb,false,'שני החצים הם שני כוחות שונים. לכל אחד סימון אחר.');
- if(v(sFb)!=='F12')return say(fb,false,'החץ הכחול מצויר על האדם. מי מפעיל אותו? הכדור, גוף 1. על מי? על האדם, גוף 2. מה הסימון?');
- say(fb,true,'מדויק. החץ הכחול הוא <span class="m">F<sub>1,2</sub></span>: הכדור (1) מפעיל על האדם (2). החץ האדום הוא <span class="m">F<sub>2,1</sub></span>: האדם (2) מפעיל על הכדור (1). שניהם 8N, וכל אחד פועל על גוף אחר. לחצו "המשך ההנפשה".')};
-$('s5go').onclick=async()=>{if(S.busy||!S.frozen)return;S.busy=true;sl.style.display='none';cap.textContent='הכוחות קיימים רק בזמן המגע';ab.hide();ar.hide();vis(false);
+ if(v(sFb)!=='F12')return say(fb,false,'החץ הכתום מצויר על האדם. מי מפעיל אותו? הכדור, גוף 1. על מי? על האדם, גוף 2. מה הסימון?');
+ say(fb,true,'מדויק. החץ הכתום הוא <span class="m">F<sub>1,2</sub></span>: הכדור (1) מפעיל על האדם (2). החץ התכלת הוא <span class="m">F<sub>2,1</sub></span>: האדם (2) מפעיל על הכדור (1). שניהם 8N, וכל אחד פועל על גוף אחר. לחצו "המשך ההנפשה".')};
+$('s5go').onclick=async()=>{if(S.busy||!S.frozen)return;S.busy=true;sl.style.display='none';cap.textContent='כוחות הדחיפה האלה פועלים רק בזמן המגע';ab.hide();ar.hide();vis(false);
  await Promise.all([tween(1100,(k,raw)=>atB(CX-170*Math.sqrt(raw))),tween(1100,(k,raw)=>per.setAttribute('transform',`rotate(${Math.sin(Math.PI*raw)*4} 440 306)`))]);
- cap.textContent='הכדור הקל שינה כיוון. האדם הכבד כמעט לא זז.';S.busy=false;S.frozen=false;$('s5go').disabled=true};
+ cap.textContent='הכדור חזר לאחור. האדם כמעט לא זז.';S.busy=false;S.frozen=false;$('s5go').disabled=true};
 atB(40);})();
 
 /* ---------- Station 6: parallelogram and Pythagoras, one variable at a time ---------- */
@@ -470,7 +470,7 @@ function draw(){g.innerHTML='';const r=th*Math.PI/180,A={x:O.x+C.F1*U,y:O.y},Bp=
  el('circle',{cx:Bp.x,cy:Bp.y,r:18,class:'handle'},g);
  if(HL===1)glow([A4.g,L4],true);if(HL===2)glow([A2.g,L2],true);
  $('s6ra').textContent=th+'°';$('s6rm').textContent=m.toFixed(2)+' N';
- $('s6n').textContent=th===0?'החוטים באותו כיוון: מחברים, 4 + 2 = 6.':th===180?'החוטים בכיוונים מנוגדים: מחסרים, 4 − 2 = 2.':Math.abs(th-90)<1?'זווית ישרה: פיתגורס.':'הקווים המקווקווים משלימים מקבילית. האלכסון הירוק הוא הכוח השקול.';
+ $('s6n').textContent=th===0?'החוטים באותו כיוון: מחברים, 4 + 2 = 6.':th===180?'החוטים בכיוונים מנוגדים: מחסרים, 4 − 2 = 2.':Math.abs(th-90)<1?'הכוחות בזווית ישרה. מחשבים את גודל השקול במשפט פיתגורס.':'קווי העזר משלימים מקבילית. האלכסון הירוק מייצג את השקול. קווי העזר אינם כוחות נוספים.';
  ms.forEach(x=>{if(x.f(m,th))x.s.classList.add('done')});}
 const setTh=a=>{th=Math.max(0,Math.min(180,Math.round(a)));sl.value=th;draw()};
 sl.addEventListener('input',()=>{if(!busy){K=[1,1,1];setTh(+sl.value)}});
@@ -482,10 +482,10 @@ $('s6b').onclick=async()=>{if(busy)return;busy=true;await build();busy=false};
 const steps=['py1','py2','py3','py4'].map($),nt=$('s6t');
 const unmark=()=>{HL=0;$('q1').classList.remove('hl');$('q2').classList.remove('hl');draw()};
 Stepper($('s6y'),'חישוב בזווית ישרה',[
- async()=>{HL=1;draw();$('q1').classList.add('hl');nt.innerHTML='שלב 1: מסמנים את <span class="m">F<sub>1</sub></span>: החוט של 4N. בנוסחה ובציור הוא מודגש בצהוב.'},
- async()=>{nt.innerHTML='שלב 2: מציבים את 4 במקום <span class="m">F<sub>1</sub></span>.';steps[0].classList.add('show');await fly(L4,$('pa'),'4',850);$('pa').textContent='4';$('pa').className='slot filled cf';pulse($('pa'));unmark()},
- async()=>{HL=2;draw();$('q2').classList.add('hl');nt.innerHTML='שלב 3: מסמנים את <span class="m">F<sub>2</sub></span>: החוט של 2N.'},
- async()=>{nt.innerHTML='שלב 4: מציבים את 2 במקום <span class="m">F<sub>2</sub></span>.';await fly(L2,$('pb'),'2',850);$('pb').textContent='2';$('pb').className='slot filled cf';pulse($('pb'));unmark()},
+ async()=>{HL=1;draw();$('q1').classList.add('hl');nt.innerHTML='שלב 1: מזהים את <span class="m">F<sub>1</sub></span>, הכוח של 4N. הסימון שלו מודגש בציור ובנוסחה.'},
+ async()=>{nt.innerHTML='שלב 2: כותבים את המספר 4 במקום <span class="m">F<sub>1</sub></span> בנוסחה.';steps[0].classList.add('show');await fly(L4,$('pa'),'4',850);$('pa').textContent='4';$('pa').className='slot filled cf';pulse($('pa'));unmark()},
+ async()=>{HL=2;draw();$('q2').classList.add('hl');nt.innerHTML='שלב 3: מזהים את <span class="m">F<sub>2</sub></span>, הכוח של 2N.'},
+ async()=>{nt.innerHTML='שלב 4: כותבים את המספר 2 במקום <span class="m">F<sub>2</sub></span> בנוסחה.';await fly(L2,$('pb'),'2',850);$('pb').textContent='2';$('pb').className='slot filled cf';pulse($('pb'));unmark()},
  async()=>{nt.innerHTML='שלב 5: מעלים בריבוע: <span class="m">4² = 16</span>, <span class="m">2² = 4</span>.';steps[1].classList.add('show')},
  async()=>{nt.innerHTML='שלב 6: מחברים: <span class="m">16 + 4 = 20</span>.';steps[2].classList.add('show')},
  async()=>{nt.innerHTML='שלב 7: מוציאים שורש. שורש 20 הוא בערך 4.47, וזה גודל השקול בניוטון.';steps[3].classList.add('show')}
@@ -494,13 +494,13 @@ Stepper($('s6y'),'חישוב בזווית ישרה',[
 draw();
 const B=$('b6');DnD(B,()=>{$('s6fb').hidden=true});const sv=k=>B.querySelector(`.slot[data-k="${k}"]`);
 $('s6c').onclick=()=>{const fb=$('s6fb'),v=k=>sv(k).dataset.v;if(!v('a')||!v('b')||!v('r')||!v('u'))return say(fb,false,'השלימו את כל המשבצות.');
- const ab=[v('a'),v('b')].sort().join();if(ab!=='3,4')return say(fb,false,'מתחת לשורש מציבים את גדלי שני הכוחות, 3 ו־4, כל אחד בריבוע.');
+ const ab=[v('a'),v('b')].sort().join();if(ab!=='3,4')return say(fb,false,'כתבו מתחת לשורש את גדלי שני הכוחות: 3 ו־4. ליד כל משבצת כבר כתוב סימן הריבוע.');
  if(v('r')==='7')return say(fb,false,'7 מתקבל רק כשהכוחות באותו כיוון. בזווית ישרה משתמשים בפיתגורס.');
  if(v('r')==='25')return say(fb,false,'25 הוא סכום הריבועים: 9 + 16. נשאר להוציא שורש.');
  if(v('r')==='12')return say(fb,false,'12 הוא מכפלת הכוחות. בפיתגורס מעלים כל כוח בריבוע, מחברים ומוציאים שורש.');
  if(v('r')!=='5')return say(fb,false,'חשבו: 3² + 4² = 9 + 16 = 25, ושורש 25 הוא...');
  if(v('u')!=='N')return say(fb,false,'ק״ג היא יחידה של מסה. כוח מודדים בניוטון, N.');
- say(fb,true,'מדויק: <span class="m">√(3² + 4²) = √25 = 5 N</span>. ושימו לב: 5 גדול מ־4 וקטן מ־7, כצפוי.')};})();
+ say(fb,true,'מדויק: <span class="m">√(3² + 4²) = √25 = 5 N</span>. גודל השקול הוא 5N. הוא גדול מכל אחד משני הכוחות, וקטן מסכום הגדלים שלהם.')};})();
 
 /* ---------- Station 7: riddles ---------- */
 (function(){const box=$('s7');C.riddles.forEach((r,n)=>{const d=document.createElement('div');d.className='rid';const q=document.createElement('p');q.className='q';q.textContent=(n+1)+'. '+r.q;d.appendChild(q);const fb=document.createElement('div');fb.hidden=true;
@@ -515,3 +515,4 @@ set(day);b.onclick=()=>set(!day);})();
 function go(){const t=location.hash&&document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView({behavior:RM?'auto':'smooth'})}
 addEventListener('hashchange',go);setTimeout(go,60);
 </script>
+
