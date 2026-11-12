@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>מעבדת כוחות</title>
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&family=Assistant:wght@400;600;700&family=Orbitron:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Heebo:wght@400;500;600;700&family=Gveret+Levin&display=swap">
 <style>
 /* Layout: a lab notebook. Six stations. On wide screens each station is two columns: the scene on one side, the task and the equation bench on the other, so the task sits next to what it asks about. */
-:root{--bg:#03060b;--card:#0b141b;--raised:#13222c;--ink:#f2fbff;--muted:#9db0b8;--line:#1f4450;--border:#5d8794;--grid:#3cb4ff14;--grid-major:#3cb4ff29;--navy:#00d4f2;--on-navy:#00141c;--cyan-ink:#3fe0f8;--cyan-soft:#08323d;--focus:#ffffff;--force:#e69f00;--opp:#56b4e9;--net:#2fc99a;--net-ink:#2fc99a;--on-vec:#03060b;--hl:#08323d;--hl-line:#00d4f2;--ok:#6b93ff;--ok-ink:#a9c1ff;--ok-bg:#131f42;--bad:#ffa066;--bad-ink:#ffa57a;--bad-bg:#3a1c12;--wood:#B98A4A;--wood-line:#F6E7C8;--metal:#5B678F;--skin:#D9A77C;--shirt:#6A5FC4;--ball:#E07B12;--earth:#4d9be6;--earth-line:#cfd3d8;--book:#9B72C9;--cab:#13222c;--shadow:0 8px 24px -8px #000000cc;color-scheme:dark;--fd:'Rubik',system-ui,sans-serif;--fb:'Assistant',system-ui,sans-serif;--fm:'Orbitron','Rubik',system-ui,sans-serif}
-:root[data-theme="day"]{--bg:#f6f2e8;--card:#ffffff;--raised:#ece6d8;--ink:#0a1020;--muted:#4d5866;--line:#c4d3d6;--border:#5f6b78;--grid:#00788c17;--grid-major:#00788c33;--navy:#007f95;--on-navy:#ffffff;--cyan-ink:#006a7c;--cyan-soft:#ddf2f5;--focus:#0a1020;--force:#a85f00;--opp:#0072b2;--net:#007a5a;--net-ink:#007a5a;--on-vec:#ffffff;--hl:#ddf2f5;--hl-line:#007f95;--ok:#2348c4;--ok-ink:#1f3fae;--ok-bg:#e3eaff;--bad:#b83c0a;--bad-ink:#a63608;--bad-bg:#fde6dc;--wood:#E2B878;--wood-line:#5A3A1E;--metal:#C3CDE2;--skin:#F2C9A0;--shirt:#7B6FD6;--ball:#F08A1C;--earth:#2f78c4;--earth-line:#0a1020;--book:#7A4FA3;--cab:#ece6d8;--shadow:0 6px 18px -6px #0a102033;color-scheme:light;}
+:root{--bg:#f3f5f6;--card:#ffffff;--raised:#f3f5f6;--ink:#2b2829;--muted:#5a5758;--line:#d5d8db;--border:#6f6b6c;--grid:#2b28290a;--grid-major:#2b282914;--navy:#0b6a97;--on-navy:#ffffff;--cyan-ink:#0b6a97;--cyan-soft:#eaf6fc;--focus:#0b6a97;--force:#a85f00;--opp:#0072b2;--net:#007a5a;--net-ink:#007a5a;--on-vec:#ffffff;--hl:#eaf6fc;--hl-line:#0b6a97;--ok:#0b6a97;--ok-ink:#0b6a97;--ok-bg:#eaf6fc;--bad:#b3261e;--bad-ink:#b3261e;--bad-bg:#fdeceb;--wood:#E2B878;--wood-line:#5A3A1E;--metal:#C3CDE2;--skin:#F2C9A0;--shirt:#7B6FD6;--ball:#F08A1C;--earth:#2f78c4;--earth-line:#2b2829;--book:#7A4FA3;--cab:#f3f5f6;--shadow:0 1px 2px rgba(31,29,30,.10),0 6px 18px rgba(31,29,30,.08);color-scheme:light;--fd:'Rubik','Heebo',system-ui,sans-serif;--fb:'Heebo','Assistant',system-ui,sans-serif;--fm:'Rubik','Heebo',system-ui,sans-serif;--yellow:#ffca08;--on-yellow:#1f1d1e;--blue:#25aae2;--gray:#716d6e;--tint:#eaf6fc;--attn:#7a5200;--paper-line:rgba(31,29,30,.04)}
+:root[data-theme="dark"]{--bg:#0e0e0f;--card:#1b1b1d;--raised:#0e0e0f;--ink:#f4f2f2;--muted:#bdbabb;--line:#3a3a3d;--border:#8f8b8c;--grid:#f4f2f20a;--grid-major:#f4f2f214;--navy:#25aae2;--on-navy:#1f1d1e;--cyan-ink:#25aae2;--cyan-soft:#0f2a38;--focus:#ffca08;--force:#e69f00;--opp:#56b4e9;--net:#2fc99a;--net-ink:#2fc99a;--on-vec:#1f1d1e;--hl:#0f2a38;--hl-line:#25aae2;--ok:#25aae2;--ok-ink:#25aae2;--ok-bg:#0f2a38;--bad:#ff8a80;--bad-ink:#ff8a80;--bad-bg:#3a1714;--wood:#B98A4A;--wood-line:#F6E7C8;--metal:#5B678F;--skin:#D9A77C;--shirt:#6A5FC4;--ball:#E07B12;--earth:#4d9be6;--earth-line:#cfd3d8;--book:#9B72C9;--cab:#1b1b1d;--shadow:none;color-scheme:dark;--gray:#8f8b8c;--tint:#0f2a38;--attn:#ffca08;--paper-line:rgba(244,242,242,.04);--yellow:#ffca08;--blue:#25aae2}
 body{background-color:var(--bg);background-image:linear-gradient(var(--grid-major) 1px,transparent 1px),linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px;margin:0;color:var(--ink);font-family:var(--fb);font-size:21px;line-height:1.55}
 .wrap{max-width:1220px;margin:0 auto;padding-block:24px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
 .bar{display:none}
@@ -122,6 +122,48 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 .foot{color:var(--muted);font-size:18px}
 .theme{margin-inline-start:auto}
 @media (prefers-reduced-motion:reduce){.steps .eqn.show{animation:none}.who p,.slot{transition:none}}
+
+/* ===== מגמת מידע ונתונים: white page, white cards, three-colour rule, yellow for the one main action ===== */
+body{background-image:linear-gradient(var(--paper-line) 1px,transparent 1px),linear-gradient(90deg,var(--paper-line) 1px,transparent 1px);background-size:24px 24px;font-size:19px;line-height:1.6}
+.bar{display:block;height:12px;margin:-24px -16px 8px;background:linear-gradient(to left,var(--blue) 0 33.33%,var(--gray) 33.33% 66.66%,var(--yellow) 66.66% 100%)}
+header{padding-bottom:20px;border-bottom:3px solid var(--yellow)}
+h1{font-weight:700;letter-spacing:0}
+h2{font-weight:600}
+.lead{color:var(--muted);font-size:20px}
+.tagline{font-family:'Gveret Levin','Rubik',cursive;font-size:30px;line-height:36px;color:var(--cyan-ink)}
+nav a{border-radius:12px;border-color:var(--line);color:var(--ink);font-weight:500;background:var(--card)}
+nav a:hover{background:var(--tint)}
+.station{border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow);padding:28px}
+.tag{display:inline-block;align-self:flex-start;font-family:var(--fb);font-size:15px;font-weight:600;padding:2px 12px;border-radius:999px;background:var(--blue);color:#1f1d1e}
+.task{background:var(--tint);border:0;border-radius:12px;list-style:none;padding:16px 20px;counter-reset:t;gap:10px;font-weight:500}
+.task li{counter-increment:t;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+.task li::before{content:counter(t);display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--yellow);color:var(--on-yellow);font-weight:700;font-size:16px}
+.stage{border-radius:12px;background:var(--card);border-color:var(--line)}
+.bench{border-radius:12px;background:var(--card);border:1px solid var(--border)}
+.narr{border-radius:12px}
+.btn{border-radius:12px;font-weight:600;font-size:18px;border:2px solid var(--border);background:var(--card)}
+.btn.primary{background:var(--yellow);border-color:var(--yellow);color:var(--on-yellow)}
+.btn.on{background:var(--blue);border-color:var(--blue);color:#1f1d1e}
+.btn.ghost{border-color:var(--line)}
+.btn:hover:not(:disabled){filter:brightness(.95)}
+.btn:focus-visible,.tile:focus-visible,.slot:focus-visible,input:focus-visible,nav a:focus-visible{box-shadow:none;outline:3px solid var(--focus);outline-offset:2px}
+.slot{border-radius:6px;border-color:var(--navy)}
+.tile{border-radius:6px;background:var(--card);font-weight:600}
+.tile.sel{background:var(--yellow);border-color:var(--yellow);color:var(--on-yellow)}
+.picking .slot{background:#fff4c2}
+:root[data-theme="dark"] .picking .slot{background:#3a3000}
+.fb{border-radius:12px;border-width:2px !important}
+.read div{border-radius:20px;border:0;border-top:0;background:var(--raised);padding:14px 18px;font-weight:500;color:var(--muted)}
+.read div.f,.read div.o,.read div.n{border-top:0;box-shadow:inset 0 -6px 0 var(--force)}
+.read div.o{box-shadow:inset 0 -6px 0 var(--opp)}.read div.n{box-shadow:inset 0 -6px 0 var(--net)}
+.read b{font-family:var(--fd);font-weight:700;font-size:34px;color:var(--ink)}
+.chip{font-size:15px;font-weight:600}
+.mission{border-color:var(--border);font-weight:600}
+.rule{border-radius:12px;background:var(--tint)}
+input[type=range]{accent-color:var(--navy)}
+.handle{fill:var(--yellow);stroke:var(--ink)}
+.m{font-variant-numeric:tabular-nums}
+.foot{font-size:15px}
 </style>
 
 </head>
@@ -132,7 +174,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <p class="hint"><a href="../" style="color:var(--cyan-ink)">דף פתיחה</a> · <a href="../forces-deck/" style="color:var(--cyan-ink)">למצגת</a></p>
 <h1>מעבדת כוחות</h1>
 <p class="lead">שש תחנות לתרגול כוחות. בכל תחנה קראו את ההוראות שבמסגרת, בצעו ובדקו את התשובה.</p>
-<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button><button class="btn ghost sound" id="soundBtn" type="button" aria-pressed="true">צליל: פועל</button></div>
+<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכה כהה</button><button class="btn ghost sound" id="soundBtn" type="button" aria-pressed="true">צליל: פועל</button></div>
 <p class="hint">גררו מספר או סימון אל המשבצת המתאימה. אפשר גם ללחוץ עליו ואז על המשבצת. כדי להחזיר, גררו מהמשבצת החוצה או לחצו עליה. ΣF מסמן את הכוח השקול, ו־N היא יחידת המידה ניוטון.</p>
 <nav aria-label="תחנות"><a href="#st1">1 · ימינה ושמאלה</a><a href="#st2">2 · ספר</a><a href="#st3">3 · החוק השלישי</a><a href="#st4">4 · כדור ואדם</a><a href="#st5">5 · כוחות בזווית</a><a href="#st6">6 · חידות</a></nav>
 </header>
@@ -230,7 +272,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <h2>שני חוטים וסירה אחת</h2>
 <div class="cols">
 <div class="scene">
-<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. שנו את הזווית: גררו את העיגול בצבע טורקיז, או הזיזו את הסמן שמתחת לציור.</p>
+<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. שנו את הזווית: גררו את העיגול הצהוב, או הזיזו את הסמן שמתחת לציור.</p>
 <div class="stage drag"><svg id="s6" viewBox="0 0 600 380" role="img" aria-label="סירה, שני כוחות והכוח השקול לפי כלל המקבילית"></svg></div>
 <label for="s6a" class="q">הזווית בין החוטים</label>
 <input type="range" id="s6a" min="0" max="180" step="1" value="60">
@@ -530,8 +572,8 @@ $('s6c').onclick=()=>{const fb=$('s6fb'),v=k=>sv(k).dataset.v;if(!v('a')||!v('b'
 
 
 /* Theme: night by default, day for a bright classroom */
-(function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let day=false;try{day=localStorage.getItem('maslul-theme')==='day'}catch(e){}
-function set(d){day=d;if(d)r.setAttribute('data-theme','day');else r.removeAttribute('data-theme');b.textContent=d?'ערכת לילה':'ערכת יום';b.setAttribute('aria-pressed',String(d));try{localStorage.setItem('maslul-theme',d?'day':'night')}catch(e){}}
+(function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let day=false;try{const v=localStorage.getItem('data-theme');day=v?v==='dark':matchMedia('(prefers-color-scheme: dark)').matches}catch(e){}
+function set(d){day=d;if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');b.textContent=d?'ערכה בהירה':'ערכה כהה';b.setAttribute('aria-pressed',String(d));try{localStorage.setItem('data-theme',d?'dark':'light')}catch(e){}}
 set(day);b.onclick=()=>set(!day);})();
 (function(){const b=document.getElementById('soundBtn');const show=()=>{b.textContent=SND.on?'צליל: פועל':'צליל: כבוי';b.setAttribute('aria-pressed',String(SND.on))};show();b.addEventListener('click',()=>{SND.set(!SND.on);show()});})();
 /* Deep links from the slides: #st1 ... #st6 */

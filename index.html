@@ -3,18 +3,44 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>כוחות וכוח שקול | כיתה ח׳</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&family=Assistant:wght@400;600;700&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@600;700&family=Heebo:wght@400;500;600&family=Gveret+Levin&display=swap">
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:#03060b;color:#f2fbff;font:23px/1.6 'Assistant',Arial,sans-serif;background-image:linear-gradient(#1f445033 1px,transparent 1px),linear-gradient(90deg,#1f445033 1px,transparent 1px);background-size:30px 30px;display:grid;place-items:center}main{width:min(100%,1020px);padding:48px 24px}h1{font:600 clamp(40px,7vw,72px)/1.2 'Rubik',Arial,sans-serif;margin:16px 0}p{color:#9db0b8;margin:0 0 28px}.choices{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-block:40px}article{background:#0b141b;border:1px solid #1f4450;padding:30px}h2{font:500 30px 'Rubik',Arial,sans-serif;margin:0 0 16px}a{color:#3fe0f8;text-underline-offset:4px}.open{display:inline-block;background:#00d4f2;color:#03060b;font-weight:700;text-decoration:none;border-radius:6px;padding:10px 24px}a:focus-visible{outline:3px solid #f2fbff;outline-offset:4px}small{font-size:18px;color:#9db0b8}@media(max-width:660px){.choices{grid-template-columns:1fr}main{padding:28px 18px}article{padding:24px}}
+:root{--paper:#f3f5f6;--card:#ffffff;--ink:#2b2829;--muted:#5a5758;--rule:#d5d8db;--line:#6f6b6c;--blue:#0b6a97;--brand-blue:#25aae2;--gray:#716d6e;--yellow:#ffca08;--on-yellow:#1f1d1e;--force:#a85f00;--opp:#0072b2;--net:#007a5a;--paper-line:rgba(31,29,30,.04);--shadow:0 1px 2px rgba(31,29,30,.10),0 6px 18px rgba(31,29,30,.08);--focus:#0b6a97;color-scheme:light}
+:root[data-theme="dark"]{--paper:#0e0e0f;--card:#1b1b1d;--ink:#f4f2f2;--muted:#bdbabb;--rule:#3a3a3d;--line:#8f8b8c;--blue:#25aae2;--gray:#8f8b8c;--force:#e69f00;--opp:#56b4e9;--net:#2fc99a;--paper-line:rgba(244,242,242,.04);--shadow:none;--focus:#ffca08;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;background-color:var(--paper);background-image:linear-gradient(var(--paper-line) 1px,transparent 1px),linear-gradient(90deg,var(--paper-line) 1px,transparent 1px);background-size:24px 24px;color:var(--ink);font:18px/1.65 'Heebo',Arial,sans-serif}
+.rule{height:12px;background:linear-gradient(to left,var(--brand-blue) 0 33.33%,var(--gray) 33.33% 66.66%,var(--yellow) 66.66%)}
+main{width:min(100%,1040px);margin:0 auto;padding:48px 24px 64px}
+.top{display:flex;align-items:flex-start;gap:16px}
+.eyebrow{display:inline-block;font-size:14px;font-weight:600;padding:2px 12px;border-radius:999px;background:var(--brand-blue);color:#1f1d1e}
+.theme{margin-inline-start:auto;font:600 15px 'Heebo',sans-serif;min-height:40px;padding:0 16px;border-radius:12px;border:2px solid var(--line);background:var(--card);color:var(--ink);cursor:pointer}
+h1{font:700 clamp(40px,7vw,64px)/1.1 'Rubik',Arial,sans-serif;margin:16px 0 8px;padding-bottom:16px;border-bottom:3px solid var(--yellow);display:inline-block}
+.tag{font-family:'Gveret Levin','Rubik',cursive;font-size:30px;line-height:1.2;color:var(--blue);margin:8px 0 0}
+p{margin:0 0 20px;color:var(--muted)}
+.choices{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-block:40px}
+article{background:var(--card);border:1px solid var(--rule);border-radius:20px;padding:32px;display:flex;flex-direction:column;gap:8px;box-shadow:var(--shadow)}
+.bars{display:flex;align-items:flex-end;gap:8px;height:72px;margin-bottom:8px}.bars i{display:block;width:24px;border-radius:6px 6px 0 0}
+.bf{background:var(--force)}.bo{background:var(--opp)}.bn{background:var(--net)}
+h2{font:600 28px/1.3 'Rubik',Arial,sans-serif;margin:0;color:var(--ink)}
+.open{align-self:flex-start;margin-top:auto;display:inline-flex;align-items:center;gap:8px;font-weight:600;font-size:16px;text-decoration:none;border-radius:12px;padding:12px 24px}
+.y{background:var(--yellow);color:var(--on-yellow)}.b{background:transparent;color:var(--ink);border:2px solid var(--line);padding:10px 22px}
+a{color:var(--blue);text-underline-offset:3px}
+a:focus-visible,button:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+small{font-size:14px;color:var(--muted)}
+@media(max-width:660px){.choices{grid-template-columns:1fr}main{padding:28px 16px}article{padding:24px}}
 </style>
 </head>
-<body><main>
-<small>פיזיקה לכיתה ח׳ · עמ״ט</small>
+<body><div class="rule"></div><main>
+<div class="top"><span class="eyebrow">פיזיקה לכיתה ח׳ · עמ״ט</span><button class="theme" id="themeBtn" type="button" aria-pressed="false">ערכה כהה</button></div>
 <h1>כוחות וכוח שקול</h1>
+<p class="tag">כל כוח הוא חץ</p>
 <p>מצגת ותרגול להבנת הכוחות שפועלים על גופים.</p>
 <div class="choices">
-<article><h2>המצגת</h2><p>21 שקפים עם הסברים, דוגמאות ושאלות. מתקדמים בכל פעם בשלב אחד.</p><a class="open" href="forces-deck/">פתחו את המצגת</a></article>
-<article><h2>מעבדת כוחות</h2><p>שש תחנות עם גרירה, הנפשות ושאלות. בודקים תשובות ומקבלים הסבר.</p><a class="open" href="forces-lab/">פתחו את הלומדה</a></article>
+<article><div class="bars" aria-hidden="true"><i class="bf" style="height:40px"></i><i class="bo" style="height:64px"></i><i class="bn" style="height:28px"></i></div><h2>המצגת</h2><p>21 שקפים עם הסברים, דוגמאות ושאלות. מתקדמים בכל פעם בשלב אחד.</p><a class="open b" href="forces-deck/">פתחו את המצגת</a></article>
+<article><div class="bars" aria-hidden="true"><i class="bo" style="height:56px"></i><i class="bn" style="height:36px"></i><i class="bf" style="height:68px"></i></div><h2>מעבדת כוחות</h2><p>שש תחנות עם גרירה, הנפשות ושאלות. בודקים תשובות ומקבלים הסבר.</p><a class="open y" href="forces-lab/">פתחו את הלומדה</a></article>
 </div>
 <small>משה זלינגר · <a href="https://github.com/moshezelinger/Amat_Physics">למאגר ב־GitHub</a></small>
+<script>(function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let d=false;try{const v=localStorage.getItem('data-theme');d=v?v==='dark':matchMedia('(prefers-color-scheme: dark)').matches}catch(e){}
+function set(v){d=v;if(v)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');b.textContent=v?'ערכה בהירה':'ערכה כהה';b.setAttribute('aria-pressed',String(v));try{localStorage.setItem('data-theme',v?'dark':'light')}catch(e){}}
+set(d);b.onclick=()=>set(!d);})();</script>
 </main></body></html>

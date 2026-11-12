@@ -5,6 +5,8 @@ import html
 import json
 import re
 
+import pbi_theme
+
 ROOT = Path(__file__).resolve().parents[1]
 ASSETS = {
     '0e4e7bcb64a3e8f504876377c4c7ba17': 'crate',
@@ -65,6 +67,6 @@ for slide_id in deck['order']:
 
 payload = json.dumps(slides, ensure_ascii=False).replace('<', '\\u003c').replace('>', '\\u003e')
 template = (ROOT / 'tools/web-player.html').read_text()
-output = template.replace('<!-- SLIDE_DATA -->', payload)
+output = pbi_theme.apply(template.replace('<!-- SLIDE_DATA -->', payload))
 (ROOT / 'index.html').write_text(output)
 print(f'Built {len(slides)} slides: {ROOT / "index.html"}')
