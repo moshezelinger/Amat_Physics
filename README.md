@@ -2,13 +2,13 @@
 
 חומרי לימוד בפיזיקה לכיתה ח׳, עמ״ט: מצגות, סימולציות ולומדות. כל התוצרים בנויים במערכת העיצוב "מסלול".
 
-## צפייה בדפדפן
+## צפייה בדפדפן לאחר הפעלת GitHub Pages
 
 - [דף הפתיחה](https://moshezelinger.github.io/Amat_Physics/)
 - [המצגת המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-deck/)
 - [הלומדה המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-lab/)
 
-הצפייה מתפרסמת דרך GitHub Pages. לגרסת הבדיקה בוחרים בענף `add-forces-deck-and-lab`, מתיקיית השורש. המקור, נגן המצגת והלומדה נמצאים במאגר הזה.
+הקישורים למעלה יפעלו אחרי הפעלת GitHub Pages בהגדרות המאגר. בוחרים Settings, אחר כך Pages, מקור Deploy from a branch, הענף `add-forces-deck-and-lab` ותיקיית `/(root)`, ולוחצים Save. המקור, נגן המצגת והלומדה נמצאים במאגר הזה.
 
 ## עותקי המקור ב־Claude
 
