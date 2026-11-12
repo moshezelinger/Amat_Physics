@@ -1,0 +1,517 @@
+<title>מעבדת כוחות</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&family=Assistant:wght@400;600;700&family=Orbitron:wght@500;600&display=swap">
+<style>
+/* Layout: a lab notebook. Six stations. On wide screens each station is two columns: the scene on one side, the task and the equation bench on the other, so the task sits next to what it asks about. */
+:root{--bg:#03060b;--card:#0b141b;--raised:#13222c;--ink:#f2fbff;--muted:#9db0b8;--line:#1f4450;--border:#5d8794;--grid:#3cb4ff14;--grid-major:#3cb4ff29;--navy:#00d4f2;--on-navy:#00141c;--cyan-ink:#3fe0f8;--cyan-soft:#08323d;--focus:#ffffff;--force:#e69f00;--opp:#56b4e9;--net:#2fc99a;--net-ink:#2fc99a;--on-vec:#03060b;--hl:#08323d;--hl-line:#00d4f2;--ok:#6b93ff;--ok-ink:#a9c1ff;--ok-bg:#131f42;--bad:#ffa066;--bad-ink:#ffa57a;--bad-bg:#3a1c12;--wood:#B98A4A;--wood-line:#F6E7C8;--metal:#5B678F;--skin:#D9A77C;--shirt:#6A5FC4;--ball:#E07B12;--earth:#4d9be6;--earth-line:#cfd3d8;--book:#9B72C9;--cab:#13222c;--shadow:0 8px 24px -8px #000000cc;color-scheme:dark;--fd:'Rubik',system-ui,sans-serif;--fb:'Assistant',system-ui,sans-serif;--fm:'Orbitron','Rubik',system-ui,sans-serif}
+:root[data-theme="day"]{--bg:#f6f2e8;--card:#ffffff;--raised:#ece6d8;--ink:#0a1020;--muted:#4d5866;--line:#c4d3d6;--border:#5f6b78;--grid:#00788c17;--grid-major:#00788c33;--navy:#007f95;--on-navy:#ffffff;--cyan-ink:#006a7c;--cyan-soft:#ddf2f5;--focus:#0a1020;--force:#a85f00;--opp:#0072b2;--net:#007a5a;--net-ink:#007a5a;--on-vec:#ffffff;--hl:#ddf2f5;--hl-line:#007f95;--ok:#2348c4;--ok-ink:#1f3fae;--ok-bg:#e3eaff;--bad:#b83c0a;--bad-ink:#a63608;--bad-bg:#fde6dc;--wood:#E2B878;--wood-line:#5A3A1E;--metal:#C3CDE2;--skin:#F2C9A0;--shirt:#7B6FD6;--ball:#F08A1C;--earth:#2f78c4;--earth-line:#0a1020;--book:#7A4FA3;--cab:#ece6d8;--shadow:0 6px 18px -6px #0a102033;color-scheme:light;}
+body{background-color:var(--bg);background-image:linear-gradient(var(--grid-major) 1px,transparent 1px),linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px;margin:0;color:var(--ink);font-family:var(--fb);font-size:21px;line-height:1.55}
+.wrap{max-width:1220px;margin:0 auto;padding-block:24px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
+.bar{display:none}
+h1{font-family:var(--fd);font-weight:600;letter-spacing:.01em;font-size:clamp(38px,8vw,58px);line-height:1.1;margin:0;text-wrap:balance}
+h2{font-family:var(--fd);font-weight:500;font-size:clamp(27px,5.6vw,34px);line-height:1.2;margin:0;text-wrap:balance}
+p{margin:0}
+.lead{font-size:23px;color:var(--muted);max-width:60ch}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.chip{font-weight:700;font-size:18px;padding:4px 14px;border-radius:9999px;color:var(--on-vec)}
+.chip.f{background:var(--force)}.chip.o{background:var(--opp)}.chip.n{background:var(--net)}
+nav{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
+nav a{flex:none;font-weight:600;font-size:18px;text-decoration:none;color:var(--cyan-ink);background:var(--card);border:1px solid var(--border);border-radius:8px;padding:6px 14px}
+.station{background:var(--card);border:1px solid var(--line);border-radius:0;padding:20px;display:flex;flex-direction:column;gap:14px;min-width:0;scroll-margin-top:16px}
+.cols{display:grid;gap:18px;min-width:0}
+.cols>div{display:flex;flex-direction:column;gap:12px;min-width:0}
+@media (min-width:960px){.cols{grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);align-items:start}.cols>.scene{position:sticky;top:12px}}
+.tag{font-family:var(--fd);font-weight:500;font-size:18px;color:var(--cyan-ink)}
+.story{color:var(--muted);font-size:21px}
+.task{margin:0;padding:12px 16px 12px 16px;padding-inline-start:40px;background:var(--raised);border:1px solid var(--line);border-radius:8px;font-weight:600;display:flex;flex-direction:column;gap:4px}
+.stage{border:1px solid var(--line);border-radius:0;overflow:hidden;background:var(--bg)}
+.stage svg{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.stage.drag svg{touch-action:none}
+.gridl{stroke:var(--grid-major);stroke-width:1}
+.q{font-weight:700;font-size:22px}
+.hint{font-size:18px;color:var(--muted)}
+.narr{min-height:1.6em;font-weight:700;color:var(--ink);background:var(--card);border:1px solid var(--line);padding:8px 12px;border-radius:8px}
+.btn{font:inherit;font-weight:700;font-size:20px;padding:10px 18px;min-height:50px;border-radius:8px;border:1px solid var(--border);background:var(--raised);color:var(--ink);cursor:pointer;transition:background-color .15s,border-color .15s}
+.btn.on,.btn.primary{background:var(--navy);border-color:var(--navy);color:var(--on-navy)}
+.btn.ghost{background:transparent}
+.btn:disabled{opacity:.5;cursor:default}
+.btn:focus-visible,.tile:focus-visible,.slot:focus-visible,input:focus-visible,nav a:focus-visible{outline:none;box-shadow:0 0 0 3px var(--bg),0 0 0 5px var(--focus)}
+.lbl{font-weight:700;color:var(--muted);min-width:5.5em}
+.fb{border-radius:8px;padding:14px 16px;font-weight:600}
+.fb.ok{background:var(--ok-bg);border:3px solid var(--ok)}
+.fb.ok::before{content:"✓ נכון. ";color:var(--ok-ink);font-weight:700}
+.fb.no{background:var(--bad-bg);border:3px solid var(--bad)}
+.fb.no::before{content:"✗ לא נכון. ";color:var(--bad-ink);font-weight:700}
+.m{font-family:var(--fm);font-weight:500;direction:ltr;unicode-bidi:isolate;white-space:nowrap}
+.m sub,.eqn sub{font-size:.62em}
+.vec{position:relative;display:inline-block;padding-top:.3em;line-height:1}
+.vec::before{content:"";position:absolute;left:.06em;right:.1em;top:.14em;border-top:.075em solid currentColor}
+.vec::after{content:"";position:absolute;right:.04em;top:.14em;width:.2em;height:.2em;border-top:.075em solid currentColor;border-right:.075em solid currentColor;transform:translateY(-50%) rotate(45deg)}
+.bench{background:var(--raised);border:1px solid var(--line);border-radius:0;padding:16px;display:flex;flex-direction:column;gap:14px}
+.eqn{direction:ltr;display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:.28em;font-family:var(--fm);font-weight:500;font-size:clamp(21px,5.4vw,29px);line-height:1.3}
+.eqn.sym{color:var(--muted)}
+.hl{background:var(--hl);border-radius:8px;box-shadow:0 0 0 2px var(--hl-line);color:var(--ink)}
+.glow{filter:drop-shadow(2px 0 0 var(--hl-line)) drop-shadow(-2px 0 0 var(--hl-line)) drop-shadow(0 2px 0 var(--hl-line)) drop-shadow(0 -2px 0 var(--hl-line))}
+.slot{font:inherit;min-width:1.8em;min-height:1.55em;padding:0 .18em;border:2px solid var(--navy);border-radius:8px;background:var(--card);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s}
+.slot.filled{border-color:var(--border)}
+.slot.u{min-width:1.6em}
+.slot.ok{border:3px solid var(--ok);background:var(--ok-bg)}.slot.bad{border:3px solid var(--bad);background:var(--bad-bg)}
+.picking .slot{background:var(--cyan-soft)}
+.picking .slot.svgslot rect{stroke:var(--hl-line);stroke-width:5}
+.pop{transform:scale(1.18)}
+.tray{direction:ltr;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
+.tile{font:500 22px var(--fm);min-width:60px;min-height:54px;padding:0 12px;border-radius:8px;border:1px solid var(--border);background:var(--raised);color:var(--ink);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
+.tile.unit{border-color:var(--net)}
+.tile.idt{font-family:var(--fb);font-size:22px}
+.tile.sel{background:var(--cyan-soft);border:2px solid var(--navy)}
+.dragging{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:.92;box-shadow:var(--shadow)}
+.fly{position:fixed;left:0;top:0;z-index:50;pointer-events:none;font:500 24px var(--fm);direction:ltr;padding:2px 12px;border-radius:8px;background:var(--hl);border:1px solid var(--hl-line);box-shadow:var(--shadow);color:var(--ink);white-space:nowrap}
+.steps{display:flex;flex-direction:column;gap:6px}
+.steps .eqn{display:none}
+.steps .eqn.show{display:flex;animation:rise .15s ease-out}
+@keyframes rise{from{opacity:0}to{opacity:1}}
+.pw{display:inline-flex;align-items:flex-start}.pw sup{font-size:.6em}
+.cf{color:var(--force)}.co{color:var(--opp)}.cn{color:var(--net-ink)}
+.arr line{stroke-linecap:round}
+.arr.f line{stroke:var(--force)}.arr.f polygon{fill:var(--force)}
+.arr.o line{stroke:var(--opp)}.arr.o polygon{fill:var(--opp)}
+.arr.n line{stroke:var(--net)}.arr.n polygon{fill:var(--net)}
+.arr.k line{stroke:var(--ink)}.arr.k polygon{fill:var(--ink)}
+.arr.g line{stroke:var(--muted)}.arr.g polygon{fill:var(--muted)}
+.dash{stroke:var(--line);stroke-width:1;fill:none}
+.t{font:500 22px var(--fm);fill:var(--ink)}.t.f{fill:var(--force)}.t.o{fill:var(--opp)}.t.n{fill:var(--net-ink)}
+.th{font:700 22px var(--fb);fill:var(--muted)}
+.lb{font:700 22px var(--fb)}.lb.f{fill:var(--force)}.lb.o{fill:var(--opp)}
+.big{font:700 40px var(--fd);fill:var(--ink)}
+.wood{fill:var(--wood);stroke:var(--wood-line);stroke-width:3}
+.metal{fill:var(--metal);stroke:var(--ink);stroke-width:3}
+.bookf{fill:var(--book);stroke:var(--ink);stroke-width:3}
+.floor{stroke:var(--muted);stroke-width:5;stroke-linecap:round}
+.hit{stroke:transparent;stroke-width:40;stroke-linecap:round;cursor:grab}
+.tok.placed .arr.k line{stroke:var(--navy)}.tok.placed .arr.k polygon{fill:var(--navy)}
+.handle{fill:var(--navy);stroke:var(--bg);stroke-width:2;cursor:grab}
+.svgslot{cursor:pointer}
+.svgslot rect{fill:var(--card);stroke:var(--navy);stroke-width:2}
+.svgslot.filled rect{stroke:var(--border)}
+.svgslot text{font:500 20px var(--fm);fill:var(--ink)}
+.svgslot text.he{font:700 21px var(--fb)}
+input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
+.read{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.read div{background:var(--raised);border-radius:0;padding:10px 14px;font-weight:700;border:1px solid var(--line);border-top:3px solid var(--line)}
+.read div.f{border-top-color:var(--force)}.read div.o{border-top-color:var(--opp)}.read div.n{border-top-color:var(--net)}
+.read b{display:block;font-family:var(--fm);font-weight:500;font-size:26px;direction:ltr;text-align:right;font-variant-numeric:tabular-nums}
+.eqbadge{background:var(--raised);border:1px solid var(--line);border-radius:8px;padding:8px 12px;font-weight:700}
+.mission{border:1px solid var(--border);border-radius:9999px;padding:6px 14px;font-weight:700;font-size:18px}
+.mission.done{border:2px solid var(--ok);background:var(--ok-bg)}
+.mission.done::before{content:"✓ ";color:var(--ok-ink)}
+.who{display:flex;flex-direction:column;gap:8px}
+.who p.dim{opacity:.3;transition:opacity .4s}.who p.show{opacity:1}
+.ix{display:inline-block;min-width:.7em;text-align:center;border-bottom:2px solid currentColor}
+.rule{font-weight:700;color:var(--ink);background:var(--raised);border-radius:8px;padding:8px 12px}
+.rid{display:flex;flex-direction:column;gap:10px;padding-block:14px;border-top:1px solid var(--line)}
+.rid .btn{text-align:right;border-radius:8px;width:100%}
+.rid .btn.right{border:3px solid var(--ok);background:var(--ok-bg);color:var(--ink)}
+.rid .btn.right::before{content:"✓ נכון · ";color:var(--ok-ink)}
+.rid .btn.wrong{border:3px solid var(--bad);background:var(--bad-bg);color:var(--ink)}
+.rid .btn.wrong::before{content:"✗ לא נכון · ";color:var(--bad-ink)}
+.foot{color:var(--muted);font-size:18px}
+.theme{margin-inline-start:auto}
+@media (prefers-reduced-motion:reduce){.steps .eqn.show{animation:none}.who p,.slot{transition:none}}
+</style>
+<div class="wrap" dir="rtl" lang="he">
+<header style="display:flex;flex-direction:column;gap:12px">
+<div class="bar"></div>
+<h1>מעבדת כוחות</h1>
+<p class="lead">שש תחנות. בכל תחנה המשימה כתובה במסגרת שליד מה שעושים.</p>
+<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button></div>
+<p class="hint">גוררים אריח אל משבצת. בטלפון אפשר גם להקיש על אריח ואז על משבצת.</p>
+<nav aria-label="תחנות"><a href="#st1">1 · ציר אחד</a><a href="#st2">2 · ספר</a><a href="#st3">3 · מגע</a><a href="#st4">4 · כדור</a><a href="#st5">5 · מקבילית</a><a href="#st6">6 · חידות</a></nav>
+</header>
+
+<section class="station" id="st1">
+<span class="tag">תחנה 1 · כוחות על ציר אחד</span>
+<h2>דנה ויואב דוחפים ארגז</h2>
+<div class="cols">
+<div class="scene">
+<p class="story">דנה דוחפת בכוח <span class="m">F<sub>1</sub> = 4 N</span>, ויואב בכוח <span class="m">F<sub>2</sub> = 2 N</span>.</p>
+<div class="stage"><svg id="s1" viewBox="0 0 600 270" role="img" aria-label="ארגז ושני כוחות אופקיים"></svg></div>
+<div class="row"><button class="btn ghost" id="s1f1">הפוך את הכוח של דנה</button><button class="btn ghost" id="s1f2">הפוך את הכוח של יואב</button></div>
+<button class="btn" id="s1r">הפעלה: לאן הארגז יזוז?</button>
+</div>
+<div class="work">
+<ol class="task"><li>הציבו כל כוח עם הסימן שלו: ימינה פלוס, שמאלה מינוס.</li><li>השלימו תוצאה ויחידה, ולחצו "בדיקה".</li><li>תקועים? "הצבה צעד אחר צעד".</li></ol>
+<div class="bench" id="b1">
+<div class="eqn sym"><span>ΣF</span><span>=</span><span id="y1">F<sub>1</sub></span><span>+</span><span id="y2">F<sub>2</sub></span></div>
+<div class="eqn"><span>ΣF</span><span>=</span><button class="slot" data-k="a" aria-label="משבצת לכוח של דנה"></button><span>+</span><button class="slot" data-k="b" aria-label="משבצת לכוח של יואב"></button><span>=</span><button class="slot" data-k="r" aria-label="משבצת לתוצאה"></button><button class="slot u" data-k="u" aria-label="משבצת ליחידה"></button></div>
+<div class="tray"><button class="tile" data-v="+4">+4</button><button class="tile" data-v="-4">−4</button><button class="tile" data-v="+2">+2</button><button class="tile" data-v="-2">−2</button><button class="tile" data-v="+6">+6</button><button class="tile" data-v="-6">−6</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button><button class="tile unit" data-v="m">m</button></div>
+</div>
+<p class="narr" id="s1n" hidden></p>
+<div class="row"><button class="btn primary" id="s1c">בדיקה</button><button class="btn" id="s1d">הצבה צעד אחר צעד</button></div>
+<div id="s1fb" hidden></div>
+</div>
+</div>
+</section>
+
+<section class="station" id="st2">
+<span class="tag">תחנה 2 · ספר על שולחן</span>
+<h2>אילו כוחות פועלים על הספר?</h2>
+<div class="cols">
+<div class="scene">
+<div class="stage drag"><svg id="s2" viewBox="0 0 600 470" role="img" aria-label="ספר על שולחן ומגש של חצים לגרירה"></svg></div>
+</div>
+<div class="work">
+<ol class="task"><li>גררו אל נקודת המגע בין הספר לשולחן רק את החצים של כוחות שפועלים <b>על הספר</b>. אפשר גם להקיש על חץ.</li><li>לחצו "בדיקה".</li></ol>
+<div class="row"><button class="btn primary" id="s2c">בדיקה</button><button class="btn ghost" id="s2r">התחלה מחדש</button></div>
+<div id="s2fb" hidden></div>
+<div id="s2q" hidden class="bench">
+<p class="q">משיכת כדור הארץ ודחיפת השולחן שוות ומנוגדות. האם הן זוג פעולה ותגובה?</p>
+<div class="row" id="s2qa"></div>
+<div id="s2qfb" hidden></div>
+</div>
+</div>
+</div>
+</section>
+
+<section class="station" id="st3">
+<span class="tag">תחנה 3 · החוק השלישי</span>
+<h2>שני גופים במגע</h2>
+<div class="cols">
+<div class="scene">
+<p class="story">גוף 1 מחליק ונתקל בגוף 2. צפו מה קורה ברגע המגע.</p>
+<div class="stage"><svg id="s4" viewBox="0 0 600 240" role="img" aria-label="גוף 1 נתקל בגוף 2, וכוחות פועלים במשטח המגע"></svg></div>
+<button class="btn primary" id="s4p">הפעלה</button>
+</div>
+<div class="work">
+<ol class="task"><li>לחצו "הפעלה" וצפו איך המספרים 1 ו־2 נכנסים לסימון.</li><li>ענו על שתי השאלות.</li></ol>
+<div class="bench who" id="s4w">
+<p id="s4l1" class="dim"><span class="m cf" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i1a">?</b>,<b class="ix" id="i1b">?</b></sub></span> &nbsp;החץ הכחול: <b>מי מפעיל?</b> גוף 1. <b>על מי?</b> גוף 2.</p>
+<p id="s4l2" class="dim"><span class="m co" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i2a">?</b>,<b class="ix" id="i2b">?</b></sub></span> &nbsp;החץ האדום: <b>מי מפעיל?</b> גוף 2. <b>על מי?</b> גוף 1.</p>
+<div class="steps"><div class="eqn" id="s4e"><span class="cf"><span class="vec">F</span><sub>1,2</sub></span><span>=</span><span class="co">−<span class="vec">F</span><sub>2,1</sub></span></div></div>
+<p class="rule">המספר הראשון: מי מפעיל. המספר השני: על מי הכוח פועל.</p>
+</div>
+<div class="row"><span class="lbl">על מי פועל <span class="m">F<sub>2,1</sub></span>?</span><div class="row" id="s4qa"></div></div>
+<div class="row"><span class="lbl">גודלו לעומת <span class="m">F<sub>1,2</sub></span></span><div class="row" id="s4qb"></div></div>
+<div id="s4fb" hidden></div>
+</div>
+</div>
+</section>
+
+<section class="station" id="st4">
+<span class="tag">תחנה 4 · זוג פעולה ותגובה</span>
+<h2>כדור פוגע באדם</h2>
+<div class="cols">
+<div class="scene">
+<p class="story">הכדור פוגע ביד של האדם. הגוף שפוגע הוא גוף 1.</p>
+<div class="stage"><svg id="s5" viewBox="0 0 600 330" role="img" aria-label="כדור פוגע ביד של אדם, וכוחות ברגע המגע"></svg></div>
+<div class="row"><button class="btn primary" id="s5p">הפעלה</button><button class="btn" id="s5go" disabled>המשך ההנפשה</button></div>
+</div>
+<div class="work">
+<ol class="task"><li>לחצו "הפעלה". ברגע המגע ההנפשה נעצרת.</li><li>גררו "גוף 1" ו"גוף 2" אל העצמים, ואת הסימונים אל החצים.</li><li>"בדיקה", ואז "המשך ההנפשה".</li></ol>
+<div class="bench" id="b5">
+<div class="tray"><button class="tile idt" data-v="1">גוף 1</button><button class="tile idt" data-v="2">גוף 2</button><button class="tile" data-v="F12"><span class="vec">F</span><sub>1,2</sub></button><button class="tile" data-v="F21"><span class="vec">F</span><sub>2,1</sub></button></div>
+</div>
+<button class="btn primary" id="s5c">בדיקה</button>
+<div id="s5fb" hidden></div>
+</div>
+</div>
+</section>
+
+<section class="station" id="st5">
+<span class="tag">תחנה 5 · כלל המקבילית</span>
+<h2>שני חוטים וסירה אחת</h2>
+<div class="cols">
+<div class="scene">
+<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. גררו את העיגול הצהוב או הזיזו את המחוון.</p>
+<div class="stage drag"><svg id="s6" viewBox="0 0 600 380" role="img" aria-label="סירה, שני כוחות והכוח השקול לפי כלל המקבילית"></svg></div>
+<label for="s6a" class="q">הזווית בין החוטים</label>
+<input type="range" id="s6a" min="0" max="180" step="1" value="60">
+<div class="read"><div>זווית<b id="s6ra">60°</b></div><div class="n">כוח שקול<b id="s6rm">5.29 N</b></div></div>
+<p id="s6n" class="foot"></p>
+<div class="row" id="s6m"></div>
+</div>
+<div class="work">
+<ol class="task"><li>מצאו במחוון את ארבע המשימות.</li><li>לחצו "בניית המקבילית" וצפו.</li><li>"חישוב בזווית ישרה": כל משתנה מסומן לחוד ואז מוצב. לחצו "שלב הבא" בקצב שלכם.</li></ol>
+<div class="row"><button class="btn" id="s6b">בניית המקבילית</button><button class="btn primary" id="s6y">חישוב בזווית ישרה</button></div>
+<div class="bench" id="s6calc">
+<div class="eqn sym"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><span id="q1">F<sub>1</sub></span><sup>2</sup></span><span>+</span><span class="pw"><span id="q2">F<sub>2</sub></span><sup>2</sup></span><span>)</span></div>
+<div class="steps">
+<div class="eqn" id="py1"><span>=</span><span>√(</span><span class="pw"><span class="slot filled" id="pa">&nbsp;</span><sup>2</sup></span><span>+</span><span class="pw"><span class="slot filled" id="pb">&nbsp;</span><sup>2</sup></span><span>)</span></div>
+<div class="eqn" id="py2"><span>=</span><span>√(16 + 4)</span></div>
+<div class="eqn" id="py3"><span>=</span><span>√20</span></div>
+<div class="eqn" id="py4"><span class="cn">≈ 4.47 N</span></div>
+</div>
+<p class="narr" id="s6t" hidden></p>
+</div>
+<div class="bench" id="b6">
+<p class="q">תורכם: 3N ו־4N בזווית ישרה.</p>
+<div class="eqn"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><button class="slot" data-k="a" aria-label="כוח ראשון"></button><sup>2</sup></span><span>+</span><span class="pw"><button class="slot" data-k="b" aria-label="כוח שני"></button><sup>2</sup></span><span>)</span><span>=</span><button class="slot" data-k="r" aria-label="תוצאה"></button><button class="slot u" data-k="u" aria-label="יחידה"></button></div>
+<div class="tray"><button class="tile" data-v="3">3</button><button class="tile" data-v="4">4</button><button class="tile" data-v="5">5</button><button class="tile" data-v="7">7</button><button class="tile" data-v="12">12</button><button class="tile" data-v="25">25</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button></div>
+</div>
+<button class="btn primary" id="s6c">בדיקה</button>
+<div id="s6fb" hidden></div>
+</div>
+</div>
+</section>
+
+<section class="station" id="st6">
+<span class="tag">תחנה 6 · חידות</span>
+<h2>חושבים לפני שעונים</h2>
+<p class="foot">אין ניקוד. אחרי כל בחירה מופיע הסבר.</p>
+<div id="s7"></div>
+</section>
+
+<p class="foot">הדף תואם למצגת "כוחות וכוח שקול": אותם צבעים, אותם סימונים ואותן דוגמאות.</p>
+</div>
+<script>
+/* CONTENT: mirrors the teacher deck. Change numbers, stories and riddles here when the deck changes. */
+const C={F1:4,F2:2,W:10,LIFT:{rest:0,up:2,down:-2},
+riddles:[
+{q:'ספר מונח במנוחה על שולחן. כדור הארץ מושך אותו מטה, והשולחן דוחף אותו מעלה באותו גודל. האם אלה זוג פעולה ותגובה?',o:['כן, כי הם שווים ומנוגדים','לא, כי שניהם פועלים על הספר','כן, כי הספר במנוחה'],a:1,why:['שוויון וכיוון הפוך אינם מספיקים. בדקו על איזה גוף פועל כל כוח.','נכון. זוג פעולה ותגובה פועל תמיד על שני גופים שונים. השוויון כאן נובע מכך שהספר במנוחה (החוק הראשון).','המנוחה מסבירה למה הם שווים (החוק הראשון), אבל לא הופכת אותם לזוג.']},
+{q:'במעלית שמאיצה למעלה השולחן דוחף את הספר ב־12N. באיזה כוח הספר לוחץ על השולחן?',o:['10N, כמו משיכת כדור הארץ','12N בדיוק','2N, ההפרש','14N'],a:1,why:['10N היא המשיכה של כדור הארץ על הספר. זו אינטראקציה אחרת.','נכון. זה זוג פעולה ותגובה, ולכן הכוחות שווים תמיד, גם בתאוצה.','2N הוא הכוח השקול על הספר, לא הכוח בין הספר לשולחן.','החוק השלישי לא מאפשר לאחד מבני הזוג להיות גדול יותר.']},
+{q:'זבוב מתנגש בשמשה של משאית נוסעת. על מי פועל כוח גדול יותר?',o:['על הזבוב','על המשאית','הכוחות שווים בגודלם'],a:2,why:['הזבוב נפגע יותר, אבל זה בגלל המסה הזעירה שלו. הכוח עצמו שווה בגודלו.','המשאית גדולה, אבל גודל הגוף אינו קובע את הכוח באינטראקציה.','נכון. לפי החוק השלישי הכוחות שווים בגודלם. התוצאה שונה כי המסות שונות.']},
+{q:'סוס מושך עגלה, והעגלה מושכת את הסוס בכוח שווה ומנוגד. למה העגלה זזה בכל זאת?',o:['כי הסוס מושך חזק יותר מהעגלה','כי שני הכוחות פועלים על גופים שונים','כי החוק השלישי לא חל על גופים בתנועה'],a:1,why:['הכוחות בין הסוס לעגלה שווים בגודלם תמיד.','נכון. על העגלה פועלים משיכת הסוס והחיכוך. הכוח שהיא מפעילה על הסוס אינו פועל עליה.','החוק השלישי חל תמיד, גם בתנועה.']},
+{q:'שני כוחות של 5N פועלים על גוף אחד. איזה כוח שקול אינו אפשרי?',o:['אפס','בערך 7N','10N','12N'],a:3,why:['אפשרי, כשהכוחות מנוגדים.','אפשרי, בזווית ישרה: שורש 50.','אפשרי, כשהכוחות באותו כיוון.','נכון. השקול לא יכול להיות גדול מסכום הגדלים, 10N.']},
+{q:'על גוף פועלים כוח של 4N שמאלה וכוח של 2N ימינה. מהו הכוח השקול?',o:['6N שמאלה','2N ימינה','2N שמאלה','גודל שלילי: מינוס 2N'],a:2,why:['מחברים גדלים רק כשהכוחות באותו כיוון.','הגודל נכון, אבל השקול פונה לכיוון הכוח הגדול יותר.','נכון. הרכיב הוא −4 + 2 = −2. הסימן אומר שמאלה, והגודל 2N.','הסימן השלילי מתאר כיוון. גודל של כוח אינו שלילי.']}
+]};
+
+/* ---------- engine ---------- */
+const NS='http://www.w3.org/2000/svg',$=id=>document.getElementById(id);
+const RM=matchMedia('(prefers-reduced-motion: reduce)').matches;
+const sleep=ms=>new Promise(r=>setTimeout(r,RM?0:ms));
+function tween(ms,fn){return new Promise(res=>{if(RM||ms<=0){fn(1,1);res();return}const t0=performance.now();function f(n){const k=Math.min(1,(n-t0)/ms),e=k<.5?2*k*k:1-Math.pow(-2*k+2,2)/2;fn(e,k);k<1?requestAnimationFrame(f):res()}requestAnimationFrame(f)})}
+function el(tag,a,p){const e=document.createElementNS(NS,tag);for(const k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e;}
+function txt(p,x,y,s,cls,anchor){const t=el('text',{x,y,class:cls||'t','text-anchor':anchor||'middle',direction:'ltr'},p);t.textContent=s;return t;}
+function htx(p,x,y,s,cls){const t=el('text',{x,y,class:cls||'th','text-anchor':'middle',direction:'rtl'},p);t.textContent=s;return t;}
+function flab(p,x,y,sub,rest,cls,anchor){const t=el('text',{x,y,class:'t '+(cls||''),'text-anchor':anchor||'middle',direction:'ltr'},p);t.appendChild(document.createTextNode('F'));const s=el('tspan',{dy:7,'font-size':'17'},t);s.textContent=sub;const r=el('tspan',{dy:-7},t);r.textContent=rest;return t;}
+function grid(svg,id,w,h){const d=el('defs',{},svg),pt=el('pattern',{id,width:40,height:40,patternUnits:'userSpaceOnUse'},d);el('path',{d:'M40 0H0V40',fill:'none',class:'gridl'},pt);el('rect',{width:w,height:h,fill:`url(#${id})`},svg);}
+function Arrow(p,cls,w){const g=el('g',{class:'arr '+cls},p),ln=el('line',{'stroke-width':w||7},g),hd=el('polygon',{},g);const o={g,
+ set(x1,y1,x2,y2){const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy);g.style.display=L<3?'none':'';if(L<3)return o;const ux=dx/L,uy=dy/L,h=Math.min(22,L*.6);ln.setAttribute('x1',x1);ln.setAttribute('y1',y1);ln.setAttribute('x2',x2-ux*h*.8);ln.setAttribute('y2',y2-uy*h*.8);hd.setAttribute('points',`${x2},${y2} ${x2-ux*h-uy*h*.5},${y2-uy*h+ux*h*.5} ${x2-ux*h+uy*h*.5},${y2-uy*h-ux*h*.5}`);return o},
+ hide(){g.style.display='none';return o},cls(c){g.setAttribute('class','arr '+c);return o},
+ grow(x1,y1,x2,y2,ms){return tween(ms||600,k=>o.set(x1,y1,x1+(x2-x1)*k,y1+(y2-y1)*k))}};o.hide();return o;}
+function say(box,ok,html){box.hidden=false;box.className='fb '+(ok?'ok':'no');box.innerHTML=ok?html.replace(/^(נכון|מדויק)\.\s*/,''):html.replace(/^לא נכון\.\s*/,'');}
+function pt(svg,e){const m=svg.getScreenCTM();return m?new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()):{x:0,y:0};}
+const fmt=v=>String(v).replace('-','−');
+const sg=v=>(v<0?'−':'+')+Math.abs(v);
+const ss=v=>(v>0?'+':'')+v;
+async function fly(from,to,html,ms){if(RM)return;const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();const d=document.createElement('div');d.className='fly';d.innerHTML=html;document.body.appendChild(d);const w=d.offsetWidth,h=d.offsetHeight,ax=a.left+a.width/2-w/2,ay=a.top+a.height/2-h/2,bx=b.left+b.width/2-w/2,by=b.top+b.height/2-h/2;
+ await tween(ms||950,k=>{const x=ax+(bx-ax)*k,y=ay+(by-ay)*k-Math.sin(Math.PI*k)*70;d.style.transform=`translate(${x}px,${y}px) scale(${1+.3*Math.sin(Math.PI*k)})`});d.remove();}
+function pulse(e){e.classList.add('pop');setTimeout(()=>e.classList.remove('pop'),280);}
+function glow(list,on){list.forEach(e=>e&&e.classList.toggle('glow',on))}
+function choice(box,items,onpick){const bs=items.map((it,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=it;b.setAttribute('aria-pressed','false');b.onclick=()=>{bs.forEach(o=>{o.classList.remove('on');o.setAttribute('aria-pressed','false')});b.classList.add('on');b.setAttribute('aria-pressed','true');onpick(i)};box.appendChild(b);return b});return bs;}
+/* A step-by-step player: each click on the button runs one step. */
+function Stepper(btn,label,list,before){let i=-1,busy=false;const reset=()=>{i=-1;btn.textContent=label};
+ btn.addEventListener('click',async()=>{if(busy)return;busy=true;try{if(i===-1&&before)await before();i++;await list[i]();if(i>=list.length-1)reset();else btn.textContent=`שלב הבא (${i+2} מתוך ${list.length})`}finally{busy=false}});return{reset};}
+
+/* Tiles and slots: drag a tile onto a slot, or tap a tile and then a slot. Tapping a filled slot empties it. */
+const SHOW={F12:'<span class="vec">F</span><sub>1,2</sub>',F21:'<span class="vec">F</span><sub>2,1</sub>'};
+function setSlot(s,v){s.dataset.v=v||'';s.classList.remove('ok','bad');s.classList.toggle('filled',!!v);
+ if(s instanceof SVGElement){const t=s.querySelector('text');t.textContent='';t.setAttribute('class',/^[12]$/.test(v)?'he':'');if(!v){t.textContent='?';}else if(/^[12]$/.test(v)){t.setAttribute('direction','rtl');t.textContent='גוף '+v}else if(v==='F12'||v==='F21'){t.setAttribute('direction','ltr');t.appendChild(document.createTextNode('F'));const sub=el('tspan',{dy:7,'font-size':'16'},t);sub.textContent=v==='F12'?'1,2':'2,1';}}
+ else s.innerHTML=v?(SHOW[v]||fmt(v)):'&nbsp;';}
+function DnD(root,onchange){let sel=null,drag=null;const slots=()=>[...root.querySelectorAll('.slot'),...(root._extra||[]).flatMap(x=>[...x.querySelectorAll('.slot')])];
+ const clearSel=()=>{if(sel)sel.classList.remove('sel');sel=null;root.classList.remove('picking');(root._extra||[]).forEach(x=>x.classList.remove('picking'))};
+ const pick=t=>{clearSel();sel=t;t.classList.add('sel');root.classList.add('picking');(root._extra||[]).forEach(x=>x.classList.add('picking'))};
+ function slotAt(x,y){const e=document.elementFromPoint(x,y),s=e&&e.closest&&e.closest('.slot');return s&&slots().includes(s)?s:null}
+ function put(t,s){setSlot(s,t.dataset.v);if(!(s instanceof SVGElement))pulse(s);onchange&&onchange(s)}
+ root.addEventListener('pointerdown',e=>{const t=e.target.closest('.tile');if(!t||!root.contains(t))return;e.preventDefault();try{t.setPointerCapture(e.pointerId)}catch(_){}drag={t,x:e.clientX,y:e.clientY,g:null}});
+ root.addEventListener('pointermove',e=>{if(!drag)return;if(!drag.g&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>8){drag.g=drag.t.cloneNode(true);drag.g.classList.add('dragging');drag.g.classList.remove('sel');document.body.appendChild(drag.g)}if(drag.g)drag.g.style.transform=`translate(${e.clientX-drag.g.offsetWidth/2}px,${e.clientY-drag.g.offsetHeight/2}px)`});
+ root.addEventListener('pointerup',e=>{if(!drag)return;const{t,g}=drag;drag=null;if(g){g.remove();const s=slotAt(e.clientX,e.clientY);if(s){put(t,s);clearSel()}}else sel===t?clearSel():pick(t)});
+ root.addEventListener('pointercancel',()=>{if(drag&&drag.g)drag.g.remove();drag=null});
+ root.addEventListener('click',e=>{const t=e.target.closest('.tile');if(t&&e.detail===0){sel===t?clearSel():pick(t)}});
+ const onSlot=s=>{if(sel){put(sel,s);clearSel()}else if(s.dataset.v){setSlot(s,'');onchange&&onchange(s)}};
+ const bind=r=>{r.addEventListener('click',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&slots().includes(s))onSlot(s)});r.addEventListener('keydown',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&s instanceof SVGElement&&(e.key==='Enter'||e.key===' ')){e.preventDefault();onSlot(s)}})};
+ bind(root);return{extra(x){root._extra=(root._extra||[]).concat(x);bind(x)},clear(){slots().forEach(s=>setSlot(s,''))}};}
+function svgSlot(p,x,y,w,h,k,label){const g=el('g',{class:'slot svgslot',tabindex:0,role:'button','data-k':k,'aria-label':label},p);el('rect',{x,y,width:w,height:h,rx:10},g);el('text',{x:x+w/2,y:y+h/2+8,'text-anchor':'middle'},g);setSlot(g,'');return g;}
+
+/* ---------- Station 1: one axis ---------- */
+(function(){const svg=$('s1'),U=30,S={d1:1,d2:1,busy:false};grid(svg,'g1',600,270);
+el('line',{x1:20,y1:192,x2:580,y2:192,class:'floor'},svg);
+const body=el('g',{},svg);el('rect',{x:255,y:100,width:90,height:90,rx:8,class:'wood'},body);txt(body,300,158,'K','big');
+const a1=Arrow(body,'f'),a2=Arrow(body,'f'),an=Arrow(body,'n',10);let l1,l2,ln;
+const ends=()=>{const x1=S.d1>0?349:251,x2=S.d2>0?349:251;return{x1,t1:x1+S.d1*C.F1*U,x2,t2:x2+S.d2*C.F2*U,net:S.d1*C.F1+S.d2*C.F2,A:S.d1*C.F1,B:S.d2*C.F2}};
+function labels(){[l1,l2,ln].forEach(l=>l&&l.remove());const E=ends();
+ l1=flab(body,(E.x1+E.t1)/2,108,'1',' = 4 N','f');l2=flab(body,E.t2+S.d2*10,170,'2',' = 2 N',S.d1===S.d2?'f':'o',S.d2>0?'start':'end');
+ a2.cls(S.d1===S.d2?'f':'o');ln=flab(body,300+E.net*U/2,258,'',' ','n');ln.style.display='none';}
+function full(){const E=ends();a1.set(E.x1,120,E.t1,120);a2.set(E.x2,162,E.t2,162);an.hide();labels();body.setAttribute('transform','');}
+const B=$('b1'),dnd=DnD(B,()=>{$('s1fb').hidden=true});const sl=k=>B.querySelector(`.slot[data-k="${k}"]`),n1=$('s1n');
+const clearHL=()=>{glow([a1.g,a2.g,l1,l2],false);$('y1').classList.remove('hl');$('y2').classList.remove('hl')};
+let st;function flip(i){if(S.busy)return;S['d'+i]*=-1;full();clearHL();st.reset();n1.hidden=true;$('s1fb').hidden=true;B.querySelectorAll('.slot').forEach(s=>s.classList.remove('ok','bad'))}
+$('s1f1').onclick=()=>flip(1);$('s1f2').onclick=()=>flip(2);
+const dirw=d=>d>0?'ימינה':'שמאלה';
+st=Stepper($('s1d'),'הצבה צעד אחר צעד',[
+ async()=>{const E=ends();glow([a1.g,l1],true);$('y1').classList.add('hl');n1.innerHTML=`שלב 1: מסמנים את <span class="m">F<sub>1</sub></span>, הכוח של דנה. גודלו 4N, וכיוונו ${dirw(S.d1)}.`},
+ async()=>{const E=ends();n1.innerHTML=`שלב 2: מציבים. ${dirw(S.d1)}, ולכן ${S.d1>0?'פלוס':'מינוס'}: <span class="m">${sg(E.A)}</span>.`;await fly(l1,sl('a'),sg(E.A));setSlot(sl('a'),ss(E.A));pulse(sl('a'));clearHL()},
+ async()=>{glow([a2.g,l2],true);$('y2').classList.add('hl');n1.innerHTML=`שלב 3: מסמנים את <span class="m">F<sub>2</sub></span>, הכוח של יואב. גודלו 2N, וכיוונו ${dirw(S.d2)}.`},
+ async()=>{const E=ends();n1.innerHTML=`שלב 4: מציבים. ${dirw(S.d2)}, ולכן ${S.d2>0?'פלוס':'מינוס'}: <span class="m">${sg(E.B)}</span>.`;await fly(l2,sl('b'),sg(E.B));setSlot(sl('b'),ss(E.B));pulse(sl('b'));clearHL()},
+ async()=>{const E=ends();n1.innerHTML=`שלב 5: מחברים עם הסימנים: <span class="m">(${sg(E.A)}) + (${sg(E.B)}) = ${sg(E.net)}</span>.`;setSlot(sl('r'),ss(E.net));pulse(sl('r'))},
+ async()=>{n1.innerHTML='שלב 6: מוסיפים יחידה. כוח מודדים בניוטון, N.';await fly(l1,sl('u'),'N',700);setSlot(sl('u'),'N');pulse(sl('u'));const E=ends();say($('s1fb'),true,`זו ההצבה המלאה. התוצאה <span class="m">${sg(E.net)} N</span>: גודל ${Math.abs(E.net)}N, כיוון ${dirw(Math.sign(E.net))}. עכשיו נסו לבד אחרי שתהפכו כיוון.`)}
+],async()=>{full();dnd.clear();clearHL();n1.hidden=false;$('s1fb').hidden=true});
+$('s1c').onclick=()=>{const fb=$('s1fb'),v=k=>sl(k).dataset.v,E=ends();
+ if(!v('a')||!v('b')||!v('r')||!v('u'))return say(fb,false,'השלימו את כל המשבצות: שני כוחות, תוצאה ויחידה.');
+ const a=+v('a'),b=+v('b'),pair=(a===E.A&&b===E.B)||(a===E.B&&b===E.A);const mark=(k,ok)=>sl(k).classList.add(ok?'ok':'bad');
+ if(!pair){mark('a',a===E.A||a===E.B);mark('b',b===E.B||b===E.A);
+  if(Math.abs(a)+Math.abs(b)!==6||Math.abs(a)===Math.abs(b))return say(fb,false,'בכל משבצת מציבים את גודל הכוח: 4 של דנה ו־2 של יואב.');
+  const bad4=Math.abs(a)===4?Math.sign(a)!==Math.sign(E.A):Math.sign(b)!==Math.sign(E.A);const who=bad4?'של דנה':'של יואב',d=bad4?S.d1:S.d2;
+  return say(fb,false,`בדקו את הסימן של הכוח ${who}. הוא פונה ${d>0?'ימינה, ולכן הסימן חיובי':'שמאלה, ולכן הסימן שלילי'}.`);}
+ mark('a',true);mark('b',true);
+ if(+v('r')!==E.net){mark('r',false);return say(fb,false,`חברו את המספרים יחד עם הסימנים: <span class="m">(${sg(E.A)}) + (${sg(E.B)})</span>.`);}
+ mark('r',true);
+ if(v('u')!=='N'){mark('u',false);return say(fb,false,v('u')==='kg'?'ק״ג היא יחידה של מסה. כוח מודדים בניוטון, N.':'מטר היא יחידה של אורך. כוח מודדים בניוטון, N.');}
+ mark('u',true);say(fb,true,`מדויק. <span class="m">ΣF = ${sg(E.net)} N</span>: גודל השקול ${Math.abs(E.net)}N, וכיוונו ${dirw(Math.sign(E.net))}. לחצו "הפעלה" וראו לאן הארגז יזוז.`)};
+$('s1r').onclick=async()=>{if(S.busy)return;S.busy=true;clearHL();const E=ends();a1.hide();a2.hide();an.hide();labels();l1.style.opacity=0;l2.style.opacity=0;body.setAttribute('transform','');
+ await a1.grow(E.x1,120,E.t1,120,550);l1.style.opacity=1;await a2.grow(E.x2,162,E.t2,162,450);l2.style.opacity=1;await sleep(200);
+ await an.grow(300,226,300+E.net*U,226,650);ln.style.display='';ln.textContent='ΣF = '+Math.abs(E.net)+' N';
+ await sleep(350);const dir=Math.sign(E.net);await tween(1500,(k,raw)=>body.setAttribute('transform',`translate(${dir*raw*raw*Math.min(1,Math.abs(E.net)/6)*60},0)`));
+ say($('s1fb'),true,`הארגז זז ${dirw(dir)}, לכיוון הכוח השקול, ומהירותו גדלה כל הזמן.`);S.busy=false};
+full();})();
+
+/* ---------- Station 2: the book on the table, arrows from the contact point ---------- */
+(function(){const svg=$('s2'),BC={x:300,y:182},defs=[['ul',0,-90,70,430],['us',0,-45,150,430],['dl',0,90,230,330],['ds',0,45,310,330],['r',90,0,380,380],['l',-90,0,580,430]];grid(svg,'g2',600,470);
+const table=el('g',{},svg);el('rect',{x:60,y:182,width:480,height:16,rx:6,class:'wood'},table);el('rect',{x:90,y:198,width:14,height:60,class:'wood'},table);el('rect',{x:520,y:198,width:14,height:60,class:'wood'},table);
+const book=el('g',{},svg);el('rect',{x:220,y:120,width:160,height:62,rx:6,class:'bookf'},book);el('rect',{x:228,y:128,width:144,height:46,rx:3,fill:'#FBFAF4'},book);const bt=htx(book,300,160,'ספר');bt.setAttribute('class','th');
+const tray=el('g',{},svg);el('rect',{x:20,y:300,width:560,height:150,rx:14,fill:'none',class:'dash'},tray);htx(tray,512,292,'מגש החצים');
+const lay=el('g',{},svg),post=el('g',{},svg);
+const toks=defs.map(d=>{const t={dx:d[1],dy:d[2],hx:d[3],hy:d[4],x:d[3],y:d[4],on:false};t.g=el('g',{class:'tok',tabindex:0,role:'button','aria-label':'חץ '+(d[2]<0?'למעלה':d[2]>0?'למטה':d[1]>0?'ימינה':'שמאלה')+(Math.abs(d[1]+d[2])<60?' קצר':' ארוך')},lay);const a=Arrow(t.g,'k');a.set(0,0,t.dx,t.dy);el('line',{x1:0,y1:0,x2:t.dx,y2:t.dy,class:'hit'},t.g);place(t);
+ let st=null;t.g.addEventListener('pointerdown',e=>{if(done)return;const p=pt(svg,e);st={px:p.x,py:p.y,ox:t.x,oy:t.y,mv:0};t.g.setPointerCapture(e.pointerId);lay.appendChild(t.g);e.preventDefault()});
+ t.g.addEventListener('pointermove',e=>{if(!st)return;const p=pt(svg,e);t.x=st.ox+p.x-st.px;t.y=st.oy+p.y-st.py;st.mv=Math.max(st.mv,Math.hypot(p.x-st.px,p.y-st.py));place(t)});
+ const up=()=>{if(!st)return;if(st.mv<6)t.on=!t.on;else t.on=Math.hypot(t.x-BC.x,t.y-BC.y)<70;st=null;snap(t)};t.g.addEventListener('pointerup',up);t.g.addEventListener('pointercancel',up);
+ t.g.addEventListener('keydown',e=>{if(done)return;if(e.key==='Enter'||e.key===' '){e.preventDefault();t.on=!t.on;snap(t)}});return t});
+let done=false;
+function place(t){t.g.setAttribute('transform',`translate(${t.x},${t.y})`)}
+function snap(t){const x0=t.x,y0=t.y,x1=t.on?BC.x:t.hx,y1=t.on?BC.y:t.hy;tween(220,k=>{t.x=x0+(x1-x0)*k;t.y=y0+(y1-y0)*k;place(t)});t.g.classList.toggle('placed',t.on);$('s2fb').hidden=true}
+function lbl(x,y,lines,cls){lines.forEach((s,i)=>{i===lines.length-1&&/N$/.test(s)?txt(post,x,y+i*26,s,'lb '+cls):htx(post,x,y+i*26,s,'lb '+cls)})}
+async function solved(){done=true;lay.style.display='none';
+ await tween(500,k=>tray.setAttribute('opacity',1-k));
+ const g=Arrow(post,'f',7),n=Arrow(post,'o',7);await Promise.all([g.grow(300,182,300,252,500),n.grow(300,182,300,112,500)]);
+ el('circle',{cx:300,cy:182,r:7,fill:'var(--hl-line)',stroke:'var(--ink)','stroke-width':2},post);
+ lbl(185,226,['כדור הארץ מושך','את הספר מטה','10 N'],'f');lbl(470,60,['השולחן דוחף','את הספר מעלה','10 N'],'o');$('s2q').hidden=false}
+$('s2r').onclick=()=>{done=false;$('s2q').hidden=true;$('s2qfb').hidden=true;post.innerHTML='';lay.style.display='';tray.setAttribute('opacity',1);toks.forEach(t=>{t.on=false;snap(t)});$('s2fb').hidden=true};
+$('s2c').onclick=async()=>{const fb=$('s2fb');if(done)return;const on=toks.filter(t=>t.on),ups=on.filter(t=>t.dy<0),dn=on.filter(t=>t.dy>0);
+ if(!on.length)return say(fb,false,'עדיין אין חצים על הספר. גררו חצים אל נקודת המגע בין הספר לשולחן.');
+ if(on.some(t=>t.dx))return say(fb,false,'אף אחד לא דוחף את הספר הצידה, ולכן אין עליו כוח אופקי.');
+ if(!dn.length)return say(fb,false,'חסרה משיכת כדור הארץ. כדור הארץ מושך כל גוף כלפי מטה, גם את הספר.');
+ if(!ups.length)return say(fb,false,'אם רק כדור הארץ היה מושך, הספר היה נופל. מי מחזיק אותו במקום?');
+ if(ups.length>1||dn.length>1)return say(fb,false,'מספיק חץ אחד לכל כוח: אחד למשיכה ואחד לדחיפה.');
+ if(Math.abs(ups[0].dy)!==Math.abs(dn[0].dy))return say(fb,false,'הספר במנוחה, ולכן הכוחות עליו מאזנים זה את זה. שני החצים צריכים להיות שווים באורכם.');
+ say(fb,true,'מדויק. על הספר פועלים שני כוחות: <b>כדור הארץ מושך את הספר מטה</b>, ו<b>השולחן דוחף את הספר מעלה</b>.<br>הם שווים כי הספר במנוחה, והשקול עליו אפס. זה <b>החוק הראשון</b>, לא השלישי.');await solved()};
+choice($('s2qa'),['כן, כי הן שוות ומנוגדות','לא, כי שתיהן פועלות על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שתיהן פועלות על אותו גוף, ולכן הן לא זוג. הן שוות רק כי הספר במנוחה.'):say(f,false,'שוויון וכיוון הפוך אינם מספיקים. בדקו על איזה גוף פועל כל כוח: שתיהן פועלות על הספר.')});})();
+
+/* ---------- Station 4: contact, third law, reading the indices ---------- */
+(function(){const svg=$('s4'),S={busy:false};grid(svg,'g4',600,240);el('line',{x1:10,y1:202,x2:590,y2:202,class:'floor'},svg);
+const b1=el('g',{},svg);el('rect',{x:-100,y:110,width:100,height:90,rx:8,class:'wood'},b1);const n1=txt(b1,-50,168,'1','big');
+const b2=el('g',{},svg);el('rect',{x:300,y:110,width:100,height:90,rx:8,class:'metal'},b2);const n2=txt(b2,350,168,'2','big');
+const cl=el('line',{x1:300,y1:100,x2:300,y2:206,stroke:'var(--hl-line)','stroke-width':8,'stroke-linecap':'round',opacity:0},svg);
+const ab=Arrow(svg,'f',8),ar=Arrow(svg,'o',8),cap=htx(svg,300,40,'');
+const vb=txt(svg,470,128,'6 N','t f'),vr=txt(svg,130,170,'6 N','t o');
+const vis=v=>{vb.style.display=vr.style.display=v?'':'none'};vis(false);
+const at1=x=>b1.setAttribute('transform',`translate(${x},0)`),at2=x=>b2.setAttribute('transform',`translate(${x},0)`);
+function contactFrame(){at1(300);at2(0);cl.setAttribute('opacity',1);ab.set(304,136,434,136);ar.set(296,176,166,176);vis(true);cap.textContent='רגע המגע';}
+function resetIdx(){['i1a','i1b','i2a','i2b'].forEach(i=>$(i).textContent='?');['s4l1','s4l2'].forEach(i=>$(i).classList.remove('show'));$('s4e').classList.remove('show')}
+async function idx(src,dst,d){await fly(src,$(dst),d,800);$(dst).textContent=d;pulse($(dst))}
+$('s4p').onclick=async()=>{if(S.busy)return;S.busy=true;resetIdx();ab.hide();ar.hide();vis(false);cl.setAttribute('opacity',0);at2(0);cap.textContent='גוף 1 מחליק ימינה';
+ await tween(1100,(k,raw)=>at1(110+190*raw));cap.textContent='רגע המגע';
+ await tween(250,k=>cl.setAttribute('opacity',k));
+ await Promise.all([ab.grow(304,136,434,136,600),ar.grow(296,176,166,176,600)]);vis(true);
+ $('s4l1').classList.add('show');await idx(n1,'i1a','1');await idx(n2,'i1b','2');await sleep(250);
+ $('s4l2').classList.add('show');await idx(n2,'i2a','2');await idx(n1,'i2b','1');await sleep(250);
+ $('s4e').classList.add('show');await sleep(1300);
+ cap.textContent='הכוחות קיימים רק בזמן המגע';ab.hide();ar.hide();vis(false);cl.setAttribute('opacity',0);
+ await tween(1300,k=>at2(170*k));await sleep(1600);
+ contactFrame();S.busy=false};
+at1(110);
+const fb=$('s4fb');let qa=null,qb=null;const chk=()=>{if(qa==null||qb==null)return;
+ if(qa!==0)return say(fb,false,'<span class="m">F<sub>2,1</sub></span> הוא הכוח שגוף 2 מפעיל. על מי? המספר השני אומר: על גוף 1.');
+ if(qb!==1)return say(fb,false,'באינטראקציה שני הכוחות שווים בגודלם תמיד, גם אם אחד הגופים כבד יותר.');
+ say(fb,true,'נכון. <span class="m">F<sub>2,1</sub></span> פועל על גוף 1, ושווה בגודלו ל־<span class="m">F<sub>1,2</sub></span>. הכוחות פועלים על גופים שונים, ולכן אינם מתבטלים.')};
+choice($('s4qa'),['על גוף 1','על גוף 2'],i=>{qa=i;chk()});choice($('s4qb'),['קטן יותר','שווה','גדול יותר'],i=>{qb=i;chk()});})();
+
+/* ---------- Station 5: ball hits a person ---------- */
+(function(){const svg=$('s5'),S={busy:false,frozen:false};grid(svg,'g5',600,330);el('line',{x1:10,y1:312,x2:590,y2:312,class:'floor'},svg);
+const per=el('g',{},svg);
+el('path',{d:'M425 238 L415 306 M455 238 L465 306',stroke:'var(--ink)','stroke-width':22,'stroke-linecap':'round'},per);
+el('rect',{x:408,y:126,width:64,height:120,rx:26,fill:'var(--shirt)',stroke:'var(--ink)','stroke-width':3},per);
+el('circle',{cx:440,cy:92,r:30,fill:'var(--skin)',stroke:'var(--ink)','stroke-width':3},per);
+el('path',{d:'M418 150 L388 172',stroke:'var(--shirt)','stroke-width':18,'stroke-linecap':'round'},per);
+el('circle',{cx:384,cy:174,r:10,fill:'var(--skin)',stroke:'var(--ink)','stroke-width':3},per);
+const ball=el('g',{},svg);el('circle',{cx:0,cy:174,r:30,fill:'var(--ball)',stroke:'var(--wood-line)','stroke-width':3},ball);el('path',{d:'M-30 174 Q0 160 30 174 M0 144 V204',fill:'none',stroke:'var(--wood-line)','stroke-width':2.5},ball);
+const atB=x=>ball.setAttribute('transform',`translate(${x},0)`);
+const CX=344,ab=Arrow(svg,'f',8),ar=Arrow(svg,'o',8),cap=htx(svg,300,36,'');
+const vb=txt(svg,520,196,'8 N','t f'),vr=txt(svg,286,170,'8 N','t o');const vis=v=>{vb.style.display=vr.style.display=v?'':'none'};vis(false);
+const B=$('b5'),dnd=DnD(B,()=>{$('s5fb').hidden=true});const sl=el('g',{},svg);
+const sB=svgSlot(sl,288,214,112,44,'ball','מספר הגוף של הכדור'),sP=svgSlot(sl,478,254,112,44,'person','מספר הגוף של האדם'),sFb=svgSlot(sl,470,104,112,44,'blue','סימון החץ הכחול'),sFr=svgSlot(sl,150,192,112,44,'red','סימון החץ האדום');
+sl.style.display='none';dnd.extra(svg);
+const contact=()=>{atB(CX);ab.set(386,160,516,160);ar.set(374,184,244,184);vis(true);cap.textContent='רגע המגע: ההנפשה עצרה';sl.style.display=''};
+$('s5p').onclick=async()=>{if(S.busy)return;S.busy=true;S.frozen=false;$('s5go').disabled=true;$('s5fb').hidden=true;sl.style.display='none';ab.hide();ar.hide();vis(false);per.setAttribute('transform','');cap.textContent='הכדור נע ימינה';
+ await tween(1100,(k,raw)=>atB(40+(CX-40)*raw));
+ await Promise.all([ab.grow(386,160,516,160,500),ar.grow(374,184,244,184,500)]);contact();S.frozen=true;S.busy=false;$('s5go').disabled=false};
+$('s5c').onclick=()=>{const fb=$('s5fb');if(!S.frozen)return say(fb,false,'קודם לחצו "הפעלה" והגיעו לרגע המגע.');
+ const v=s=>s.dataset.v;if(!v(sB)||!v(sP)||!v(sFb)||!v(sFr))return say(fb,false,'השלימו את ארבע התוויות: שני גופים ושני חצים.');
+ if(v(sB)===v(sP))return say(fb,false,'לכל גוף מספר אחר. אחד הוא גוף 1 והשני גוף 2.');
+ if(v(sB)!=='1')return say(fb,false,'לפי הסיפור, הגוף שפוגע הוא גוף 1. מי פוגע במי?');
+ if(v(sFb)===v(sFr))return say(fb,false,'שני החצים הם שני כוחות שונים. לכל אחד סימון אחר.');
+ if(v(sFb)!=='F12')return say(fb,false,'החץ הכחול מצויר על האדם. מי מפעיל אותו? הכדור, גוף 1. על מי? על האדם, גוף 2. מה הסימון?');
+ say(fb,true,'מדויק. החץ הכחול הוא <span class="m">F<sub>1,2</sub></span>: הכדור (1) מפעיל על האדם (2). החץ האדום הוא <span class="m">F<sub>2,1</sub></span>: האדם (2) מפעיל על הכדור (1). שניהם 8N, וכל אחד פועל על גוף אחר. לחצו "המשך ההנפשה".')};
+$('s5go').onclick=async()=>{if(S.busy||!S.frozen)return;S.busy=true;sl.style.display='none';cap.textContent='הכוחות קיימים רק בזמן המגע';ab.hide();ar.hide();vis(false);
+ await Promise.all([tween(1100,(k,raw)=>atB(CX-170*Math.sqrt(raw))),tween(1100,(k,raw)=>per.setAttribute('transform',`rotate(${Math.sin(Math.PI*raw)*4} 440 306)`))]);
+ cap.textContent='הכדור הקל שינה כיוון. האדם הכבד כמעט לא זז.';S.busy=false;S.frozen=false;$('s5go').disabled=true};
+atB(40);})();
+
+/* ---------- Station 6: parallelogram and Pythagoras, one variable at a time ---------- */
+(function(){const svg=$('s6'),O={x:220,y:240},U=40,sl=$('s6a');let th=60,busy=false,K=[1,1,1];grid(svg,'g6',600,380);const g=el('g',{},svg);
+const ms=[['השקול הגדול ביותר',m=>m>5.99],['השקול הקטן ביותר',m=>m<2.01],['שקול של בערך 4.47N',(m,a)=>Math.abs(a-90)<=1],['שקול של 4N בדיוק',m=>Math.abs(m-4)<0.04]].map(x=>{const s=document.createElement('span');s.className='mission';s.textContent=x[0];$('s6m').appendChild(s);return{s,f:x[1]}});
+let L4,L2,A4,A2,HL=0;
+function draw(){g.innerHTML='';const r=th*Math.PI/180,A={x:O.x+C.F1*U,y:O.y},Bp={x:O.x+C.F2*U*Math.cos(r),y:O.y-C.F2*U*Math.sin(r)},R={x:A.x+Bp.x-O.x,y:Bp.y},m=Math.sqrt(C.F1**2+C.F2**2+2*C.F1*C.F2*Math.cos(r));
+ el('ellipse',{cx:O.x,cy:O.y,rx:50,ry:24,class:'wood'},g);
+ if(K[0]>0)el('path',{d:`M${O.x+(A.x-O.x)*K[0]} ${O.y} l${Bp.x-O.x} ${Bp.y-O.y}`,class:'dash'},g);
+ if(K[1]>0)el('path',{d:`M${O.x+(Bp.x-O.x)*K[1]} ${O.y+(Bp.y-O.y)*K[1]} l${A.x-O.x} 0`,class:'dash'},g);
+ A4=Arrow(g,'f').set(O.x,O.y,A.x,A.y);A2=Arrow(g,'f').set(O.x,O.y,Bp.x,Bp.y);
+ if(K[2]>0)Arrow(g,'n',10).set(O.x,O.y,O.x+(R.x-O.x)*K[2],O.y+(R.y-O.y)*K[2]);
+ L4=flab(g,A.x-30,A.y+34,'1',' = 4 N','f');L2=flab(g,Bp.x-26,Bp.y-20,'2',' = 2 N','f');if(K[2]>=1)txt(g,R.x+34,R.y-8,'ΣF','t n');
+ if(Math.abs(th-90)<1)el('path',{d:`M${O.x+22} ${O.y} V${O.y-22} H${O.x}`,fill:'none',stroke:'var(--ink)','stroke-width':3},g);
+ el('circle',{cx:Bp.x,cy:Bp.y,r:18,class:'handle'},g);
+ if(HL===1)glow([A4.g,L4],true);if(HL===2)glow([A2.g,L2],true);
+ $('s6ra').textContent=th+'°';$('s6rm').textContent=m.toFixed(2)+' N';
+ $('s6n').textContent=th===0?'החוטים באותו כיוון: מחברים, 4 + 2 = 6.':th===180?'החוטים בכיוונים מנוגדים: מחסרים, 4 − 2 = 2.':Math.abs(th-90)<1?'זווית ישרה: פיתגורס.':'הקווים המקווקווים משלימים מקבילית. האלכסון הירוק הוא הכוח השקול.';
+ ms.forEach(x=>{if(x.f(m,th))x.s.classList.add('done')});}
+const setTh=a=>{th=Math.max(0,Math.min(180,Math.round(a)));sl.value=th;draw()};
+sl.addEventListener('input',()=>{if(!busy){K=[1,1,1];setTh(+sl.value)}});
+let drag=false;svg.addEventListener('pointerdown',e=>{if(!busy&&e.target.classList&&e.target.classList.contains('handle')){drag=true;svg.setPointerCapture(e.pointerId);e.preventDefault()}});
+svg.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(svg,e);let a=Math.atan2(O.y-p.y,p.x-O.x)*180/Math.PI;if(a<0)a=a<-90?180:0;K=[1,1,1];setTh(a)});
+const end=()=>{drag=false};svg.addEventListener('pointerup',end);svg.addEventListener('pointercancel',end);
+async function build(){K=[0,0,0];draw();await tween(800,k=>{K[0]=k;draw()});await tween(800,k=>{K[1]=k;draw()});await sleep(150);await tween(700,k=>{K[2]=k;draw()});}
+$('s6b').onclick=async()=>{if(busy)return;busy=true;await build();busy=false};
+const steps=['py1','py2','py3','py4'].map($),nt=$('s6t');
+const unmark=()=>{HL=0;$('q1').classList.remove('hl');$('q2').classList.remove('hl');draw()};
+Stepper($('s6y'),'חישוב בזווית ישרה',[
+ async()=>{HL=1;draw();$('q1').classList.add('hl');nt.innerHTML='שלב 1: מסמנים את <span class="m">F<sub>1</sub></span>: החוט של 4N. בנוסחה ובציור הוא מודגש בצהוב.'},
+ async()=>{nt.innerHTML='שלב 2: מציבים את 4 במקום <span class="m">F<sub>1</sub></span>.';steps[0].classList.add('show');await fly(L4,$('pa'),'4',850);$('pa').textContent='4';$('pa').className='slot filled cf';pulse($('pa'));unmark()},
+ async()=>{HL=2;draw();$('q2').classList.add('hl');nt.innerHTML='שלב 3: מסמנים את <span class="m">F<sub>2</sub></span>: החוט של 2N.'},
+ async()=>{nt.innerHTML='שלב 4: מציבים את 2 במקום <span class="m">F<sub>2</sub></span>.';await fly(L2,$('pb'),'2',850);$('pb').textContent='2';$('pb').className='slot filled cf';pulse($('pb'));unmark()},
+ async()=>{nt.innerHTML='שלב 5: מעלים בריבוע: <span class="m">4² = 16</span>, <span class="m">2² = 4</span>.';steps[1].classList.add('show')},
+ async()=>{nt.innerHTML='שלב 6: מחברים: <span class="m">16 + 4 = 20</span>.';steps[2].classList.add('show')},
+ async()=>{nt.innerHTML='שלב 7: מוציאים שורש. שורש 20 הוא בערך 4.47, וזה גודל השקול בניוטון.';steps[3].classList.add('show')}
+],async()=>{busy=true;steps.forEach(s=>s.classList.remove('show'));['pa','pb'].forEach(i=>{$(i).innerHTML='&nbsp;';$(i).className='slot'});nt.hidden=false;nt.textContent='בונים את המקבילית בזווית ישרה...';
+ const a0=th;K=[1,1,1];await tween(900,k=>setTh(a0+(90-a0)*k));await build();busy=false});
+draw();
+const B=$('b6');DnD(B,()=>{$('s6fb').hidden=true});const sv=k=>B.querySelector(`.slot[data-k="${k}"]`);
+$('s6c').onclick=()=>{const fb=$('s6fb'),v=k=>sv(k).dataset.v;if(!v('a')||!v('b')||!v('r')||!v('u'))return say(fb,false,'השלימו את כל המשבצות.');
+ const ab=[v('a'),v('b')].sort().join();if(ab!=='3,4')return say(fb,false,'מתחת לשורש מציבים את גדלי שני הכוחות, 3 ו־4, כל אחד בריבוע.');
+ if(v('r')==='7')return say(fb,false,'7 מתקבל רק כשהכוחות באותו כיוון. בזווית ישרה משתמשים בפיתגורס.');
+ if(v('r')==='25')return say(fb,false,'25 הוא סכום הריבועים: 9 + 16. נשאר להוציא שורש.');
+ if(v('r')==='12')return say(fb,false,'12 הוא מכפלת הכוחות. בפיתגורס מעלים כל כוח בריבוע, מחברים ומוציאים שורש.');
+ if(v('r')!=='5')return say(fb,false,'חשבו: 3² + 4² = 9 + 16 = 25, ושורש 25 הוא...');
+ if(v('u')!=='N')return say(fb,false,'ק״ג היא יחידה של מסה. כוח מודדים בניוטון, N.');
+ say(fb,true,'מדויק: <span class="m">√(3² + 4²) = √25 = 5 N</span>. ושימו לב: 5 גדול מ־4 וקטן מ־7, כצפוי.')};})();
+
+/* ---------- Station 7: riddles ---------- */
+(function(){const box=$('s7');C.riddles.forEach((r,n)=>{const d=document.createElement('div');d.className='rid';const q=document.createElement('p');q.className='q';q.textContent=(n+1)+'. '+r.q;d.appendChild(q);const fb=document.createElement('div');fb.hidden=true;
+ const bs=r.o.map((o,i)=>{const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent=o;b.onclick=()=>{bs.forEach(x=>x.classList.remove('right','wrong'));b.classList.add(i===r.a?'right':'wrong');say(fb,i===r.a,r.why[i])};d.appendChild(b);return b});d.appendChild(fb);box.appendChild(d)});})();
+
+
+/* Theme: night by default, day for a bright classroom */
+(function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let day=false;try{day=localStorage.getItem('maslul-theme')==='day'}catch(e){}
+function set(d){day=d;if(d)r.setAttribute('data-theme','day');else r.removeAttribute('data-theme');b.textContent=d?'ערכת לילה':'ערכת יום';b.setAttribute('aria-pressed',String(d));try{localStorage.setItem('maslul-theme',d?'day':'night')}catch(e){}}
+set(day);b.onclick=()=>set(!day);})();
+/* Deep links from the slides: #st1 ... #st6 */
+function go(){const t=location.hash&&document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView({behavior:RM?'auto':'smooth'})}
+addEventListener('hashchange',go);setTimeout(go,60);
+</script>

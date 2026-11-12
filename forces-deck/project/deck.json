@@ -1,0 +1,70 @@
+{
+ "v": 4,
+ "createdOnFiles": {
+  "v": 1,
+  "at": "2026-11-10T10:00:00Z"
+ },
+ "lists": "css",
+ "title": "כוחות וכוח שקול: מצגת אינטראקטיבית לכיתה ח׳ (עמ״ט)",
+ "cover": "s00-cover",
+ "order": [
+  "s00-cover",
+  "s01-open",
+  "s02-force",
+  "s03-net",
+  "s04-axis",
+  "s05-book",
+  "w1-build",
+  "s06-third",
+  "s07a-ball",
+  "s07-ball",
+  "s08-compare",
+  "s09-check",
+  "s10-perp",
+  "s11-pyth",
+  "w2-equation",
+  "s11b-angle",
+  "s12-summary",
+  "x1-traps",
+  "x2-riddles",
+  "x3-riddles",
+  "s13-exit"
+ ],
+ "sections": {
+  "s1": {
+   "description": "פתיחה, כוח, כוח שקול וחיבור כוחות על ציר אחד",
+   "start": "s00-cover"
+  },
+  "s2": {
+   "description": "ספר על שולחן, החוק השלישי של ניוטון והשוואה בין המושגים",
+   "start": "s05-book"
+  },
+  "s3": {
+   "description": "כוחות מאונכים, חישוב בפיתגורס וסיכום",
+   "start": "s10-perp"
+  }
+ },
+ "faces": {
+  "rubik": {
+   "family": "Rubik",
+   "href": "https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&display=swap"
+  },
+  "assistant": {
+   "family": "Assistant",
+   "href": "https://fonts.googleapis.com/css2?family=Assistant:wght@400;600;700&display=swap"
+  },
+  "orbitron": {
+   "family": "Orbitron",
+   "href": "https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600&display=swap"
+  }
+ },
+ "designSystems": [
+  {
+   "title": "מסלול",
+   "namespace": "maslul",
+   "artifact": "https://claude.ai/code/artifact/c056b782-5669-4843-8452-95fa1cd76c97",
+   "version": "1794469783-738e",
+   "copiedAt": "2026-11-12T08:20:00Z"
+  }
+ ]
+}
