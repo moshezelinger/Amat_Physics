@@ -2,12 +2,26 @@
 
 חומרי לימוד בפיזיקה לכיתה ח׳, עמ״ט: מצגות, סימולציות ולומדות. כל התוצרים בנויים במערכת העיצוב "מסלול".
 
+## קישורים
+
+- **המצגת "כוחות וכוח שקול":** [פתיחה ב־Claude](https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv)
+- **הלומדה "מעבדת כוחות":** [פתיחה ב־Claude](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1)
+  - [תחנה 1 · ציר אחד](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st1)
+  - [תחנה 2 · ספר על שולחן](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st2)
+  - [תחנה 3 · החוק השלישי](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st3)
+  - [תחנה 4 · כדור ואדם](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st4)
+  - [תחנה 5 · כלל המקבילית](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st5)
+  - [תחנה 6 · חידות](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st6)
+- **מערכת העיצוב "מסלול":** [פתיחה ב־Claude](https://claude.ai/code/artifact/c056b782-5669-4843-8452-95fa1cd76c97)
+
+הקישורים פרטיים. מי שלא שיתפתם איתו את הארטיפקט מתפריט השיתוף לא יוכל לפתוח אותם.
+
 ## מה יש כאן
 
 | תיקייה | מה זה | איפה זה חי |
 |---|---|---|
-| `forces-deck/` | המצגת "כוחות וכוח שקול", 21 שקפים | ארטיפקט Slides ב־Claude: https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv |
-| `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | ארטיפקט HTML ב־Claude: https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1 |
+| `forces-deck/` | המצגת "כוחות וכוח שקול", 21 שקפים | [ארטיפקט Slides ב־Claude](https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv) |
+| `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [ארטיפקט HTML ב־Claude](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1) |
 
 המצגת והלומדה מתואמות: אותם צבעים, אותם סימונים ואותן דוגמאות. בכל שקף שיש לו תחנה מתאימה יש קישור "במעבדה: תחנה N".
 
