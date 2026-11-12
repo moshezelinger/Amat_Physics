@@ -1,3 +1,8 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
 <title>מעבדת כוחות</title>
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&family=Assistant:wght@400;600;700&family=Orbitron:wght@500;600&display=swap">
@@ -118,9 +123,13 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 .theme{margin-inline-start:auto}
 @media (prefers-reduced-motion:reduce){.steps .eqn.show{animation:none}.who p,.slot{transition:none}}
 </style>
+
+</head>
+<body>
 <div class="wrap" dir="rtl" lang="he">
 <header style="display:flex;flex-direction:column;gap:12px">
 <div class="bar"></div>
+<p class="hint"><a href="../" style="color:var(--cyan-ink)">דף פתיחה</a> · <a href="../forces-deck/" style="color:var(--cyan-ink)">למצגת</a></p>
 <h1>מעבדת כוחות</h1>
 <p class="lead">שש תחנות לתרגול כוחות. בכל תחנה קראו את ההוראות שבמסגרת, בצעו ובדקו את התשובה.</p>
 <div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button></div>
@@ -516,3 +525,6 @@ function go(){const t=location.hash&&document.getElementById(location.hash.slice
 addEventListener('hashchange',go);setTimeout(go,60);
 </script>
 
+
+</body>
+</html>

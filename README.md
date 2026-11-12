@@ -2,31 +2,35 @@
 
 חומרי לימוד בפיזיקה לכיתה ח׳, עמ״ט: מצגות, סימולציות ולומדות. כל התוצרים בנויים במערכת העיצוב "מסלול".
 
-## קישורים
+## צפייה בדפדפן
 
-- **המצגת "כוחות וכוח שקול":** [פתיחה ב־Claude](https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv)
-- **הלומדה "מעבדת כוחות":** [פתיחה ב־Claude](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1)
-  - [תחנה 1 · ציר אחד](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st1)
-  - [תחנה 2 · ספר על שולחן](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st2)
-  - [תחנה 3 · החוק השלישי](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st3)
-  - [תחנה 4 · כדור ואדם](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st4)
-  - [תחנה 5 · כלל המקבילית](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st5)
-  - [תחנה 6 · חידות](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1#st6)
-- **מערכת העיצוב "מסלול":** [פתיחה ב־Claude](https://claude.ai/code/artifact/c056b782-5669-4843-8452-95fa1cd76c97)
+- [דף הפתיחה](https://moshezelinger.github.io/Amat_Physics/)
+- [המצגת המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-deck/)
+- [הלומדה המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-lab/)
 
-הקישורים פרטיים. מי שלא שיתפתם איתו את הארטיפקט מתפריט השיתוף לא יוכל לפתוח אותם.
+הצפייה מתפרסמת דרך GitHub Pages. לגרסת הבדיקה בוחרים בענף `add-forces-deck-and-lab`, מתיקיית השורש. המקור, נגן המצגת והלומדה נמצאים במאגר הזה.
+
+## עותקי המקור ב־Claude
+
+- [המצגת המקורית](https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv)
+- [הלומדה המקורית](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1)
+- [מערכת העיצוב מסלול](https://claude.ai/code/artifact/c056b782-5669-4843-8452-95fa1cd76c97)
+
+העותקים ב־Claude אינם מתעדכנים אוטומטית מהמאגר ועשויים לדרוש הרשאת צפייה נפרדת.
 
 ## מה יש כאן
 
 | תיקייה | מה זה | איפה זה חי |
 |---|---|---|
-| `forces-deck/` | המצגת "כוחות וכוח שקול", 21 שקפים | [ארטיפקט Slides ב־Claude](https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv) |
-| `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [ארטיפקט HTML ב־Claude](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1) |
+| `forces-deck/` | המצגת "כוחות וכוח שקול", 21 שקפים | [נגן הדפדפן](forces-deck/index.html) |
+| `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [הלומדה](forces-lab/index.html) |
 
 המצגת והלומדה מתואמות: אותם צבעים, אותם סימונים ואותן דוגמאות. בכל שקף שיש לו תחנה מתאימה יש קישור "במעבדה: תחנה N".
 
 ## המצגת: `forces-deck/`
 
+- `index.html`: נגן דפדפן עצמאי, נוצר מקובצי המקור. תומך בחשיפה הדרגתית, הנפשות קנבס וגרירת חלקים בשקפי הסדנה.
+- `tools/build_web.py` ו־`tools/web-player.html`: בניית הנגן והתבנית שלו.
 - `project/deck.json`: סדר השקפים, הפרקים, הגופנים ומערכת העיצוב.
 - `project/slides/<id>.html`: שקף אחד בכל קובץ. כל שקף הוא `<section>` בגודל 1920×1080 עם רכיבים במיקום מוחלט.
 - `project/ds/maslul/tokens.json`: הטוקנים של "מסלול" (צבעים, טיפוגרפיה, מרווחים).
@@ -83,6 +87,7 @@
 
 ```bash
 cd forces-deck
+python3 tools/build_web.py                  # עדכון נגן הדפדפן אחרי כל עריכה במקור
 node tools/preview.js "$PWD" out/          # צילום PNG של כל שקף (דורש playwright)
 python3 tools/renum.py                     # מספור עמודים וקישורי "במעבדה: תחנה N" לפי deck.json
 ```
@@ -102,7 +107,9 @@ python3 tools/renum.py                     # מספור עמודים וקישו�
 ## עבודה עם מודלי שפה
 
 1. מודל משנה את הקבצים כאן ופותח Pull Request.
-2. אחרי מיזוג, מבקשים מ־Claude לפרסם את הגרסה החדשה לארטיפקט. הוא מעתיק את הקבצים מהמאגר ומפרסם לאותן כתובות.
-3. אם מישהו ערך את המצגת ישירות בעורך של Claude, צריך קודם להביא את הגרסה משם למאגר, כדי שהשינויים לא יידרסו.
+2. אחרי עריכה במצגת מריצים `python3 forces-deck/tools/build_web.py` ומעלים גם את `forces-deck/index.html`. GitHub Pages מציג את הענף שנבחר, גם לפני מיזוג. אין צורך בפרסום ב־Claude לצפייה בדפדפן.
+3. עורך Claude עדיין משמש לעריכת רכיבים ולמעברי magic. נגן הדפדפן מציג את השקפים עם השלבים וההנפשות המוטמעות, אך אינו משחזר את מעבר magic בין שקפים.
+4. אם מישהו ערך את המצגת ישירות בעורך של Claude, צריך קודם להביא את הגרסה משם למאגר, כדי שהשינויים לא יידרסו.
 
 הנחיות קצרות למודלים נמצאות ב־`AGENTS.md`.
+
