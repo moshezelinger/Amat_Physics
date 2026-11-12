@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="700" height="330" viewBox="0 0 700 330">
+<defs><linearGradient id="t" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#D9A566"/><stop offset="1" stop-color="#B57E3F"/></linearGradient></defs>
+<ellipse cx="350" cy="320" rx="320" ry="8" fill="#141B4D" opacity="0.1"/>
+<rect x="70" y="176" width="26" height="144" fill="#9C6B33" stroke="#5A3A1E" stroke-width="4"/>
+<rect x="604" y="176" width="26" height="144" fill="#9C6B33" stroke="#5A3A1E" stroke-width="4"/>
+<rect x="96" y="178" width="508" height="18" fill="#A9763A" stroke="#5A3A1E" stroke-width="4"/>
+<rect x="20" y="150" width="660" height="28" rx="8" fill="url(#t)" stroke="#5A3A1E" stroke-width="4"/>
+<rect x="216" y="56" width="268" height="86" fill="#FBFAF4" stroke="#3B2A5A" stroke-width="4"/>
+<path d="M224 76H476M224 96H476M224 116H476" stroke="#C9CFE6" stroke-width="3"/>
+<path d="M210 40H478C486 40 490 46 490 52V56H216C208 56 208 142 216 142H490V150H210C196 150 196 40 210 40Z" fill="#7A4FA3" stroke="#3B2A5A" stroke-width="4" stroke-linejoin="round"/>
+</svg>

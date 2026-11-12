@@ -1,0 +1,26 @@
+<section id="s00-cover" data-transition="fade" style="background-color:#03060b;background-image:radial-gradient(circle at 1210px 140px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1480px 300px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1720px 120px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 980px 900px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1820px 980px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 860px 80px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1600px 760px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1100px 1010px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1350px 560px,#ffffffb3 1.5px,transparent 2px),radial-gradient(circle at 1880px 420px,#ffffffb3 1.5px,transparent 2px),linear-gradient(#3cb4ff29 1px,transparent 1px),linear-gradient(90deg,#3cb4ff29 1px,transparent 1px),linear-gradient(#3cb4ff14 1px,transparent 1px),linear-gradient(90deg,#3cb4ff14 1px,transparent 1px);background-size:100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100% 100%,100px 100px,100px 100px,20px 20px,20px 20px;color:#f2fbff;font-family:'Assistant', Arial, sans-serif;padding:128px;display:flex;flex-direction:column;justify-content:center;gap:28px">
+<x-embed style="position:absolute;left:128px;top:230px;width:640px;height:620px"><canvas id="c" width="640" height="620" style="width:100%;height:100%;display:block"></canvas><script>
+var c=document.getElementById('c'),x=c.getContext('2d'),O=[200,500],U=80;
+function cl(v){return Math.max(0,Math.min(1,v));}
+function ez(k){return k*k*(3-2*k);}
+function ar(a,b,col,w,dash,glow){var dx=b[0]-a[0],dy=b[1]-a[1],L=Math.hypot(dx,dy);if(L<4)return;var ux=dx/L,uy=dy/L,h=Math.min(36,L*0.6);x.save();x.strokeStyle=col;x.fillStyle=col;x.lineWidth=w;x.lineCap='round';x.setLineDash(dash||[]);x.beginPath();x.moveTo(a[0],a[1]);x.lineTo(b[0]-ux*h*0.8,b[1]-uy*h*0.8);x.stroke();x.setLineDash([]);x.beginPath();x.moveTo(b[0],b[1]);x.lineTo(b[0]-ux*h-uy*h*0.45,b[1]-uy*h+ux*h*0.45);x.lineTo(b[0]-ux*h+uy*h*0.45,b[1]-uy*h-ux*h*0.45);x.closePath();x.fill();x.restore();}
+function draw(ms){var t=(ms/1000)%10;x.clearRect(0,0,640,620);
+var al=t>9?1-(t-9):cl(t*2);x.globalAlpha=al;
+var p1=ez(cl(t/1)),p2=ez(cl((t-1)/1)),p3=ez(cl((t-2.6)/1.6)),p4=ez(cl((t-4.6)/1.4));
+var A=[O[0],O[1]-4*U*p1],B=[O[0]+2*U*p2,O[1]];
+x.fillStyle='#f2fbff';x.beginPath();x.arc(O[0],O[1],9,0,7);x.fill();
+ar(O,A,'#e69f00',9);if(p2>0)ar(O,B,'#e69f00',9);
+if(p3>0){var s=[O[0],O[1]-4*U*p3];ar(s,[s[0]+2*U,s[1]],'#9db0b8',5,[12,10]);}
+if(p4>0)ar(O,[O[0]+2*U*p4,O[1]-4*U*p4],'#2fc99a',12,null,true);
+x.font='500 28px Orbitron, Rubik, sans-serif';x.fillStyle='#9db0b8';if(p1>0.9)x.fillText('4 N',O[0]-86,O[1]-150);if(p2>0.9)x.fillText('2 N',O[0]+50,O[1]+48);
+if(p4>0.9){x.fillStyle='#2fc99a';x.fillText('ΣF',O[0]+120,O[1]-120);}
+x.globalAlpha=1;requestAnimationFrame(draw);}
+requestAnimationFrame(draw);
+</script></x-embed>
+<p style="font-size:34px;font-weight:600;line-height:1.3;text-align:right;color:#3fe0f8">&#8235;פיזיקה · כיתה ח׳ · עמ״ט&#8236;</p>
+<h1 style="font-family:'Rubik', Arial, sans-serif;font-size:112px;font-weight:600;line-height:1.1;text-align:right;color:#f2fbff">&#8235;כוחות וכוח שקול&#8236;</h1>
+<p style="font-size:40px;line-height:1.35;text-align:right;color:#9db0b8">&#8235;איך מחברים כוחות, ומה אומר החוק השלישי של ניוטון?&#8236;</p>
+<aside>שקף שער. ההנפשה משמאל רצה מעצמה ומראה את הרעיון המרכזי של השיעור: שני כוחות, 4 ו-2 ניוטון, מתחברים לכוח שקול אחד. אין צורך להסביר אותה עכשיו. אפשר לשאול: מה לדעתכם מייצג החץ הירוק?
+ההנפשה פועלת בהקרנה מהדפדפן בלבד.</aside>
+</section>
+
