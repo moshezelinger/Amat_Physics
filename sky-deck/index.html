@@ -1,0 +1,709 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>מצגת מיפוי השמיים</title>
+<style id="app-style">
+:root{
+  --bg:#080E1C;
+  --bg-2:#0E1730;
+  --panel:#141F3A;
+  --line:#27354F;
+  --ink:#EDF2FB;
+  --dim:#92A3C0;
+  --accent:#F2A93B;
+  --accent-soft:rgba(242,169,59,.15);
+  --cool:#63D2DE;
+  --ok:#55CF95;
+  --no:#F0756A;
+  --on-accent:#1A1205;
+  --font:Arial,"Arial Hebrew",Helvetica,sans-serif;
+}
+body.light{
+  --bg:#FBFCFE;
+  --bg-2:#F1F4FA;
+  --panel:#FFFFFF;
+  --line:#D4DCE9;
+  --ink:#0F1828;
+  --dim:#56657F;
+  --accent:#A35F02;
+  --accent-soft:rgba(163,95,2,.11);
+  --cool:#0C6F7E;
+  --ok:#0F7147;
+  --no:#B23327;
+  --on-accent:#FFFFFF;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+html{direction:rtl}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font);font-size:18px;line-height:1.5;
+  overflow:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+#app{
+  position:fixed;top:0;left:0;right:0;height:100vh;height:100dvh;
+  display:flex;flex-direction:column;background:var(--bg);
+}
+h1,h2,h3{margin:0;font-weight:bold;text-wrap:balance}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:5px}
+[hidden]{display:none!important}
+
+/* ---------- bars ---------- */
+.bar{
+  flex:none;display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:10px 24px;border-bottom:1px solid var(--line);background:var(--bg-2);
+}
+.sec{
+  font-size:15px;font-weight:bold;color:var(--accent);
+  background:var(--accent-soft);border:1px solid var(--accent);
+  border-radius:999px;padding:3px 16px;white-space:nowrap;
+}
+.ttl{font-size:15px;color:var(--dim)}
+.sp{margin-inline-start:auto}
+.ctl{
+  border:1px solid var(--line);border-radius:8px;padding:9px 13px;
+  font-size:14px;color:var(--dim);white-space:nowrap;min-height:40px;
+}
+.ctl:hover{border-color:var(--accent);color:var(--accent)}
+.ctl[aria-pressed="true"]{background:var(--accent-soft);color:var(--accent);border-color:var(--accent)}
+.count{font-size:17px;font-weight:bold;color:var(--dim);font-variant-numeric:tabular-nums;
+  white-space:nowrap;direction:ltr;unicode-bidi:isolate}
+
+.foot{
+  flex:none;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:10px 24px;border-top:1px solid var(--line);background:var(--bg-2);
+}
+.track{flex:1;min-width:70px;height:4px;background:var(--line);border-radius:2px;overflow:hidden}
+.track i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
+.hintk{font-size:13px;color:var(--dim);white-space:nowrap}
+
+/* ---------- slide ---------- */
+.stage{flex:1;min-height:0;display:flex;flex-direction:column;padding:26px 48px;overflow:auto}
+.slide{
+  flex:1;min-height:0;display:flex;flex-direction:column;
+  justify-content:center;align-items:center;gap:26px;text-align:center;
+}
+.h-big{font-size:clamp(30px,4.4vw,58px);line-height:1.25;max-width:24ch}
+.h-mid{font-size:clamp(24px,3.1vw,42px);line-height:1.3;max-width:26ch}
+.sub{font-size:clamp(17px,1.8vw,25px);color:var(--dim);max-width:40ch}
+.say{
+  font-size:clamp(20px,2.5vw,34px);line-height:1.4;max-width:28ch;
+  border-inline-start:5px solid var(--accent);padding-inline-start:20px;text-align:start;
+}
+ul.pts{
+  list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:18px;
+  text-align:start;max-width:30ch;
+}
+ul.pts li{position:relative;padding-inline-start:30px;font-size:clamp(19px,2.2vw,31px);line-height:1.35}
+ul.pts li::before{
+  content:"";position:absolute;inset-inline-start:0;top:.55em;
+  width:11px;height:11px;border-radius:50%;background:var(--cool);
+}
+ul.pts li b{color:var(--accent)}
+
+.vote{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.vote span{
+  border:2px solid var(--line);border-radius:12px;padding:12px 34px;
+  font-size:clamp(18px,2.2vw,28px);font-weight:bold;color:var(--dim);
+}
+
+.sky{
+  width:100%;max-width:860px;border-radius:14px;border:1px solid var(--line);
+  background:radial-gradient(ellipse at 50% 42%, #10203F 0%, #060B18 72%);overflow:hidden;
+}
+body.light .sky{background:radial-gradient(ellipse at 50% 42%, #10203F 0%, #060B18 72%)}
+.sky svg{display:block;width:100%;height:auto;max-height:52vh}
+.cap{font-size:clamp(16px,1.7vw,23px);color:var(--dim);max-width:46ch}
+.cap b{color:var(--ink)}
+.lines-off .con-line{opacity:0}
+.con-line{transition:opacity .4s}
+
+.reveal{
+  display:flex;flex-direction:column;align-items:center;gap:18px;min-height:150px;justify-content:center;
+}
+.ansbig{font-size:clamp(26px,3.4vw,46px);font-weight:bold}
+.ansbig.t{color:var(--ok)} .ansbig.f{color:var(--no)} .ansbig.n{color:var(--cool)}
+.whybig{font-size:clamp(17px,1.9vw,26px);color:var(--dim);max-width:38ch;line-height:1.45}
+.tap{
+  border:2px solid var(--line);border-radius:11px;padding:12px 30px;
+  font-size:clamp(17px,1.9vw,24px);color:var(--dim);
+}
+.tap:hover{border-color:var(--accent);color:var(--accent)}
+
+.anchors{display:flex;flex-direction:column;gap:14px;max-width:34ch;width:100%;text-align:start}
+.anc{border:1px solid var(--line);border-radius:11px;overflow:hidden}
+.anc > button{
+  width:100%;display:flex;gap:12px;align-items:center;padding:13px 16px;text-align:start;
+  font-size:clamp(17px,1.9vw,25px);font-weight:bold;
+}
+.anc > button .n{color:var(--accent);font-weight:bold}
+.anc > button .pl{margin-inline-start:auto;color:var(--dim);display:inline-block;transition:transform .2s}
+.anc.on > button .pl{transform:rotate(45deg)}
+.anc .bd{display:none;padding:0 16px 14px;font-size:clamp(15px,1.6vw,21px);color:var(--dim);line-height:1.5}
+.anc.on .bd{display:block}
+
+ol.tick{counter-reset:t;list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:20px;text-align:start;max-width:30ch}
+ol.tick li{position:relative;padding-inline-start:46px;font-size:clamp(20px,2.4vw,32px);line-height:1.35}
+ol.tick li::before{
+  counter-increment:t;content:counter(t);
+  position:absolute;inset-inline-start:0;top:.1em;width:34px;height:34px;border-radius:50%;
+  border:2px solid var(--accent);color:var(--accent);font-size:17px;font-weight:bold;
+  display:grid;place-items:center;
+}
+
+/* link slide */
+.qrwrap{display:flex;gap:clamp(24px,5vw,64px);align-items:center;justify-content:center;flex-wrap:wrap}
+.qrcol{display:flex;flex-direction:column;gap:14px;align-items:center}
+.qrbox{background:#fff;padding:14px;border-radius:14px;width:clamp(170px,32vh,300px);flex:none}
+.qrbox svg{display:block;width:100%;height:auto}
+.qrurl{direction:ltr;unicode-bidi:isolate;font-size:clamp(12px,1.3vw,17px);color:var(--dim);
+  word-break:break-all;text-align:center;max-width:34ch}
+
+/* teacher notes */
+.notes{
+  flex:none;background:var(--panel);border-top:1px solid var(--accent);
+  padding:12px 24px;font-size:15px;color:var(--dim);line-height:1.5;
+}
+.notes b{color:var(--accent)}
+
+/* index overlay */
+.index{
+  position:fixed;inset:0;z-index:100;background:var(--bg);
+  padding:28px 34px;overflow:auto;
+}
+.index h2{font-size:21px;margin-bottom:18px}
+.offline{
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+  padding:14px 16px;border:1px solid var(--line);border-radius:10px;margin-bottom:20px;
+  font-size:15px;color:var(--dim);
+}
+.offline .msg{color:var(--ok);font-weight:bold}
+.ix{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.ix button{
+  border:1px solid var(--line);border-radius:9px;padding:11px 14px;text-align:start;
+  display:flex;gap:10px;align-items:baseline;font-size:15px;
+}
+.ix button:hover{border-color:var(--accent)}
+.ix button .no{color:var(--accent);font-weight:bold;font-variant-numeric:tabular-nums;min-width:26px}
+.ix button .sc{margin-inline-start:auto;font-size:12px;color:var(--dim)}
+.ix button .no{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- phone and tablet ---------- */
+@media (max-width:860px){
+  .stage{padding:16px 16px}
+  .bar,.foot{padding:7px 12px;gap:7px}
+  .ttl,.hintk{display:none}
+  .bar .sp{display:none}
+  .sec{font-size:13px;padding:4px 12px}
+  .ctl{font-size:13px;padding:9px 11px}
+  .count{font-size:15px;margin-inline-start:auto}
+  .foot .ctl{flex:1;min-width:104px;min-height:46px;text-align:center}
+  .anchors,ul.pts,ol.tick{max-width:100%}
+  .say{font-size:clamp(19px,5vw,26px)}
+}
+@media (max-width:430px){
+  #fsBtn{display:none}
+  .stage{padding:12px 13px}
+  .sky svg{max-height:40vh}
+}
+/* short landscape: a phone turned sideways has ~390px of height */
+@media (max-height:470px){
+  .stage{padding:8px 16px}
+  .slide{gap:14px}
+  .h-big{font-size:clamp(21px,3.6vw,32px)}
+  .h-mid{font-size:clamp(19px,2.8vw,27px)}
+  .sub{font-size:16px}
+  .say{font-size:clamp(17px,2.4vw,24px)}
+  ul.pts{gap:11px} ul.pts li{font-size:clamp(17px,2.2vw,23px)}
+  ol.tick{gap:11px} ol.tick li{font-size:clamp(17px,2.2vw,23px);padding-inline-start:40px}
+  ol.tick li::before{width:28px;height:28px;font-size:15px}
+  .sky svg{max-height:56vh}
+  .qrbox{width:clamp(120px,40vh,190px);padding:9px}
+  .qrwrap{gap:22px}
+  .ansbig{font-size:clamp(22px,3vw,34px)} .whybig{font-size:16px}
+  .anc > button{font-size:17px;padding:10px 14px} .anc .bd{font-size:15px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div id="app" data-app>
+<header class="bar">
+  <span class="sec" id="secLbl">פתיחה</span>
+  <span class="ttl" id="ttlLbl"></span>
+  <span class="sp"></span>
+  <button class="ctl" id="linesBtn" aria-pressed="true">קווים</button>
+  <button class="ctl" id="notesBtn" aria-pressed="false">הערות מורה</button>
+  <button class="ctl" id="lightBtn" aria-pressed="false">רקע בהיר</button>
+  <button class="ctl" id="ixBtn">תוכן</button>
+  <button class="ctl" id="fsBtn">מסך מלא</button>
+  <span class="count" id="count">1 / 27</span>
+</header>
+
+<div class="stage"><div class="slide" id="slide"></div></div>
+
+<div class="notes" id="notes" hidden></div>
+
+<footer class="foot">
+  <button class="ctl" id="prev">הקודם</button>
+  <div class="track"><i id="fill"></i></div>
+  <button class="ctl" id="next">הבא</button>
+  <span class="hintk">חצים להחלפת שקף · רווח לחשיפת תשובה · T תוכן · F מסך מלא</span>
+</footer>
+
+<div class="index" id="index" hidden>
+  <h2>תוכן המצגת</h2>
+  <div class="offline" id="offlineBox">
+    <p>רוצים להפעיל בלי אינטרנט? שמרו עותק של המצגת. הקובץ נפתח בכל דפדפן גם בלי חיבור.</p>
+    <button class="ctl" id="offlineBtn" type="button">שמירת עותק לשימוש בלי רשת</button>
+    <span class="msg" id="offlineMsg" hidden></span>
+  </div>
+  <div class="ix" id="ixList"></div>
+</div>
+</div>
+
+<script id="app-script">
+"use strict";
+
+/* ===================== site plumbing =====================
+   כיוון הדף, שמירת עותק לשימוש בלי רשת, ושמירת קבצים.
+   ========================================================= */
+document.documentElement.lang="he";
+document.documentElement.dir="rtl";
+const APP={title:"מצגת מיפוי השמיים",file:"מצגת מיפוי השמיים.html"};
+// snapshot of the markup exactly as shipped, before any script touches it
+const PRISTINE=[...document.body.children].filter(n=>n.hasAttribute("data-app")).map(n=>n.outerHTML);
+function offlineHTML(){
+  const css=document.getElementById("app-style").textContent;
+  const js=document.getElementById("app-script").textContent;
+  return "<!doctype html>\n<html lang=\"he\" dir=\"rtl\">\n<head>\n<meta charset=\"utf-8\">\n"+
+    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"+
+    "<title>"+APP.title+"</title>\n<style id=\"app-style\">"+css+"</style>\n</head>\n<body>\n"+
+    PRISTINE.join("\n")+"\n<script id=\"app-script\">"+js+"<\/script>\n</body>\n</html>\n";
+}
+async function saveFile(filename,data,mime){
+  let dl=null;
+  try{ if(window.claude&&typeof window.claude.use==="function") dl=await window.claude.use("downloads"); }
+  catch(e){ dl=null; }
+  if(dl){
+    try{ await dl.save({filename:filename,data:data}); return "saved"; }
+    catch(err){ if(err&&err.code==="declined")return "declined"; }
+  }
+  const blob=new Blob([data],{type:mime||"application/octet-stream"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  return "saved";
+}
+function wireOffline(){
+  const box=document.getElementById("offlineBox"), btn=document.getElementById("offlineBtn"),
+        msg=document.getElementById("offlineMsg");
+  if(!box||!btn)return;
+  box.hidden=(location.protocol==="file:");      // a local file is already offline
+  btn.addEventListener("click",async()=>{
+    const r=await saveFile(APP.file,offlineHTML(),"text/html;charset=utf-8");
+    if(r==="saved"){msg.textContent="נשמר. פתחו את הקובץ בדפדפן, גם בלי חיבור.";msg.hidden=false;}
+  });
+}
+
+
+/* ===================== star maps ===================== */
+const MAPS={
+  sight:{custom:"sight"},
+  ursa:{w:400,h:300,
+    stars:[["",40,70,4],["",98,92,4],["",152,106,4.5],["",208,120,3],["",218,178,4],["מרק",312,182,4],["דובה",300,112,4.5]],
+    lines:[[0,1],[1,2],[2,3],[3,4],[4,5],[5,6],[6,3]],
+    pointer:{from:[312,182],to:[288,46],star:[285,24,4.5],label:"כוכב הצפון"}},
+  cass:{w:400,h:300,
+    stars:[["",60,105,4],["",130,180,3.5],["",200,115,4],["",268,185,4],["",336,100,4.5]],
+    lines:[[0,1],[1,2],[2,3],[3,4]]},
+  orion:{w:400,h:320,
+    stars:[["בטלגייז",120,60,6,"#E8785F"],["",268,58,4.5],["",246,150,4],["",200,162,4.5],["",154,174,4],["",132,262,4],["ריגל",282,258,5.5,"#A8CBFF"]],
+    lines:[[0,1],[0,4],[1,2],[4,5],[2,6],[5,6]],
+    belt:[[4,3],[3,2]],
+    note:{x:200,y:210,t:"חגורת אוריון",c:"#F2A93B"}},
+  plei:{w:400,h:300,glow:[196,145,86],dust:true,
+    stars:[["אלקיונה",196,150,5],["",240,132,4],["",250,116,3],["",166,120,4],["",148,158,4],["",186,188,3.5],["",152,96,3.5]],
+    lines:[]},
+  helio:{custom:"helio"}
+};
+const NS="http://www.w3.org/2000/svg";
+const mk=(t,a)=>{const n=document.createElementNS(NS,t);for(const k in a)n.setAttribute(k,a[k]);return n;};
+function star(g,x,y,r,f){
+  g.appendChild(mk("circle",{cx:x,cy:y,r:r*2.6,fill:f||"#DCE7FA",opacity:.10}));
+  g.appendChild(mk("circle",{cx:x,cy:y,r:r*1.6,fill:f||"#DCE7FA",opacity:.22}));
+  g.appendChild(mk("circle",{cx:x,cy:y,r:r,fill:f||"#F2F6FF"}));
+}
+function lbl(g,x,y,t,s,f){
+  const n=mk("text",{x,y,"text-anchor":"middle","font-size":s||13,fill:f||"#9CAEC9",
+    "font-family":"Arial, Helvetica, sans-serif",direction:"rtl",
+    style:"paint-order:stroke;stroke:#080D1C;stroke-width:4px;stroke-linejoin:round"});
+  n.textContent=t;g.appendChild(n);
+}
+function buildMap(key){
+  const m=MAPS[key];
+  if(m.custom==="sight")return sightSVG();
+  if(m.custom==="helio")return helioSVG();
+  const svg=mk("svg",{viewBox:"0 0 "+m.w+" "+m.h});
+  if(m.glow){
+    const d=mk("defs");
+    d.innerHTML='<radialGradient id="pg"><stop offset="0%" stop-color="#7FB4FF" stop-opacity=".32"/><stop offset="100%" stop-color="#7FB4FF" stop-opacity="0"/></radialGradient>';
+    svg.appendChild(d);
+    svg.appendChild(mk("circle",{cx:m.glow[0],cy:m.glow[1],r:m.glow[2],fill:"url(#pg)"}));
+  }
+  if(m.dust){
+    let s=7;const r=()=>((s=s*1103515245+12345&0x7fffffff)/0x7fffffff);
+    for(let i=0;i<46;i++){const a=r()*6.283,rr=28+r()*68;
+      svg.appendChild(mk("circle",{cx:196+Math.cos(a)*rr,cy:148+Math.sin(a)*rr*.78,
+        r:(.7+r()*1.2).toFixed(2),fill:"#CFE0FA",opacity:(.25+r()*.45).toFixed(2)}));}
+  }
+  const lg=mk("g",{class:"con-line"});
+  (m.lines||[]).forEach(([a,b])=>lg.appendChild(mk("line",
+    {x1:m.stars[a][1],y1:m.stars[a][2],x2:m.stars[b][1],y2:m.stars[b][2],
+     stroke:"#63D2DE","stroke-width":1.5,opacity:.55})));
+  (m.belt||[]).forEach(([a,b])=>lg.appendChild(mk("line",
+    {x1:m.stars[a][1],y1:m.stars[a][2],x2:m.stars[b][1],y2:m.stars[b][2],
+     stroke:"#F2A93B","stroke-width":2.6,opacity:.9,"stroke-linecap":"round"})));
+  svg.appendChild(lg);
+  if(m.pointer){
+    const p=mk("g",{class:"con-line"});
+    p.appendChild(mk("line",{x1:m.pointer.from[0],y1:m.pointer.from[1],
+      x2:m.pointer.to[0],y2:m.pointer.to[1],stroke:"#F2A93B","stroke-width":1.3,
+      "stroke-dasharray":"5 5",opacity:.75}));
+    svg.appendChild(p);
+    const s=m.pointer.star,g2=mk("g");
+    star(g2,s[0],s[1],s[2],"#FFE7BE");
+    lbl(g2,s[0]+56,s[1]+6,m.pointer.label,13,"#F2A93B");
+    svg.appendChild(g2);
+  }
+  const sg=mk("g");
+  m.stars.forEach(([nm,x,y,r,c])=>{star(sg,x,y,r,c);if(nm)lbl(sg,x,y+r+17,nm,13);});
+  svg.appendChild(sg);
+  if(m.note){const g3=mk("g");lbl(g3,m.note.x,m.note.y,m.note.t,13,m.note.c);svg.appendChild(g3);}
+  return svg;
+}
+function sightSVG(){
+  const svg=mk("svg",{viewBox:"0 0 560 300"});
+  svg.appendChild(mk("line",{x1:505,y1:150,x2:55,y2:123,stroke:"#F2A93B","stroke-width":1.3,
+    "stroke-dasharray":"6 6",opacity:.65}));
+  [[370,142],[245,134],[95,125]].forEach(p=>svg.appendChild(mk("line",
+    {x1:300,y1:272,x2:p[0],y2:p[1],stroke:"#63D2DE","stroke-width":1,"stroke-dasharray":"3 5",opacity:.45})));
+  const g=mk("g");
+  [[370,142,5],[245,134,5.5],[95,125,5]].forEach(p=>star(g,p[0],p[1],p[2]));
+  star(g,505,150,7,"#8FD2FF"); lbl(g,505,180,"כדור הארץ",13,"#8FD2FF");
+  star(g,300,272,5,"#63D2DE"); lbl(g,300,295,"מקום אחר בחלל",13,"#63D2DE");
+  lbl(g,370,118,"רחוק",12); lbl(g,245,110,"רחוק יותר",12); lbl(g,95,101,"רחוק בהרבה",12);
+  lbl(g,430,52,"מכאן: שורה אחת",15,"#F2A93B");
+  lbl(g,150,224,"משם: פזורים",15,"#63D2DE");
+  svg.appendChild(g); return svg;
+}
+function helioSVG(){
+  const svg=mk("svg",{viewBox:"0 0 400 300"});
+  const d=mk("defs");
+  d.innerHTML='<radialGradient id="sg"><stop offset="0%" stop-color="#FFD98A"/><stop offset="60%" stop-color="#F2A93B"/><stop offset="100%" stop-color="#F2A93B" stop-opacity="0"/></radialGradient>';
+  svg.appendChild(d);
+  [42,66,90,114,138].forEach((r,i)=>svg.appendChild(mk("ellipse",
+    {cx:200,cy:150,rx:r,ry:r*.62,fill:"none",stroke:i===2?"#63D2DE":"#2C3B58",
+     "stroke-width":i===2?1.6:1,opacity:i===2?.9:.7})));
+  svg.appendChild(mk("circle",{cx:200,cy:150,r:44,fill:"url(#sg)",opacity:.55}));
+  svg.appendChild(mk("circle",{cx:200,cy:150,r:15,fill:"#FFC663"}));
+  svg.appendChild(mk("line",{x1:200,y1:132,x2:200,y2:58,stroke:"#F2A93B","stroke-width":1,
+    "stroke-dasharray":"3 4",opacity:.7}));
+  svg.appendChild(mk("circle",{cx:290,cy:150,r:6.5,fill:"#8FD2FF"}));
+  [[173,170],[233,115],[93,126],[269,224]].forEach(p=>
+    svg.appendChild(mk("circle",{cx:p[0],cy:p[1],r:4,fill:"#9BAAC6"})));
+  const g=mk("g");
+  lbl(g,200,50,"השמש",14,"#F2A93B");
+  lbl(g,338,154,"כדור הארץ",13,"#8FD2FF");
+  lbl(g,200,282,"כדור הארץ הוא אחד מכוכבי הלכת, לא המרכז",13);
+  svg.appendChild(g); return svg;
+}
+
+/* ===================== slides ===================== */
+const S=[
+{sec:"פתיחה",t:"פתיחה",k:"title",
+ h:"מיפוי השמיים ומקומנו במערכת השמש",
+ sub:"הארץ והחלל · שיעור 2 · כיתה ח",
+ goal:"בסוף השיעור נצליח להסביר במה שונה קבוצת כוכבים מצביר כוכבים, ולמה השמש נמצאת במרכז מערכת השמש.",
+ n:"כתוב את יעד השיעור על הלוח לפני שהתלמידים נכנסים. אותה רוטינת פתיחה בכל שיעור. אין אינטרנט? ״תוכן״ ואז ״שמירת עותק לשימוש בלי רשת״."},
+
+{sec:"פתיחה",t:"שאלת החיזוי",k:"vote",
+ say:"שלושת כוכבי חגורת אוריון נראים לנו צמודים. האם הם באמת שכנים בחלל?",
+ votes:["כן","לא","תלוי"],
+ n:"כל אחד מרים יד, אף אחד לא פטור. <b>אל תחשוף תשובה.</b> אמור: נגלה בעוד עשרים דקות. פנה גם למי שלא מרים יד."},
+
+{sec:"הקניה",t:"קו המבט",k:"map",map:"sight",
+ cap:"<b>מכדור הארץ:</b> שורה אחת. <b>ממקום אחר בחלל:</b> פזורים לגמרי.",
+ n:"כאן חוזרים לשאלת החיזוי. אחרי התרשים: הדגמה בגוף. שלושה תלמידים במרחקים שונים ממך נראים לך בשורה, ותלמיד רביעי מהצד רואה שלא."},
+
+{sec:"הקניה",t:"הרעיון המרכזי",k:"pts",
+ h:"שני דברים שונים לגמרי",
+ pts:["<b>קבוצת כוכבים</b> היא ציור שאנחנו מציירים על השמיים",
+      "<b>צביר כוכבים</b> הוא משפחה אמיתית שנולדה מאותו ענן",
+      "ההבדל אינו במראה. ההבדל הוא במה שקיים בחלל"],
+ n:"זה המשפט שהתלמידים צריכים לצאת איתו. חזור עליו בסוף השיעור."},
+
+{sec:"מפת השמיים",t:"הדובה הגדולה",k:"map",map:"ursa",
+ cap:"שבעה כוכבים בהירים. הקו שבין שני הכוכבים הקדמיים מוביל אל <b>כוכב הצפון</b>.",
+ n:"לחץ על ״קווים״ כדי לכבות את הציור ולהשאיר רק כוכבים. שאל: בלי הקווים, עדיין רואים דובה?"},
+
+{sec:"מפת השמיים",t:"קסיופאה",k:"map",map:"cass",
+ cap:"חמישה כוכבים בצורת <b>W</b>, בצד השני של כוכב הצפון, מול הדובה הגדולה.",
+ n:"שתי הקבוצות האלה נראות כל השנה בשמי ישראל, ולכן הן שימושיות לניווט."},
+
+{sec:"מפת השמיים",t:"אוריון",k:"map",map:"orion",
+ cap:"בולטת בשמי החורף. <b>חגורת אוריון</b> בכתום. המרחקים של שלושת כוכבי החגורה מאיתנו שונים מאוד.",
+ n:"כאן נסגרת שאלת החיזוי מהפתיחה. אפשר לחזור לשקף ״קו המבט״ בלחיצה על תוכן."},
+
+{sec:"מפת השמיים",t:"הפליאדות",k:"map",map:"plei",
+ cap:"<b>כאן בכוונה אין קווים.</b> זה צביר: כוכבים שנולדו מאותו ענן ובאמת נמצאים יחד בחלל.",
+ n:"כפתור ״קווים״ לא משנה כאן כלום, וזו בדיוק הנקודה. שאל את הכיתה למה."},
+
+{sec:"הקניה",t:"כוכבי לכת",k:"pts",
+ h:"הנודדים",
+ pts:["הכוכבים שומרים על אותה תבנית, <b>כוכבי הלכת נודדים ביניהם</b>",
+      "הם <b>מחזירים</b> את אור השמש ולא מייצרים אור משלהם",
+      "לכן הם נעלמים כשהם נכנסים לצל"],
+ n:"שאלת עימות: אם כוכב לכת מאיר באור שלו, למה הוא נעלם בצל?"},
+
+{sec:"הקניה",t:"המודל ההליוצנטרי",k:"map",map:"helio",
+ cap:"השמש במרכז <b>מערכת השמש</b>. לא במרכז היקום. כדור הארץ הוא אחד מכוכבי הלכת.",
+ n:"הדגש את ההבדל בין ״מרכז מערכת השמש״ ל״מרכז היקום״. זו הטעות הנפוצה ביותר."},
+
+{sec:"חידון",t:"נכון או לא נכון",k:"lead",
+ h:"נכון או לא נכון",
+ sub:"כל הכיתה מצביעה באגודל, ואז חושפים",
+ n:"שש טענות. אחרי כל חשיפה, בקש מתלמיד אחד להסביר במשפט. משוב ספציפי, לא ״יפה מאוד״."},
+
+{sec:"חידון",t:"טענה 1",k:"tf",q:"כל הכוכבים בקבוצת כוכבים נמצאים באותו מרחק מכדור הארץ.",a:false,
+ why:"הם נראים לנו על אותו קו מבט, אבל המרחקים שלהם מאיתנו שונים מאוד."},
+{sec:"חידון",t:"טענה 2",k:"tf",q:"צביר כוכבים הוא אוסף כוכבים שנוצרו יחד ונמצאים באמת קרוב זה לזה.",a:true,
+ why:"זה ההבדל מקבוצת כוכבים: הצביר הוא מבנה אמיתי בחלל."},
+{sec:"חידון",t:"טענה 3",k:"tf",q:"כוכבי לכת מייצרים אור בעצמם.",a:false,
+ why:"הם מחזירים את אור השמש, ולכן הם נעלמים כשהם נכנסים לצל."},
+{sec:"חידון",t:"טענה 4",k:"tf",q:"קסיופאה נראית בצורת האות W.",a:true,
+ why:"חמישה כוכבים בהירים, מול הדובה הגדולה משני צדי כוכב הצפון."},
+{sec:"חידון",t:"טענה 5",k:"tf",q:"במודל ההליוצנטרי כדור הארץ הוא אחד מכוכבי הלכת.",a:true,
+ why:"ובדיוק בזה הכוח של המודל: כדור הארץ מפסיק להיות יוצא דופן."},
+{sec:"חידון",t:"טענה 6",k:"tf",q:"השמש נמצאת במרכז היקום.",a:false,
+ why:"השמש במרכז מערכת השמש בלבד. זו הטעות הנפוצה ביותר בנושא."},
+
+{sec:"חידון",t:"מי אני",k:"lead",
+ h:"מי אני",
+ sub:"בזוגות, חצי דקה לכל אחת",
+ n:"שש חידות. תן לזוגות לכתוב לפני החשיפה."},
+{sec:"חידון",t:"מי אני 1",k:"who",q:"מובילה אתכם אל כוכב הצפון.",a:"הדובה הגדולה"},
+{sec:"חידון",t:"מי אני 2",k:"who",q:"יש לי חגורה של שלושה כוכבים בשורה.",a:"אוריון"},
+{sec:"חידון",t:"מי אני 3",k:"who",q:"אני נראית כמו האות W, מול הדובה הגדולה.",a:"קסיופאה"},
+{sec:"חידון",t:"מי אני 4",k:"who",q:"אני לא ציור. נולדנו יחד מאותו ענן.",a:"צביר כוכבים, למשל הפליאדות"},
+{sec:"חידון",t:"מי אני 5",k:"who",q:"אני משנה מקום ביחס לכוכבים, ולכן קראו לי נודד.",a:"כוכב לכת"},
+{sec:"חידון",t:"מי אני 6",k:"who",q:"אני במרכז, וכולם מקיפים אותי. מי אני ובאיזה מודל?",a:"השמש, במודל ההליוצנטרי"},
+
+{sec:"דיון",t:"שאלת הדיון",k:"vote",
+ say:"אלפי שנים אנשים הסתכלו על אותם שמיים והיו בטוחים שהשמש מקיפה את הארץ. מה בעצם שכנע אותם לשנות דעה?",
+ votes:["דקה לבד","שתי דקות בזוגות","שתי דקות במליאה"],
+ n:"כל תלמיד כותב משפט אחד לפני שמדברים. בלי זה הדיון נשלט על ידי שלושה תלמידים."},
+
+{sec:"דיון",t:"שאלות העוגן",k:"anchors",
+ h:"שלוש שאלות להובלת הדיון",
+ items:[
+  ["למה בכלל הגיוני לחשוב שהשמש מקיפה אותנו?",
+   "כי זה בדיוק מה שרואים. השמש עולה, חוצה את השמיים ושוקעת, ואנחנו לא מרגישים שהארץ נעה. תפיסה שגויה יכולה להיות סבירה לגמרי."],
+  ["מה גרם לסדק במודל הישן?",
+   "תנועת כוכבי הלכת בשמיים לא הסתדרה עם המודל שבו כדור הארץ במרכז. ככל שהמדידות השתפרו, ההסבר הישן נעשה מסובך יותר ויותר."],
+  ["מה זה אומר על ידע מדעי בכלל?",
+   "רעיון מדעי נמדד מול ראיות. כשהראיות לא מסתדרות, משנים את הרעיון ולא את הראיות. זו לא חולשה של המדע, זו הדרך שבה הוא עובד."]],
+ n:"משפט הסגירה שלך: <b>לא ההסתכלות בשמיים השתנתה. ההסבר השתנה.</b>"},
+
+{sec:"קריאה",t:"קריאה עצמית",k:"pts",
+ h:"מרכיבי מערכת השמש",
+ pts:["שלושה עמודים, קריאה שקטה",
+      "<b>לפני שקוראים:</b> סמנו שלושה מרכיבים שלא הופיעו בשיעור היום",
+      "מי שלא מסיים ממשיך בבית"],
+ n:"המשימה לפני הקריאה הופכת אותה מקריאה פסיבית לחיפוש. הסתובב בכיתה, אל תשב."},
+
+{sec:"סיכום",t:"כרטיס יציאה",k:"tick",
+ h:"כרטיס יציאה",
+ items:["הבדל אחד בין קבוצת כוכבים לצביר כוכבים.",
+        "במשפט אחד: למה השמש במרכז מערכת השמש ולא כדור הארץ?",
+        "מה עדיין לא ברור לי מהקריאה?"],
+ n:"שורה 3 היא זו שפותחת את השיעור הבא. קרא את הפתקים באותו ערב."},
+
+{sec:"סיכום",t:"הלומדה בטלפון",k:"qr",
+ h:"הלומדה ודוח הביצוע",
+ items:["סורקים את הקוד בטלפון","ממלאים שם וכיתה","שני ניסיונות, הציון הגבוה מוגש","מעתיקים את הדוח ל-Google Classroom"],
+ url:"https://claude.ai/artifact/4CoVjoCqJ1b17qjTfuTryr", qr:"<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 37 37\" class=\"segno\"><path fill=\"#fff\" d=\"M0 0h37v37h-37z\"/><path class=\"qrline\" stroke=\"#000\" d=\"M2 2.5h7m1 0h4m2 0h5m4 0h1m2 0h7m-33 1h1m5 0h1m4 0h2m3 0h2m1 0h2m1 0h1m1 0h1m1 0h1m5 0h1m-33 1h1m1 0h3m1 0h1m3 0h1m1 0h2m2 0h1m3 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m1 0h2m1 0h2m1 0h2m1 0h2m1 0h2m1 0h1m1 0h3m1 0h1m-33 1h1m1 0h3m1 0h1m1 0h2m2 0h1m1 0h1m2 0h4m1 0h2m2 0h1m1 0h3m1 0h1m-33 1h1m5 0h1m1 0h2m6 0h1m1 0h2m2 0h1m1 0h1m1 0h1m5 0h1m-33 1h7m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h1m1 0h7m-25 1h1m3 0h1m1 0h5m2 0h1m2 0h1m-25 1h1m3 0h1m1 0h3m1 0h1m2 0h1m3 0h1m1 0h1m1 0h1m2 0h6m2 0h1m-33 1h2m1 0h1m1 0h1m2 0h3m2 0h1m2 0h1m1 0h1m4 0h1m1 0h1m3 0h4m-31 1h1m1 0h1m1 0h1m1 0h1m1 0h1m4 0h3m3 0h1m1 0h2m4 0h1m1 0h1m-32 1h2m1 0h1m4 0h1m1 0h3m1 0h2m1 0h3m1 0h5m5 0h2m-32 1h1m2 0h7m2 0h2m3 0h5m1 0h6m-30 1h1m1 0h2m1 0h1m1 0h2m1 0h1m5 0h1m2 0h1m1 0h3m6 0h1m-31 1h1m1 0h1m3 0h1m1 0h3m3 0h1m1 0h1m1 0h2m3 0h1m1 0h3m2 0h2m-30 1h1m1 0h2m1 0h1m2 0h1m6 0h1m1 0h10m-28 1h1m2 0h1m1 0h3m1 0h1m2 0h1m1 0h3m3 0h2m3 0h1m1 0h2m1 0h1m-32 1h2m1 0h1m4 0h1m3 0h1m1 0h2m1 0h2m4 0h1m1 0h1m3 0h3m-32 1h3m1 0h1m1 0h3m1 0h1m2 0h3m2 0h1m1 0h1m1 0h4m1 0h1m1 0h1m1 0h1m-31 1h4m2 0h4m3 0h1m6 0h3m1 0h3m4 0h1m-30 1h2m1 0h3m1 0h2m1 0h1m1 0h2m2 0h4m3 0h1m1 0h2m1 0h1m-32 1h1m3 0h2m2 0h4m2 0h1m3 0h3m1 0h1m4 0h1m2 0h2m-30 1h1m1 0h1m1 0h1m4 0h1m1 0h1m1 0h1m1 0h1m3 0h3m4 0h1m2 0h1m-30 1h1m1 0h1m2 0h1m1 0h1m1 0h1m1 0h6m2 0h1m3 0h4m2 0h1m-32 1h5m1 0h1m1 0h1m1 0h3m4 0h1m1 0h10m1 0h3m-25 1h3m1 0h1m1 0h2m2 0h1m2 0h1m2 0h1m3 0h1m1 0h2m-32 1h7m1 0h1m2 0h2m2 0h3m2 0h3m1 0h1m1 0h1m1 0h2m1 0h1m-32 1h1m5 0h1m3 0h4m1 0h1m1 0h5m2 0h1m3 0h1m3 0h1m-33 1h1m1 0h3m1 0h1m1 0h1m3 0h1m1 0h1m3 0h1m1 0h3m1 0h6m2 0h1m-33 1h1m1 0h3m1 0h1m3 0h3m1 0h1m1 0h1m2 0h4m1 0h1m1 0h3m-29 1h1m1 0h3m1 0h1m2 0h2m5 0h1m4 0h2m1 0h1m1 0h5m-31 1h1m5 0h1m2 0h1m1 0h3m3 0h3m1 0h1m1 0h2m4 0h1m-30 1h7m1 0h2m1 0h1m1 0h1m1 0h3m1 0h3m1 0h2m1 0h1m2 0h1m2 0h1\"/></svg>",
+ n:"לפני השיעור: ודא שהקישור פתוח לצפייה למי שיש לו אותו (תפריט השיתוף), ופתח אותו פעם אחת בחלון פרטי כדי לוודא שהוא עובד בלי התחברות."},
+
+{sec:"סיכום",t:"סיום",k:"title",
+ h:"לא ההסתכלות בשמיים השתנתה. ההסבר השתנה.",
+ sub:"לשיעורי בית: הלומדה ודוח הביצוע",
+ goal:"הלומדה נותנת ציון, פירוט לפי נושא, ורשימה של מה לחזור עליו. מגישים דרך Google Classroom.",
+ n:"הקישור והקוד נמצאים בשקף הקודם. הזכר שמותר שני ניסיונות ושהציון הגבוה הוא המוגש."}
+];
+
+/* ===================== engine ===================== */
+let i=0, linesOn=true;
+const el=id=>document.getElementById(id);
+const slide=el("slide");
+
+function render(){
+  const s=S[i];
+  el("secLbl").textContent=s.sec;
+  el("ttlLbl").textContent=s.t;
+  el("count").textContent=(i+1)+" / "+S.length;
+  el("fill").style.width=((i+1)/S.length*100)+"%";
+  el("notes").innerHTML=s.n||"";
+  slide.replaceChildren();
+  slide.className="slide";
+
+  const add=(tag,cls,html)=>{const n=document.createElement(tag);if(cls)n.className=cls;
+    if(html!==undefined)n.innerHTML=html;slide.appendChild(n);return n;};
+
+  if(s.k==="title"){
+    add("h1","h-big",s.h);
+    if(s.sub)add("p","sub",s.sub);
+    if(s.goal)add("p","say",s.goal);
+  }
+  else if(s.k==="lead"){ add("h1","h-big",s.h); if(s.sub)add("p","sub",s.sub); }
+  else if(s.k==="pts"){
+    add("h2","h-mid",s.h);
+    const ul=add("ul","pts","");
+    s.pts.forEach(x=>{const li=document.createElement("li");li.innerHTML=x;ul.appendChild(li);});
+  }
+  else if(s.k==="vote"){
+    add("p","say",s.say);
+    const v=add("div","vote","");
+    s.votes.forEach(x=>{const n=document.createElement("span");n.textContent=x;v.appendChild(n);});
+  }
+  else if(s.k==="map"){
+    const box=add("div","sky","");
+    box.appendChild(buildMap(s.map));
+    box.classList.toggle("lines-off",!linesOn);
+    if(s.cap)add("p","cap",s.cap);
+  }
+  else if(s.k==="tf"||s.k==="who"){
+    add("h2","h-mid",s.q);
+    const r=add("div","reveal","");
+    const b=document.createElement("button");
+    b.className="tap"; b.textContent="חשיפת התשובה";
+    b.addEventListener("click",()=>{
+      r.replaceChildren();
+      const a=document.createElement("p");
+      if(s.k==="tf"){a.className="ansbig "+(s.a?"t":"f");a.textContent=s.a?"נכון":"לא נכון";}
+      else{a.className="ansbig n";a.textContent=s.a;}
+      r.appendChild(a);
+      if(s.why){const w=document.createElement("p");w.className="whybig";w.textContent=s.why;r.appendChild(w);}
+    });
+    r.appendChild(b);
+    slide.dataset.reveal="1";
+  }
+  else if(s.k==="anchors"){
+    add("h2","h-mid",s.h);
+    const box=add("div","anchors","");
+    s.items.forEach(([q,a],k)=>{
+      const w=document.createElement("div");w.className="anc";
+      const h=document.createElement("button");
+      h.innerHTML='<span class="n">'+(k+1)+'</span><span>'+q+'</span><span class="pl">+</span>';
+      const d=document.createElement("div");d.className="bd";d.textContent=a;
+      h.addEventListener("click",()=>w.classList.toggle("on"));
+      w.appendChild(h);w.appendChild(d);box.appendChild(w);
+    });
+  }
+  else if(s.k==="qr"){
+    add("h2","h-mid",s.h);
+    const w=add("div","qrwrap","");
+    const col=document.createElement("div");col.className="qrcol";
+    const qb=document.createElement("div");qb.className="qrbox";
+    qb.setAttribute("role","img");qb.setAttribute("aria-label","קוד QR לקישור ללומדה");
+    qb.innerHTML=s.qr; col.appendChild(qb);
+    const u=document.createElement("p");u.className="qrurl";u.textContent=s.url;col.appendChild(u);
+    const ol=document.createElement("ol");ol.className="tick";
+    s.items.forEach(x=>{const li=document.createElement("li");li.textContent=x;ol.appendChild(li);});
+    w.appendChild(col);w.appendChild(ol);
+  }
+  else if(s.k==="tick"){
+    add("h2","h-mid",s.h);
+    const ol=add("ol","tick","");
+    s.items.forEach(x=>{const li=document.createElement("li");li.textContent=x;ol.appendChild(li);});
+  }
+  el("prev").disabled=i===0; el("next").disabled=i===S.length-1;
+}
+function go(n){i=Math.min(S.length-1,Math.max(0,n));render();}
+
+el("prev").addEventListener("click",()=>go(i-1));
+el("next").addEventListener("click",()=>go(i+1));
+el("linesBtn").addEventListener("click",()=>{
+  linesOn=!linesOn;
+  el("linesBtn").setAttribute("aria-pressed",String(linesOn));
+  document.querySelectorAll(".sky").forEach(x=>x.classList.toggle("lines-off",!linesOn));
+});
+el("notesBtn").addEventListener("click",()=>{
+  const on=el("notes").hidden;
+  el("notes").hidden=!on;
+  el("notesBtn").setAttribute("aria-pressed",String(on));
+});
+el("lightBtn").addEventListener("click",()=>{
+  const on=document.body.classList.toggle("light");
+  el("lightBtn").setAttribute("aria-pressed",String(on));
+  el("lightBtn").textContent=on?"רקע כהה":"רקע בהיר";
+});
+if(!document.fullscreenEnabled)el("fsBtn").hidden=true;
+el("fsBtn").addEventListener("click",()=>{
+  if(document.fullscreenElement)document.exitFullscreen();
+  else document.documentElement.requestFullscreen().catch(()=>{});
+});
+
+// index
+const ix=el("index");
+function buildIndex(){
+  const list=el("ixList"); list.replaceChildren();
+  S.forEach((s,k)=>{
+    const b=document.createElement("button");
+    b.innerHTML='<span class="no">'+(k+1)+'</span><span>'+s.t+'</span><span class="sc">'+s.sec+'</span>';
+    b.addEventListener("click",()=>{go(k);ix.hidden=true;});
+    list.appendChild(b);
+  });
+}
+buildIndex();
+el("ixBtn").addEventListener("click",()=>{ix.hidden=!ix.hidden;});
+
+document.addEventListener("keydown",e=>{
+  if(!ix.hidden){ if(e.key==="Escape"||e.key.toLowerCase()==="t")ix.hidden=true; return; }
+  const k=e.key;
+  if(k==="ArrowLeft"||k==="PageDown"){e.preventDefault();go(i+1);}
+  else if(k==="ArrowRight"||k==="PageUp"){e.preventDefault();go(i-1);}
+  else if(k==="Home"){go(0);} else if(k==="End"){go(S.length-1);}
+  else if(k===" "){
+    const b=slide.querySelector(".tap")||slide.querySelector(".anc:not(.on) > button");
+    if(b){e.preventDefault();b.click();} else {e.preventDefault();go(i+1);}
+  }
+  else if(k.toLowerCase()==="t"){ix.hidden=false;}
+  else if(k.toLowerCase()==="n"){el("notesBtn").click();}
+  else if(k.toLowerCase()==="f"){el("fsBtn").click();}
+});
+
+// swipe on touch screens: drag the slide sideways to move between slides
+(function(){
+  const stage=document.querySelector(".stage");
+  let x0=null,y0=null,id=null;
+  stage.addEventListener("pointerdown",e=>{
+    if(e.pointerType==="mouse")return;
+    if(e.target.closest("button"))return;
+    x0=e.clientX;y0=e.clientY;id=e.pointerId;
+  });
+  stage.addEventListener("pointerup",e=>{
+    if(x0===null||e.pointerId!==id)return;
+    const dx=e.clientX-x0, dy=e.clientY-y0;
+    x0=null;id=null;
+    if(Math.abs(dx)<55||Math.abs(dx)<Math.abs(dy)*1.4)return;
+    go(dx<0?i+1:i-1);          // RTL: swiping left moves forward
+  });
+  stage.addEventListener("pointercancel",()=>{x0=null;id=null;});
+})();
+
+wireOffline();
+render();
+</script>
+
+</body></html>
