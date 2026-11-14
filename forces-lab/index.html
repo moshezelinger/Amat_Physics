@@ -4,12 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>מעבדת כוחות</title>
+<meta name="app-version" content="forces-units-2026-11-15">
 <meta name="claude:viewport-fit-sides" content="cover">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600&family=Assistant:wght@400;600;700&family=Orbitron:wght@500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Heebo:wght@400;500;600;700&family=Gveret+Levin&display=swap">
 <style>
 /* Layout: a lab notebook. Six stations. On wide screens each station is two columns: the scene on one side, the task and the equation bench on the other, so the task sits next to what it asks about. */
-:root{--bg:#03060b;--card:#0b141b;--raised:#13222c;--ink:#f2fbff;--muted:#9db0b8;--line:#1f4450;--border:#5d8794;--grid:#3cb4ff14;--grid-major:#3cb4ff29;--navy:#00d4f2;--on-navy:#00141c;--cyan-ink:#3fe0f8;--cyan-soft:#08323d;--focus:#ffffff;--force:#e69f00;--opp:#56b4e9;--net:#2fc99a;--net-ink:#2fc99a;--on-vec:#03060b;--hl:#08323d;--hl-line:#00d4f2;--ok:#6b93ff;--ok-ink:#a9c1ff;--ok-bg:#131f42;--bad:#ffa066;--bad-ink:#ffa57a;--bad-bg:#3a1c12;--wood:#B98A4A;--wood-line:#F6E7C8;--metal:#5B678F;--skin:#D9A77C;--shirt:#6A5FC4;--ball:#E07B12;--earth:#4d9be6;--earth-line:#cfd3d8;--book:#9B72C9;--cab:#13222c;--shadow:0 8px 24px -8px #000000cc;color-scheme:dark;--fd:'Rubik',system-ui,sans-serif;--fb:'Assistant',system-ui,sans-serif;--fm:'Orbitron','Rubik',system-ui,sans-serif}
-:root[data-theme="day"]{--bg:#f6f2e8;--card:#ffffff;--raised:#ece6d8;--ink:#0a1020;--muted:#4d5866;--line:#c4d3d6;--border:#5f6b78;--grid:#00788c17;--grid-major:#00788c33;--navy:#007f95;--on-navy:#ffffff;--cyan-ink:#006a7c;--cyan-soft:#ddf2f5;--focus:#0a1020;--force:#a85f00;--opp:#0072b2;--net:#007a5a;--net-ink:#007a5a;--on-vec:#ffffff;--hl:#ddf2f5;--hl-line:#007f95;--ok:#2348c4;--ok-ink:#1f3fae;--ok-bg:#e3eaff;--bad:#b83c0a;--bad-ink:#a63608;--bad-bg:#fde6dc;--wood:#E2B878;--wood-line:#5A3A1E;--metal:#C3CDE2;--skin:#F2C9A0;--shirt:#7B6FD6;--ball:#F08A1C;--earth:#2f78c4;--earth-line:#0a1020;--book:#7A4FA3;--cab:#ece6d8;--shadow:0 6px 18px -6px #0a102033;color-scheme:light;}
+:root{--bg:#f3f5f6;--card:#ffffff;--raised:#f3f5f6;--ink:#2b2829;--muted:#5a5758;--line:#d5d8db;--border:#6f6b6c;--grid:#2b28290a;--grid-major:#2b282914;--navy:#0b6a97;--on-navy:#ffffff;--cyan-ink:#0b6a97;--cyan-soft:#eaf6fc;--focus:#0b6a97;--force:#a85f00;--opp:#0072b2;--net:#007a5a;--net-ink:#007a5a;--on-vec:#ffffff;--hl:#eaf6fc;--hl-line:#0b6a97;--ok:#0b6a97;--ok-ink:#0b6a97;--ok-bg:#eaf6fc;--bad:#b3261e;--bad-ink:#b3261e;--bad-bg:#fdeceb;--wood:#E2B878;--wood-line:#5A3A1E;--metal:#C3CDE2;--skin:#F2C9A0;--shirt:#7B6FD6;--ball:#F08A1C;--earth:#2f78c4;--earth-line:#2b2829;--book:#7A4FA3;--cab:#f3f5f6;--shadow:0 1px 2px rgba(31,29,30,.10),0 6px 18px rgba(31,29,30,.08);color-scheme:light;--fd:'Rubik','Heebo',system-ui,sans-serif;--fb:'Heebo','Assistant',system-ui,sans-serif;--fm:'Rubik','Heebo',system-ui,sans-serif;--yellow:#ffca08;--on-yellow:#1f1d1e;--blue:#25aae2;--gray:#716d6e;--tint:#eaf6fc;--attn:#7a5200;--paper-line:rgba(31,29,30,.04)}
+:root[data-theme="dark"]{--bg:#0e0e0f;--card:#1b1b1d;--raised:#0e0e0f;--ink:#f4f2f2;--muted:#bdbabb;--line:#3a3a3d;--border:#8f8b8c;--grid:#f4f2f20a;--grid-major:#f4f2f214;--navy:#25aae2;--on-navy:#1f1d1e;--cyan-ink:#25aae2;--cyan-soft:#0f2a38;--focus:#ffca08;--force:#e69f00;--opp:#56b4e9;--net:#2fc99a;--net-ink:#2fc99a;--on-vec:#1f1d1e;--hl:#0f2a38;--hl-line:#25aae2;--ok:#25aae2;--ok-ink:#25aae2;--ok-bg:#0f2a38;--bad:#ff8a80;--bad-ink:#ff8a80;--bad-bg:#3a1714;--wood:#B98A4A;--wood-line:#F6E7C8;--metal:#5B678F;--skin:#D9A77C;--shirt:#6A5FC4;--ball:#E07B12;--earth:#4d9be6;--earth-line:#cfd3d8;--book:#9B72C9;--cab:#1b1b1d;--shadow:none;color-scheme:dark;--gray:#8f8b8c;--tint:#0f2a38;--attn:#ffca08;--paper-line:rgba(244,242,242,.04);--yellow:#ffca08;--blue:#25aae2}
 body{background-color:var(--bg);background-image:linear-gradient(var(--grid-major) 1px,transparent 1px),linear-gradient(90deg,var(--grid-major) 1px,transparent 1px),linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);background-size:100px 100px,100px 100px,20px 20px,20px 20px;margin:0;color:var(--ink);font-family:var(--fb);font-size:21px;line-height:1.55}
 .wrap{max-width:1220px;margin:0 auto;padding-block:24px 80px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:28px}
 .bar{display:none}
@@ -59,14 +60,29 @@ nav a{flex:none;font-weight:600;font-size:18px;text-decoration:none;color:var(--
 .glow{filter:drop-shadow(2px 0 0 var(--hl-line)) drop-shadow(-2px 0 0 var(--hl-line)) drop-shadow(0 2px 0 var(--hl-line)) drop-shadow(0 -2px 0 var(--hl-line))}
 .slot{font:inherit;min-width:1.8em;min-height:1.55em;padding:0 .18em;border:2px solid var(--navy);border-radius:8px;background:var(--card);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s}
 .slot.filled{border-color:var(--border)}
-.slot.u{min-width:1.6em}
+.slot.u{font-size:.78em;min-width:1.6em;min-height:1.6em}
+.quantity{display:inline-flex;align-items:baseline;gap:.14em;white-space:nowrap}
+.quantity .slot{align-self:center}
+.unit-symbol{font-size:.78em}
+.sqrt{display:inline-flex;align-items:stretch;max-width:100%}
+.sqrt::before{content:"√";font-size:1.25em;align-self:center}
+.radicand{display:inline-flex;align-items:center;justify-content:center;gap:.28em;border-top:1px solid currentColor;padding:.15em .1em 0}
+.power-term{display:inline-flex;align-items:center;white-space:nowrap}
+.power-term>sup{font-size:.6em;align-self:flex-start}
+.calc-steps{display:flex;flex-direction:column;gap:16px;min-width:0}
+.calc-line{box-sizing:border-box;width:100%;max-width:100%;min-width:0;overflow-x:auto;padding:4px 2px 8px;direction:ltr}
+.calc-line .eqn{width:max-content;min-width:100%;flex-wrap:nowrap;font-size:clamp(21px,2.2vw,29px)}
+.calc-line .sqrt,#s6calc .steps .sqrt{flex-shrink:0}
+#s6calc .steps .eqn{box-sizing:border-box;max-width:100%;min-width:0;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:4px 2px 8px;font-size:clamp(21px,2.2vw,29px)}
+.fb .m,.narr .m{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle}
+.slot.u sup{font-size:.65em}
 .slot.ok{border:3px solid var(--ok);background:var(--ok-bg)}.slot.bad{border:3px solid var(--bad);background:var(--bad-bg)}
 .picking .slot{background:var(--cyan-soft)}
 .picking .slot.svgslot rect{stroke:var(--hl-line);stroke-width:5}
 .pop{transform:scale(1.18)}
 .tray{direction:ltr;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 .tile{font:500 22px var(--fm);min-width:60px;min-height:54px;padding:0 12px;border-radius:8px;border:1px solid var(--border);background:var(--raised);color:var(--ink);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
-.tile.unit{border-color:var(--net)}
+.tile.unit{border-color:var(--net);font-size:18px;min-width:48px;min-height:44px;align-self:center}
 .tile.idt{font-family:var(--fb);font-size:22px}
 .tile.sel{background:var(--cyan-soft);border:2px solid var(--navy)}
 .dragging{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:.92;box-shadow:var(--shadow)}
@@ -115,13 +131,56 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 .rule{font-weight:700;color:var(--ink);background:var(--raised);border-radius:8px;padding:8px 12px}
 .rid{display:flex;flex-direction:column;gap:10px;padding-block:14px;border-top:1px solid var(--line)}
 .rid .btn{text-align:right;border-radius:8px;width:100%}
-.rid .btn.right{border:3px solid var(--ok);background:var(--ok-bg);color:var(--ink)}
-.rid .btn.right::before{content:"✓ נכון · ";color:var(--ok-ink)}
-.rid .btn.wrong{border:3px solid var(--bad);background:var(--bad-bg);color:var(--ink)}
-.rid .btn.wrong::before{content:"✗ לא נכון · ";color:var(--bad-ink)}
+.btn.right,.btn.right.on{border:3px solid var(--ok);background:var(--ok-bg);color:var(--ink)}
+.btn.wrong,.btn.wrong.on{border:3px solid var(--bad);background:var(--bad-bg);color:var(--ink)}
+.slot.filled{cursor:grab;touch-action:none}
+.sound{display:inline-flex;align-items:center;gap:6px}
 .foot{color:var(--muted);font-size:18px}
 .theme{margin-inline-start:auto}
 @media (prefers-reduced-motion:reduce){.steps .eqn.show{animation:none}.who p,.slot{transition:none}}
+
+/* ===== מגמת מידע ונתונים: white page, white cards, three-colour rule, yellow for the one main action ===== */
+body{background-image:linear-gradient(var(--paper-line) 1px,transparent 1px),linear-gradient(90deg,var(--paper-line) 1px,transparent 1px);background-size:24px 24px;font-size:19px;line-height:1.6}
+.bar{display:block;height:12px;margin:-24px -16px 8px;background:linear-gradient(to left,var(--blue) 0 33.33%,var(--gray) 33.33% 66.66%,var(--yellow) 66.66% 100%)}
+header{padding-bottom:20px;border-bottom:3px solid var(--yellow)}
+h1{font-weight:700;letter-spacing:0}
+h2{font-weight:600}
+.lead{color:var(--muted);font-size:20px}
+.tagline{font-family:'Gveret Levin','Rubik',cursive;font-size:30px;line-height:36px;color:var(--cyan-ink)}
+nav a{border-radius:12px;border-color:var(--line);color:var(--ink);font-weight:500;background:var(--card)}
+nav a:hover{background:var(--tint)}
+.station{border-radius:20px;border:1px solid var(--line);box-shadow:var(--shadow);padding:28px}
+.tag{display:inline-block;align-self:flex-start;font-family:var(--fb);font-size:15px;font-weight:600;padding:2px 12px;border-radius:999px;background:var(--blue);color:#1f1d1e}
+.task{background:var(--tint);border:0;border-radius:12px;list-style:none;padding:16px 20px;counter-reset:t;gap:10px;font-weight:500}
+.task li{counter-increment:t;display:grid;grid-template-columns:32px 1fr;gap:10px;align-items:start}
+.task-text{min-width:0;text-align:start}
+.task li::before{content:counter(t);display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--yellow);color:var(--on-yellow);font-weight:700;font-size:16px}
+.stage{border-radius:12px;background:var(--card);border-color:var(--line)}
+.bench{border-radius:12px;background:var(--card);border:1px solid var(--border)}
+.narr{border-radius:12px}
+.btn{border-radius:12px;font-weight:600;font-size:18px;border:2px solid var(--border);background:var(--card)}
+.btn.primary{background:var(--yellow);border-color:var(--yellow);color:var(--on-yellow)}
+.btn.on{background:var(--blue);border-color:var(--blue);color:#1f1d1e}
+.btn.ghost{border-color:var(--line)}
+.btn:hover:not(:disabled){filter:brightness(.95)}
+.btn:focus-visible,.tile:focus-visible,.slot:focus-visible,input:focus-visible,nav a:focus-visible{box-shadow:none;outline:3px solid var(--focus);outline-offset:2px}
+.slot{border-radius:6px;border-color:var(--navy)}
+.tile{border-radius:6px;background:var(--card);font-weight:600}
+.tile.sel{background:var(--yellow);border-color:var(--yellow);color:var(--on-yellow)}
+.picking .slot{background:#fff4c2}
+:root[data-theme="dark"] .picking .slot{background:#3a3000}
+.fb{border-radius:12px;border-width:2px !important}
+.read div{border-radius:20px;border:0;border-top:0;background:var(--raised);padding:14px 18px;font-weight:500;color:var(--muted)}
+.read div.f,.read div.o,.read div.n{border-top:0;box-shadow:inset 0 -6px 0 var(--force)}
+.read div.o{box-shadow:inset 0 -6px 0 var(--opp)}.read div.n{box-shadow:inset 0 -6px 0 var(--net)}
+.read b{font-family:var(--fd);font-weight:700;font-size:34px;color:var(--ink)}
+.chip{font-size:15px;font-weight:600}
+.mission{border-color:var(--border);font-weight:600}
+.rule{border-radius:12px;background:var(--tint)}
+input[type=range]{accent-color:var(--navy)}
+.handle{fill:var(--yellow);stroke:var(--ink)}
+.m{font-variant-numeric:tabular-nums}
+.foot{font-size:15px}
 </style>
 
 </head>
@@ -131,9 +190,8 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <div class="bar"></div>
 <p class="hint"><a href="../" style="color:var(--cyan-ink)">דף פתיחה</a> · <a href="../forces-deck/" style="color:var(--cyan-ink)">למצגת</a></p>
 <h1>מעבדת כוחות</h1>
-<p class="lead">שש תחנות לתרגול כוחות. בכל תחנה קראו את ההוראות שבמסגרת, בצעו ובדקו את התשובה.</p>
-<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכת יום</button></div>
-<p class="hint">גררו מספר או סימון אל המשבצת המתאימה. אפשר גם ללחוץ עליו ואז על המשבצת. ΣF מסמן את הכוח השקול, ו־N היא יחידת המידה ניוטון.</p>
+<p class="lead">שש תחנות לתרגול כוחות. בכל תחנה קראו את ההוראות שבמסגרת, בצעו את המשימות ובדקו את תשובותיכם.</p>
+<div class="row"><span class="chip f">כוח</span><span class="chip o">כוח מנוגד</span><span class="chip n">כוח שקול</span><button class="btn ghost theme" id="themeBtn" type="button" aria-pressed="false">ערכה כהה</button><button class="btn ghost sound" id="soundBtn" type="button" aria-pressed="true">צליל: פועל</button></div>
 <nav aria-label="תחנות"><a href="#st1">1 · ימינה ושמאלה</a><a href="#st2">2 · ספר</a><a href="#st3">3 · החוק השלישי</a><a href="#st4">4 · כדור ואדם</a><a href="#st5">5 · כוחות בזווית</a><a href="#st6">6 · חידות</a></nav>
 </header>
 
@@ -148,10 +206,10 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <button class="btn" id="s1r">הפעלה: הארגז מתחיל לנוע</button>
 </div>
 <div class="work">
-<ol class="task"><li>בחרו לכל כוח מספר עם סימן: ימינה פלוס, שמאלה מינוס. גררו אותו למשבצת המתאימה.</li><li>חברו את המספרים עם הסימנים. השלימו תוצאה ויחידת מידה ולחצו "בדיקה".</li><li>לעזרה לחצו "פתרון צעד אחר צעד".</li></ol>
+<ol class="task"><li><span class="task-text">בחרו לכל כוח מספר עם סימן לפי כיוונו: ימינה פלוס, שמאלה מינוס. גררו מספר ויחידת מידה למשבצות המתאימות.</span></li><li><span class="task-text">חברו את הכוחות עם הסימנים והיחידות. השלימו תוצאה ויחידת מידה ולחצו "בדיקה". אפשר לגרור את אותה יחידה כמה פעמים.</span></li><li><span class="task-text">לעזרה, לחצו "פתרון צעד אחר צעד".</span></li></ol>
 <div class="bench" id="b1">
 <div class="eqn sym"><span>ΣF</span><span>=</span><span id="y1">F<sub>1</sub></span><span>+</span><span id="y2">F<sub>2</sub></span></div>
-<div class="eqn"><span>ΣF</span><span>=</span><button class="slot" data-k="a" aria-label="משבצת לכוח של דנה"></button><span>+</span><button class="slot" data-k="b" aria-label="משבצת לכוח של יואב"></button><span>=</span><button class="slot" data-k="r" aria-label="משבצת לתוצאה"></button><button class="slot u" data-k="u" aria-label="משבצת ליחידה"></button></div>
+<div class="eqn"><span>ΣF =</span><span class="quantity">(<button class="slot" data-k="a" aria-label="משבצת לכוח של דנה"></button><button class="slot u" data-k="ua" aria-label="יחידת מידה לכוח של דנה"></button>)</span><span>+</span><span class="quantity">(<button class="slot" data-k="b" aria-label="משבצת לכוח של יואב"></button><button class="slot u" data-k="ub" aria-label="יחידת מידה לכוח של יואב"></button>)</span><span>=</span><span class="quantity"><button class="slot" data-k="r" aria-label="משבצת לתוצאה"></button><button class="slot u" data-k="u" aria-label="יחידת מידה לתוצאה"></button></span></div>
 <div class="tray"><button class="tile" data-v="+4">+4</button><button class="tile" data-v="-4">−4</button><button class="tile" data-v="+2">+2</button><button class="tile" data-v="-2">−2</button><button class="tile" data-v="+6">+6</button><button class="tile" data-v="-6">−6</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button><button class="tile unit" data-v="m">m</button></div>
 </div>
 <p class="narr" id="s1n" hidden></p>
@@ -169,7 +227,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <div class="stage drag"><svg id="s2" viewBox="0 0 600 470" role="img" aria-label="ספר על שולחן ומגש של חצים לגרירה"></svg></div>
 </div>
 <div class="work">
-<ol class="task"><li>בחרו חצים לכוחות שפועלים <b>על הספר</b>. גררו את תחילת כל חץ למקום שבו הספר נוגע בשולחן. אפשר גם ללחוץ על חץ.</li><li>לחצו "בדיקה".</li></ol>
+<ol class="task"><li><span class="task-text">בחרו חצים לכוחות שפועלים <b>על הספר</b>. גררו את תחילת כל חץ למקום שבו הספר נוגע בשולחן. אפשר גם ללחוץ על חץ.</span></li><li><span class="task-text">לחצו "בדיקה".</span></li></ol>
 <div class="row"><button class="btn primary" id="s2c">בדיקה</button><button class="btn ghost" id="s2r">התחלה מחדש</button></div>
 <div id="s2fb" hidden></div>
 <div id="s2q" hidden class="bench">
@@ -191,7 +249,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <button class="btn primary" id="s4p">הפעלה</button>
 </div>
 <div class="work">
-<ol class="task"><li>לחצו "הפעלה". עקבו אחר המספרים שמופיעים ליד האות F: הראשון מציין מי מפעיל כוח, והשני על מי הוא פועל.</li><li>בסיום הצפייה ענו: על מי הכוח פועל, ומה גודלו ביחס לכוח השני?</li></ol>
+<ol class="task"><li><span class="task-text">לחצו "הפעלה". עקבו אחר המספרים שמופיעים ליד האות F: הראשון מציין מי מפעיל כוח, והשני על מי הוא פועל.</span></li><li><span class="task-text">בסיום הצפייה ענו: על מי הכוח פועל, ומה גודלו ביחס לכוח השני?</span></li></ol>
 <div class="bench who" id="s4w">
 <p id="s4l1" class="dim"><span class="m cf" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i1a">?</b>,<b class="ix" id="i1b">?</b></sub></span> &nbsp;החץ הכתום: <b>מי מפעיל?</b> גוף 1. <b>על מי?</b> גוף 2.</p>
 <p id="s4l2" class="dim"><span class="m co" style="font-size:32px"><span class="vec">F</span><sub><b class="ix" id="i2a">?</b>,<b class="ix" id="i2b">?</b></sub></span> &nbsp;החץ התכלת: <b>מי מפעיל?</b> גוף 2. <b>על מי?</b> גוף 1.</p>
@@ -215,7 +273,7 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <div class="row"><button class="btn primary" id="s5p">הפעלה</button><button class="btn" id="s5go" disabled>המשך ההנפשה</button></div>
 </div>
 <div class="work">
-<ol class="task"><li>לחצו "הפעלה". ברגע המגע ההנפשה נעצרת.</li><li>גררו "גוף 1" ו"גוף 2" למשבצות שליד הכדור והאדם. לכל חץ התאימו סימון: מי מפעיל כוח ועל מי.</li><li>לחצו "בדיקה" וקראו את ההסבר. אחר כך לחצו "המשך ההנפשה".</li></ol>
+<ol class="task"><li><span class="task-text">לחצו "הפעלה". ברגע המגע ההנפשה נעצרת.</span></li><li><span class="task-text">גררו "גוף 1" ו"גוף 2" למשבצות שליד הכדור והאדם. התאימו לכל חץ סימון לפי מה שלמדתם בתחנה הקודמת: מי מפעיל כוח ועל מי.</span></li><li><span class="task-text">לחצו "בדיקה" וקראו את ההסבר. אחר כך לחצו "המשך ההנפשה".</span></li></ol>
 <div class="bench" id="b5">
 <div class="tray"><button class="tile idt" data-v="1">גוף 1</button><button class="tile idt" data-v="2">גוף 2</button><button class="tile" data-v="F12"><span class="vec">F</span><sub>1,2</sub></button><button class="tile" data-v="F21"><span class="vec">F</span><sub>2,1</sub></button></div>
 </div>
@@ -230,31 +288,36 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 <h2>שני חוטים וסירה אחת</h2>
 <div class="cols">
 <div class="scene">
-<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. שנו את הזווית: גררו את העיגול בצבע טורקיז, או הזיזו את הסמן שמתחת לציור.</p>
+<p class="story">שני ילדים מושכים סירת צעצוע בשני חוטים, בכוחות של 4N ו־2N. גדלי הכוחות קבועים. שנו את הזווית ביניהם בעזרת העיגול הצהוב או הסמן שמתחת לציור.</p>
 <div class="stage drag"><svg id="s6" viewBox="0 0 600 380" role="img" aria-label="סירה, שני כוחות והכוח השקול לפי כלל המקבילית"></svg></div>
 <label for="s6a" class="q">הזווית בין החוטים</label>
 <input type="range" id="s6a" min="0" max="180" step="1" value="60">
 <div class="read"><div>זווית<b id="s6ra">60°</b></div><div class="n">כוח שקול<b id="s6rm">5.29 N</b></div></div>
 <p id="s6n" class="foot"></p>
-<div class="row" id="s6m"></div>
 </div>
 <div class="work">
-<ol class="task"><li>שנו את הזווית עד שתמצאו כל אחת מארבע התוצאות שמופיעות מתחת לציור. תוצאה שמצאתם תסומן ב־✓.</li><li>לחצו "בניית המקבילית". צפו איך קווי העזר יוצרים מקבילית, והאלכסון מייצג את השקול.</li><li>לחצו "חישוב בזווית ישרה" לפתרון בפיתגורס. בכל שלב רואים איזה מספר כותבים בנוסחה. לחצו "שלב הבא" כדי להתקדם.</li></ol>
+<ol class="task"><li><span class="task-text">שנו את הזווית בין החוטים ובדקו כיצד משתנים הגודל והכיוון של הכוח השקול.</span></li><li><span class="task-text">לחצו "בניית המקבילית". צפו כיצד קווי העזר משלימים מקבילית. האלכסון שיוצא מהסירה מייצג את השקול.</span></li><li><span class="task-text">לחצו "חישוב בזווית ישרה" לפתרון בעזרת משפט פיתגורס. עקבו אחר הצבת גדלי הכוחות בנוסחה. לחצו "שלב הבא" כדי להתקדם.</span></li></ol>
 <div class="row"><button class="btn" id="s6b">בניית המקבילית</button><button class="btn primary" id="s6y">חישוב בזווית ישרה</button></div>
 <div class="bench" id="s6calc">
 <div class="eqn sym"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><span id="q1">F<sub>1</sub></span><sup>2</sup></span><span>+</span><span class="pw"><span id="q2">F<sub>2</sub></span><sup>2</sup></span><span>)</span></div>
 <div class="steps">
-<div class="eqn" id="py1"><span>=</span><span>√(</span><span class="pw"><span class="slot filled" id="pa">&nbsp;</span><sup>2</sup></span><span>+</span><span class="pw"><span class="slot filled" id="pb">&nbsp;</span><sup>2</sup></span><span>)</span></div>
-<div class="eqn" id="py2"><span>=</span><span>√(16 + 4)</span></div>
-<div class="eqn" id="py3"><span>=</span><span>√20</span></div>
-<div class="eqn" id="py4"><span class="cn">≈ 4.47 N</span></div>
+<div class="eqn" id="py1"><span>=</span><span class="sqrt"><span class="radicand"><span class="power-term">(<span class="quantity"><span class="slot" id="pa">&nbsp;</span><span class="slot u" id="pua">&nbsp;</span></span>)<sup>2</sup></span><span>+</span><span class="power-term">(<span class="quantity"><span class="slot" id="pb">&nbsp;</span><span class="slot u" id="pub">&nbsp;</span></span>)<sup>2</sup></span></span></span></div>
+<div class="eqn" id="py2"><span>=</span><span class="sqrt"><span class="radicand"><span>16 <span class="unit-symbol">N<sup>2</sup></span> + 4 <span class="unit-symbol">N<sup>2</sup></span></span></span></span></div>
+<div class="eqn" id="py3"><span>=</span><span class="sqrt"><span class="radicand"><span>20 <span class="unit-symbol">N<sup>2</sup></span></span></span></span></div>
+<div class="eqn" id="py4"><span class="cn">≈ 4.47 <span class="unit-symbol">N</span></span></div>
 </div>
 <p class="narr" id="s6t" hidden></p>
 </div>
 <div class="bench" id="b6">
 <p class="q">תורכם: שני כוחות, 3N ו־4N, פועלים על גוף בזווית ישרה. השלימו את חישוב גודל השקול.</p>
-<div class="eqn"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><button class="slot" data-k="a" aria-label="כוח ראשון"></button><sup>2</sup></span><span>+</span><span class="pw"><button class="slot" data-k="b" aria-label="כוח שני"></button><sup>2</sup></span><span>)</span><span>=</span><button class="slot" data-k="r" aria-label="תוצאה"></button><button class="slot u" data-k="u" aria-label="יחידה"></button></div>
-<div class="tray"><button class="tile" data-v="3">3</button><button class="tile" data-v="4">4</button><button class="tile" data-v="5">5</button><button class="tile" data-v="7">7</button><button class="tile" data-v="12">12</button><button class="tile" data-v="25">25</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button></div>
+<p class="hint">השלימו מספרים ויחידות בכל ארבע השורות: הצבה, העלאה בריבוע, חיבור והוצאת שורש. אפשר להשתמש באותו מספר או באותה יחידה כמה פעמים.</p>
+<div class="calc-steps">
+<div class="calc-line"><div class="eqn"><span>|Σ<span class="vec">F</span>| =</span><span class="sqrt"><span class="radicand"><span class="power-term">(<span class="quantity"><button class="slot" data-k="a" aria-label="גודל הכוח הראשון"></button><button class="slot u" data-k="ua" aria-label="יחידת מידה לכוח הראשון"></button></span>)<sup>2</sup></span><span>+</span><span class="power-term">(<span class="quantity"><button class="slot" data-k="b" aria-label="גודל הכוח השני"></button><button class="slot u" data-k="ub" aria-label="יחידת מידה לכוח השני"></button></span>)<sup>2</sup></span></span></span></div></div>
+<div class="calc-line"><div class="eqn"><span>=</span><span class="sqrt"><span class="radicand"><span class="quantity"><button class="slot" data-k="a2" aria-label="ריבוע גודל הכוח הראשון"></button><button class="slot u" data-k="ua2" aria-label="יחידת מידה לריבוע הכוח הראשון"></button></span><span>+</span><span class="quantity"><button class="slot" data-k="b2" aria-label="ריבוע גודל הכוח השני"></button><button class="slot u" data-k="ub2" aria-label="יחידת מידה לריבוע הכוח השני"></button></span></span></span></div></div>
+<div class="calc-line"><div class="eqn"><span>=</span><span class="sqrt"><span class="radicand"><span class="quantity"><button class="slot" data-k="s" aria-label="סכום ריבועי הכוחות"></button><button class="slot u" data-k="us" aria-label="יחידת מידה לסכום הריבועים"></button></span></span></span></div></div>
+<div class="calc-line"><div class="eqn"><span>=</span><span class="quantity"><button class="slot" data-k="r" aria-label="גודל השקול אחרי הוצאת שורש"></button><button class="slot u" data-k="u" aria-label="יחידת מידה לתוצאה"></button></span></div></div>
+</div>
+<div class="tray"><button class="tile" data-v="3">3</button><button class="tile" data-v="4">4</button><button class="tile" data-v="5">5</button><button class="tile" data-v="7">7</button><button class="tile" data-v="9">9</button><button class="tile" data-v="12">12</button><button class="tile" data-v="16">16</button><button class="tile" data-v="25">25</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="N²" aria-label="ניוטון בריבוע">N<sup>2</sup></button><button class="tile unit" data-v="kg">kg</button></div>
 </div>
 <button class="btn primary" id="s6c">בדיקה</button>
 <div id="s6fb" hidden></div>
@@ -275,12 +338,12 @@ input[type=range]{width:100%;height:44px;accent-color:var(--navy)}
 /* CONTENT: mirrors the teacher deck. Change numbers, stories and riddles here when the deck changes. */
 const C={F1:4,F2:2,W:10,LIFT:{rest:0,up:2,down:-2},
 riddles:[
-{q:'ספר נשאר במנוחה על שולחן. כדור הארץ מושך אותו למטה והשולחן דוחף אותו למעלה בכוח שווה בגודלו. האם שני הכוחות הם זוג פעולה ותגובה?',o:['כן, כי הם שווים ומנוגדים','לא, כי שניהם פועלים על הספר','כן, כי הספר במנוחה'],a:1,why:['בדקו על מי פועל כל כוח. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.','נכון. זוג פעולה ותגובה פועל תמיד על שני גופים שונים. השוויון כאן נובע מכך שהספר במנוחה (החוק הראשון).','הספר נשאר במנוחה ולכן הכוחות עליו שווים. שניהם פועלים על הספר, ולכן אינם זוג פעולה ותגובה.']},
-{q:'ספר מונח על שולחן במעלית. כדור הארץ מושך אותו למטה בכוח של 10N. כשהמעלית מתחילה לנסוע למעלה, השולחן דוחף את הספר בכוח של 12N. באיזה כוח הספר דוחף את השולחן?',o:['10N, כמו משיכת כדור הארץ','12N בדיוק','2N, ההפרש','14N'],a:1,why:['10N הוא גודל המשיכה של כדור הארץ. השאלה עוסקת בכוחות שהספר והשולחן מפעילים זה על זה.','נכון. השולחן דוחף את הספר והספר דוחף את השולחן. אלה כוחות של פעולה ותגובה: גודלם שווה גם כשהתנועה משתנה.','2N הוא הכוח השקול על הספר, לא הכוח בין הספר לשולחן.','לפי החוק השלישי, הכוחות שהספר והשולחן מפעילים זה על זה שווים בגודלם.']},
+{q:'ספר נשאר במנוחה על שולחן. כדור הארץ מושך אותו למטה והשולחן דוחף אותו למעלה בכוח שווה בגודלו. האם שני הכוחות הם זוג פעולה ותגובה?',o:['כן, כי הם שווים ומנוגדים','לא, כי שניהם פועלים על הספר','כן, כי הספר במנוחה'],a:1,why:['בדקו על מי פועל כל כוח. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.','נכון. בזוג פעולה ותגובה כל כוח פועל על גוף אחר. השוויון כאן נובע מכך שהספר במנוחה (החוק הראשון).','הספר נשאר במנוחה ולכן הכוחות עליו שווים. שניהם פועלים על הספר, ולכן אינם זוג פעולה ותגובה.']},
+{q:'ספר מונח על שולחן במעלית. כדור הארץ מושך אותו למטה בכוח של 10N. כשהמעלית מתחילה לנסוע למעלה, השולחן דוחף את הספר בכוח של 12N. באיזה כוח הספר דוחף את השולחן?',o:['10N, כמו משיכת כדור הארץ','12N בדיוק','2N, ההפרש','14N'],a:1,why:['10N הוא גודל המשיכה של כדור הארץ. השאלה עוסקת בכוחות שהספר והשולחן מפעילים זה על זה.','נכון. השולחן מפעיל על הספר כוח כלפי מעלה (כוח נורמלי). זהו הכוח הנגדי לכוח שהספר מפעיל על השולחן כלפי מטה. אלה כוחות של פעולה ותגובה: הם שווים בגודלם ופועלים על גופים שונים, גם כשהתנועה משתנה.','2N הוא הכוח השקול על הספר, לא הכוח בין הספר לשולחן.','לפי החוק השלישי, הכוחות שהספר והשולחן מפעילים זה על זה שווים בגודלם.']},
 {q:'זבוב מתנגש בשמשה של משאית נוסעת. על מי פועל כוח גדול יותר?',o:['על הזבוב','על המשאית','הכוחות שווים בגודלם'],a:2,why:['לזבוב מסה קטנה מאוד ולכן תנועתו משתנה הרבה יותר. הכוחות שהזבוב והשמשה מפעילים זה על זה שווים בגודלם.','גם כשגוף אחד גדול מהאחר, הכוחות שהם מפעילים זה על זה שווים בגודלם.','נכון. הזבוב והשמשה מפעילים זה על זה כוחות שווים בגודלם. תנועת הזבוב משתנה הרבה יותר, כי מסתו קטנה בהרבה.']},
-{q:'סוס מושך עגלה והיא מתחילה לנוע. העגלה מושכת את הסוס בכוח שווה והפוך. מדוע שני הכוחות אינם מאזנים זה את זה?',o:['כי הסוס מושך חזק יותר מהעגלה','כי שני הכוחות פועלים על גופים שונים','כי החוק השלישי לא חל על גופים בתנועה'],a:1,why:['הכוחות בין הסוס לעגלה שווים בגודלם תמיד.','נכון. משיכת הסוס פועלת על העגלה, ומשיכת העגלה פועלת על הסוס. בחישוב השקול על העגלה כוללים את משיכת הסוס ואת הכוחות שמתנגדים לתנועתה.','החוק השלישי חל תמיד, גם בתנועה.']},
-{q:'שני כוחות של 5N פועלים על גוף אחד. איזה כוח שקול אינו אפשרי?',o:['אפס','בערך 7N','10N','12N'],a:3,why:['אפשרי, כשהכוחות מנוגדים.','אפשרי כשהכוחות בזווית ישרה. בפיתגורס מקבלים שורש של 50, בערך 7.07N.','אפשרי, כשהכוחות באותו כיוון.','נכון. השקול לא יכול להיות גדול מסכום הגדלים, 10N.']},
-{q:'על גוף פועלים כוח של 4N שמאלה וכוח של 2N ימינה. מהו הכוח השקול?',o:['6N שמאלה','2N ימינה','2N שמאלה','גודל שלילי: מינוס 2N'],a:2,why:['מחברים גדלים רק כשהכוחות באותו כיוון.','הגודל נכון, אבל השקול פונה לכיוון הכוח הגדול יותר.','נכון. בחרנו ימינה כחיובי, ולכן מחשבים: −4 + 2 = −2. המינוס מציין שמאלה. גודל השקול הוא 2N.','הסימן השלילי מתאר כיוון. גודל של כוח אינו שלילי.']}
+{q:'סוס מושך עגלה והיא מתחילה לנוע. העגלה מושכת את הסוס בכוח שווה והפוך. מדוע שני הכוחות האלה אינם יוצרים שקול אפס על העגלה?',o:['כי הסוס מושך חזק יותר מהעגלה','כי שני הכוחות פועלים על גופים שונים','כי החוק השלישי לא חל על גופים בתנועה'],a:1,why:['הכוחות בין הסוס לעגלה שווים בגודלם תמיד.','נכון. משיכת הסוס פועלת על העגלה, ומשיכת העגלה פועלת על הסוס. בחישוב השקול על העגלה כוללים את משיכת הסוס ואת הכוחות שמתנגדים לתנועתה.','החוק השלישי חל תמיד, גם בתנועה.']},
+{q:'שני כוחות של 5N פועלים על גוף אחד. איזה כוח שקול אינו אפשרי?',o:['אפס','בערך 7N','10N','12N'],a:3,why:['אפשרי, כשהכוחות מנוגדים.','אפשרי כשהכוחות בזווית ישרה. בעזרת משפט פיתגורס מקבלים את השורש של 50, בערך 7.07N.','אפשרי, כשהכוחות באותו כיוון.','נכון. השקול לא יכול להיות גדול מסכום הגדלים, 10N.']},
+{q:'על גוף פועלים כוח של 4N שמאלה וכוח של 2N ימינה. מהו הכוח השקול?',o:['6N שמאלה','2N ימינה','2N שמאלה','גודל שלילי: מינוס 2N'],a:2,why:['מחברים גדלים רק כשהכוחות באותו כיוון.','הגודל נכון, אבל השקול פונה לכיוון הכוח הגדול יותר.','נכון. בחרנו בכיוון ימינה כחיובי, ולכן מחשבים: <span class="m" dir="ltr">−4 + 2 = −2</span>. סימן המינוס מציין שהשקול פונה שמאלה. גודל השקול הוא <span class="m" dir="ltr">2 N</span>.','הסימן השלילי מתאר כיוון. גודל של כוח אינו שלילי.']}
 ]};
 
 /* ---------- engine ---------- */
@@ -297,7 +360,7 @@ function Arrow(p,cls,w){const g=el('g',{class:'arr '+cls},p),ln=el('line',{'stro
  set(x1,y1,x2,y2){const dx=x2-x1,dy=y2-y1,L=Math.hypot(dx,dy);g.style.display=L<3?'none':'';if(L<3)return o;const ux=dx/L,uy=dy/L,h=Math.min(22,L*.6);ln.setAttribute('x1',x1);ln.setAttribute('y1',y1);ln.setAttribute('x2',x2-ux*h*.8);ln.setAttribute('y2',y2-uy*h*.8);hd.setAttribute('points',`${x2},${y2} ${x2-ux*h-uy*h*.5},${y2-uy*h+ux*h*.5} ${x2-ux*h+uy*h*.5},${y2-uy*h-ux*h*.5}`);return o},
  hide(){g.style.display='none';return o},cls(c){g.setAttribute('class','arr '+c);return o},
  grow(x1,y1,x2,y2,ms){return tween(ms||600,k=>o.set(x1,y1,x1+(x2-x1)*k,y1+(y2-y1)*k))}};o.hide();return o;}
-function say(box,ok,html){box.hidden=false;box.className='fb '+(ok?'ok':'no');box.innerHTML=ok?html.replace(/^(נכון|מדויק)\.\s*/,''):html.replace(/^לא נכון\.\s*/,'');}
+function say(box,ok,html){SND.fx(ok?'ok':'no');box.hidden=false;box.className='fb '+(ok?'ok':'no');box.innerHTML=ok?html.replace(/^(נכון|מדויק)\.\s*/,''):html.replace(/^לא נכון\.\s*/,'');}
 function pt(svg,e){const m=svg.getScreenCTM();return m?new DOMPoint(e.clientX,e.clientY).matrixTransform(m.inverse()):{x:0,y:0};}
 const fmt=v=>String(v).replace('-','−');
 const sg=v=>(v<0?'−':'+')+Math.abs(v);
@@ -306,13 +369,20 @@ async function fly(from,to,html,ms){if(RM)return;const a=from.getBoundingClientR
  await tween(ms||950,k=>{const x=ax+(bx-ax)*k,y=ay+(by-ay)*k-Math.sin(Math.PI*k)*70;d.style.transform=`translate(${x}px,${y}px) scale(${1+.3*Math.sin(Math.PI*k)})`});d.remove();}
 function pulse(e){e.classList.add('pop');setTimeout(()=>e.classList.remove('pop'),280);}
 function glow(list,on){list.forEach(e=>e&&e.classList.toggle('glow',on))}
-function choice(box,items,onpick){const bs=items.map((it,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=it;b.setAttribute('aria-pressed','false');b.onclick=()=>{bs.forEach(o=>{o.classList.remove('on');o.setAttribute('aria-pressed','false')});b.classList.add('on');b.setAttribute('aria-pressed','true');onpick(i)};box.appendChild(b);return b});return bs;}
+function choice(box,items,onpick,right){const bs=items.map((it,i)=>{const b=document.createElement('button');b.type='button';b.className='btn';b.textContent=it;b.setAttribute('aria-pressed','false');b.onclick=()=>{bs.forEach(o=>{o.classList.remove('on','right','wrong');o.setAttribute('aria-pressed','false')});b.classList.add('on');if(right!=null)b.classList.add(i===right?'right':'wrong');b.setAttribute('aria-pressed','true');onpick(i)};box.appendChild(b);return b});return bs;}
+/* Sound: short tones made in the browser. A tick for buttons, a soft pop for a placed tile, two notes for a correct answer, a low tone for a wrong one. */
+const SND=(()=>{let ctx=null,on=true,pend=false;try{on=localStorage.getItem('lab-sound')!=='off'}catch(e){}
+ const ac=()=>{if(!ctx){const A=window.AudioContext||window.webkitAudioContext;if(!A)return null;ctx=new A()}if(ctx.state==='suspended')ctx.resume();return ctx};
+ function tone(f,t0,d,type,vol,f2){const c=ac();if(!c)return;const o=c.createOscillator(),g=c.createGain(),t=c.currentTime+t0;o.type=type||'sine';o.frequency.setValueAtTime(f,t);if(f2)o.frequency.exponentialRampToValueAtTime(f2,t+d);g.gain.setValueAtTime(0.0001,t);g.gain.exponentialRampToValueAtTime(vol||.08,t+.012);g.gain.exponentialRampToValueAtTime(0.0001,t+d);o.connect(g).connect(c.destination);o.start(t);o.stop(t+d+.02)}
+ const play={tick(){tone(880,0,.05,'sine',.05)},drop(){tone(520,0,.08,'triangle',.08,700)},ok(){tone(660,0,.14,'sine',.09);tone(990,.11,.22,'sine',.09)},no(){tone(240,0,.26,'triangle',.1,170)}};
+ document.addEventListener('click',e=>{if(!on||!e.target.closest('button'))return;pend=true;setTimeout(()=>{if(pend)play.tick();pend=false},0)},true);
+ return{fx(k){pend=false;if(on)play[k]()},get on(){return on},set(v){on=v;try{localStorage.setItem('lab-sound',v?'on':'off')}catch(e){}}}})();
 /* A step-by-step player: each click on the button runs one step. */
 function Stepper(btn,label,list,before){let i=-1,busy=false;const reset=()=>{i=-1;btn.textContent=label};
  btn.addEventListener('click',async()=>{if(busy)return;busy=true;try{if(i===-1&&before)await before();i++;await list[i]();if(i>=list.length-1)reset();else btn.textContent=`שלב הבא (${i+2} מתוך ${list.length})`}finally{busy=false}});return{reset};}
 
 /* Tiles and slots: drag a tile onto a slot, or tap a tile and then a slot. Tapping a filled slot empties it. */
-const SHOW={F12:'<span class="vec">F</span><sub>1,2</sub>',F21:'<span class="vec">F</span><sub>2,1</sub>'};
+const SHOW={F12:'<span class="vec">F</span><sub>1,2</sub>',F21:'<span class="vec">F</span><sub>2,1</sub>','N²':'<span>N<sup>2</sup></span>'};
 function setSlot(s,v){s.dataset.v=v||'';s.classList.remove('ok','bad');s.classList.toggle('filled',!!v);
  if(s instanceof SVGElement){const t=s.querySelector('text');t.textContent='';t.setAttribute('class',/^[12]$/.test(v)?'he':'');if(!v){t.textContent='?';}else if(/^[12]$/.test(v)){t.setAttribute('direction','rtl');t.textContent='גוף '+v}else if(v==='F12'||v==='F21'){t.setAttribute('direction','ltr');t.appendChild(document.createTextNode('F'));const sub=el('tspan',{dy:7,'font-size':'16'},t);sub.textContent=v==='F12'?'1,2':'2,1';}}
  else s.innerHTML=v?(SHOW[v]||fmt(v)):'&nbsp;';}
@@ -320,14 +390,20 @@ function DnD(root,onchange){let sel=null,drag=null;const slots=()=>[...root.quer
  const clearSel=()=>{if(sel)sel.classList.remove('sel');sel=null;root.classList.remove('picking');(root._extra||[]).forEach(x=>x.classList.remove('picking'))};
  const pick=t=>{clearSel();sel=t;t.classList.add('sel');root.classList.add('picking');(root._extra||[]).forEach(x=>x.classList.add('picking'))};
  function slotAt(x,y){const e=document.elementFromPoint(x,y),s=e&&e.closest&&e.closest('.slot');return s&&slots().includes(s)?s:null}
- function put(t,s){setSlot(s,t.dataset.v);if(!(s instanceof SVGElement))pulse(s);onchange&&onchange(s)}
+ function put(t,s){setSlot(s,t.dataset.v);SND.fx('drop');if(!(s instanceof SVGElement))pulse(s);onchange&&onchange(s)}
+ let sdrag=null,noClick=false;
+ function ghostOf(v){const g=document.createElement('div');g.className='tile dragging'+(/^[12]$/.test(v)?' idt':'');g.style.cssText='display:inline-flex;align-items:center;justify-content:center';g.innerHTML=/^[12]$/.test(v)?'גוף '+v:(SHOW[v]||fmt(v));document.body.appendChild(g);return g}
+ function slotDown(e){if(e.button>0||sel)return;const s=e.target.closest&&e.target.closest('.slot');if(!s||!slots().includes(s)||!s.dataset.v)return;e.preventDefault();sdrag={s,v:s.dataset.v,x:e.clientX,y:e.clientY,g:null}}
+ addEventListener('pointermove',e=>{if(!sdrag)return;if(!sdrag.g&&Math.hypot(e.clientX-sdrag.x,e.clientY-sdrag.y)>8){sdrag.g=ghostOf(sdrag.v);setSlot(sdrag.s,'')}if(sdrag.g)sdrag.g.style.transform=`translate(${e.clientX-sdrag.g.offsetWidth/2}px,${e.clientY-sdrag.g.offsetHeight/2}px)`});
+ addEventListener('pointerup',e=>{if(!sdrag)return;const d=sdrag;sdrag=null;if(!d.g)return;d.g.remove();noClick=true;setTimeout(()=>{noClick=false},0);const t=slotAt(e.clientX,e.clientY);if(t){setSlot(t,d.v);SND.fx('drop');if(!(t instanceof SVGElement))pulse(t)}onchange&&onchange(d.s)});
+ addEventListener('pointercancel',()=>{if(!sdrag)return;if(sdrag.g){sdrag.g.remove();setSlot(sdrag.s,sdrag.v)}sdrag=null});
  root.addEventListener('pointerdown',e=>{const t=e.target.closest('.tile');if(!t||!root.contains(t))return;e.preventDefault();try{t.setPointerCapture(e.pointerId)}catch(_){}drag={t,x:e.clientX,y:e.clientY,g:null}});
  root.addEventListener('pointermove',e=>{if(!drag)return;if(!drag.g&&Math.hypot(e.clientX-drag.x,e.clientY-drag.y)>8){drag.g=drag.t.cloneNode(true);drag.g.classList.add('dragging');drag.g.classList.remove('sel');document.body.appendChild(drag.g)}if(drag.g)drag.g.style.transform=`translate(${e.clientX-drag.g.offsetWidth/2}px,${e.clientY-drag.g.offsetHeight/2}px)`});
  root.addEventListener('pointerup',e=>{if(!drag)return;const{t,g}=drag;drag=null;if(g){g.remove();const s=slotAt(e.clientX,e.clientY);if(s){put(t,s);clearSel()}}else sel===t?clearSel():pick(t)});
  root.addEventListener('pointercancel',()=>{if(drag&&drag.g)drag.g.remove();drag=null});
  root.addEventListener('click',e=>{const t=e.target.closest('.tile');if(t&&e.detail===0){sel===t?clearSel():pick(t)}});
  const onSlot=s=>{if(sel){put(sel,s);clearSel()}else if(s.dataset.v){setSlot(s,'');onchange&&onchange(s)}};
- const bind=r=>{r.addEventListener('click',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&slots().includes(s))onSlot(s)});r.addEventListener('keydown',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&s instanceof SVGElement&&(e.key==='Enter'||e.key===' ')){e.preventDefault();onSlot(s)}})};
+ const bind=r=>{r.addEventListener('pointerdown',slotDown);r.addEventListener('click',e=>{if(noClick)return;const s=e.target.closest&&e.target.closest('.slot');if(s&&slots().includes(s))onSlot(s)});r.addEventListener('keydown',e=>{const s=e.target.closest&&e.target.closest('.slot');if(s&&s instanceof SVGElement&&(e.key==='Enter'||e.key===' ')){e.preventDefault();onSlot(s)}})};
  bind(root);return{extra(x){root._extra=(root._extra||[]).concat(x);bind(x)},clear(){slots().forEach(s=>setSlot(s,''))}};}
 function svgSlot(p,x,y,w,h,k,label){const g=el('g',{class:'slot svgslot',tabindex:0,role:'button','data-k':k,'aria-label':label},p);el('rect',{x,y,width:w,height:h,rx:10},g);el('text',{x:x+w/2,y:y+h/2+8,'text-anchor':'middle'},g);setSlot(g,'');return g;}
 
@@ -347,24 +423,25 @@ let st;function flip(i){if(S.busy)return;S['d'+i]*=-1;full();clearHL();st.reset(
 $('s1f1').onclick=()=>flip(1);$('s1f2').onclick=()=>flip(2);
 const dirw=d=>d>0?'ימינה':'שמאלה';
 st=Stepper($('s1d'),'פתרון צעד אחר צעד',[
- async()=>{const E=ends();glow([a1.g,l1],true);$('y1').classList.add('hl');n1.innerHTML=`שלב 1: מסמנים את <span class="m">F<sub>1</sub></span>, הכוח של דנה. גודלו 4N, וכיוונו ${dirw(S.d1)}.`},
- async()=>{const E=ends();n1.innerHTML=`שלב 2: החץ פונה ${dirw(S.d1)}, ולכן ${S.d1>0?'פלוס':'מינוס'}: <span class="m">${sg(E.A)}</span>.`;await fly(l1,sl('a'),sg(E.A));setSlot(sl('a'),ss(E.A));pulse(sl('a'));clearHL()},
- async()=>{glow([a2.g,l2],true);$('y2').classList.add('hl');n1.innerHTML=`שלב 3: מסמנים את <span class="m">F<sub>2</sub></span>, הכוח של יואב. גודלו 2N, וכיוונו ${dirw(S.d2)}.`},
- async()=>{const E=ends();n1.innerHTML=`שלב 4: החץ פונה ${dirw(S.d2)}, ולכן ${S.d2>0?'פלוס':'מינוס'}: <span class="m">${sg(E.B)}</span>.`;await fly(l2,sl('b'),sg(E.B));setSlot(sl('b'),ss(E.B));pulse(sl('b'));clearHL()},
- async()=>{const E=ends();n1.innerHTML=`שלב 5: מחברים עם הסימנים: <span class="m">(${sg(E.A)}) + (${sg(E.B)}) = ${sg(E.net)}</span>.`;setSlot(sl('r'),ss(E.net));pulse(sl('r'))},
- async()=>{n1.innerHTML='שלב 6: מוסיפים יחידה. כוח מודדים בניוטון, N.';await fly(l1,sl('u'),'N',700);setSlot(sl('u'),'N');pulse(sl('u'));const E=ends();say($('s1fb'),true,`זה הפתרון המלא. התוצאה <span class="m">${sg(E.net)} N</span>: גודל ${Math.abs(E.net)}N, כיוון ${dirw(Math.sign(E.net))}. כעת שנו את כיוון אחד הכוחות ונסו לפתור בעצמכם.`)}
+ async()=>{const E=ends();glow([a1.g,l1],true);$('y1').classList.add('hl');n1.innerHTML=`שלב 1: זהו את <span class="m">F<sub>1</sub></span>, הכוח של דנה. גודלו 4N, וכיוונו ${dirw(S.d1)}.`},
+ async()=>{const E=ends();n1.innerHTML=`שלב 2: החץ פונה ${dirw(S.d1)}, ולכן ${S.d1>0?'פלוס':'מינוס'}. הציבו את המספר ואת היחידה בנפרד: <span class="m">${sg(E.A)} N</span>.`;await fly(l1,sl('a'),sg(E.A));setSlot(sl('a'),ss(E.A));setSlot(sl('ua'),'N');pulse(sl('a'));pulse(sl('ua'));clearHL()},
+ async()=>{glow([a2.g,l2],true);$('y2').classList.add('hl');n1.innerHTML=`שלב 3: זהו את <span class="m">F<sub>2</sub></span>, הכוח של יואב. גודלו 2N, וכיוונו ${dirw(S.d2)}.`},
+ async()=>{const E=ends();n1.innerHTML=`שלב 4: החץ פונה ${dirw(S.d2)}, ולכן ${S.d2>0?'פלוס':'מינוס'}. הציבו את המספר ואת היחידה בנפרד: <span class="m">${sg(E.B)} N</span>.`;await fly(l2,sl('b'),sg(E.B));setSlot(sl('b'),ss(E.B));setSlot(sl('ub'),'N');pulse(sl('b'));pulse(sl('ub'));clearHL()},
+ async()=>{const E=ends();n1.innerHTML=`שלב 5: חברו כוחות באותה יחידה: <span class="m">(${sg(E.A)} N) + (${sg(E.B)} N) = ${sg(E.net)} N</span>. היחידה נשארת ניוטון.`;setSlot(sl('r'),ss(E.net));setSlot(sl('u'),'N');pulse(sl('r'));pulse(sl('u'))},
+ async()=>{n1.innerHTML='שלב 6: בדקו שלכל כוח ולתוצאה יש יחידת מידה, N.';['ua','ub','u'].forEach(k=>pulse(sl(k)));const E=ends();say($('s1fb'),true,`זה הפתרון המלא. התוצאה <span class="m">${sg(E.net)} N</span>: גודל ${Math.abs(E.net)}N, כיוון ${dirw(Math.sign(E.net))}. כעת שנו את כיוון אחד הכוחות ונסו לפתור בעצמכם.`)}
 ],async()=>{full();dnd.clear();clearHL();n1.hidden=false;$('s1fb').hidden=true});
 $('s1c').onclick=()=>{const fb=$('s1fb'),v=k=>sl(k).dataset.v,E=ends();
- if(!v('a')||!v('b')||!v('r')||!v('u'))return say(fb,false,'השלימו את כל המשבצות: שני כוחות, תוצאה ויחידה.');
+ if(['a','ua','b','ub','r','u'].some(k=>!v(k)))return say(fb,false,'השלימו מספר ויחידת מידה לכל אחד משני הכוחות ולתוצאה.');
+ const units=['ua','ub','u'];units.forEach(k=>{sl(k).classList.remove('ok','bad');sl(k).classList.add(v(k)==='N'?'ok':'bad')});
+ if(units.some(k=>v(k)!=='N'))return say(fb,false,'כוח מודדים בניוטון, N. בדקו את יחידות המידה של שני הכוחות ושל התוצאה. קילוגרם הוא יחידה של מסה, ומטר הוא יחידה של אורך.');
  const a=+v('a'),b=+v('b'),pair=(a===E.A&&b===E.B)||(a===E.B&&b===E.A);const mark=(k,ok)=>sl(k).classList.add(ok?'ok':'bad');
  if(!pair){mark('a',a===E.A||a===E.B);mark('b',b===E.B||b===E.A);
   if(Math.abs(a)+Math.abs(b)!==6||Math.abs(a)===Math.abs(b))return say(fb,false,'השתמשו ב־4 לכוח של דנה וב־2 לכוח של יואב. את הסימן בוחרים לפי כיוון החץ.');
   const bad4=Math.abs(a)===4?Math.sign(a)!==Math.sign(E.A):Math.sign(b)!==Math.sign(E.A);const who=bad4?'של דנה':'של יואב',d=bad4?S.d1:S.d2;
   return say(fb,false,`בדקו את הסימן של הכוח ${who}. הוא פונה ${d>0?'ימינה, ולכן הסימן חיובי':'שמאלה, ולכן הסימן שלילי'}.`);}
  mark('a',true);mark('b',true);
- if(+v('r')!==E.net){mark('r',false);return say(fb,false,`חברו את המספרים יחד עם הסימנים: <span class="m">(${sg(E.A)}) + (${sg(E.B)})</span>.`);}
+ if(+v('r')!==E.net){mark('r',false);return say(fb,false,`חברו את הכוחות יחד עם הסימנים והיחידות: <span class="m">(${sg(E.A)} N) + (${sg(E.B)} N)</span>.`);}
  mark('r',true);
- if(v('u')!=='N'){mark('u',false);return say(fb,false,v('u')==='kg'?'ק״ג היא יחידה של מסה. כוח מודדים בניוטון, N.':'מטר היא יחידה של אורך. כוח מודדים בניוטון, N.');}
  mark('u',true);say(fb,true,`מדויק. <span class="m">ΣF = ${sg(E.net)} N</span>: גודל השקול ${Math.abs(E.net)}N, וכיוונו ${dirw(Math.sign(E.net))}. לחצו "הפעלה" וראו לאן הארגז יזוז.`)};
 $('s1r').onclick=async()=>{if(S.busy)return;S.busy=true;clearHL();const E=ends();a1.hide();a2.hide();an.hide();labels();l1.style.opacity=0;l2.style.opacity=0;body.setAttribute('transform','');
  await a1.grow(E.x1,120,E.t1,120,550);l1.style.opacity=1;await a2.grow(E.x2,162,E.t2,162,450);l2.style.opacity=1;await sleep(200);
@@ -402,7 +479,7 @@ $('s2c').onclick=async()=>{const fb=$('s2fb');if(done)return;const on=toks.filte
  if(ups.length>1||dn.length>1)return say(fb,false,'בחרו חץ אחד לכל כוח: אחד למשיכת כדור הארץ ואחד לדחיפת השולחן.');
  if(Math.abs(ups[0].dy)!==Math.abs(dn[0].dy))return say(fb,false,'הספר במנוחה, ולכן הכוחות עליו מאזנים זה את זה. שני החצים צריכים להיות שווים באורכם.');
  say(fb,true,'מדויק. <b>כדור הארץ מושך את הספר למטה</b>, ו<b>השולחן דוחף את הספר למעלה</b>.<br>הספר נשאר במנוחה. לכן הכוחות שווים בגודלם והכוח השקול עליו אפס, בהתאם לחוק הראשון של ניוטון.');await solved()};
-choice($('s2qa'),['כן, כי הכוחות שווים והפוכים','לא, כי שני הכוחות פועלים על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שני הכוחות פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר. כאן הכוחות שווים כי הספר נשאר במנוחה.'):say(f,false,'בדקו על מי פועל כל כוח. שניהם פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.')});})();
+choice($('s2qa'),['כן, כי הכוחות שווים והפוכים','לא, כי שני הכוחות פועלים על הספר'],i=>{const f=$('s2qfb');i===1?say(f,true,'נכון. שני הכוחות פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר. כאן הכוחות שווים כי הספר נשאר במנוחה.'):say(f,false,'בדקו על מי פועל כל כוח. שניהם פועלים על הספר. בזוג פעולה ותגובה כל כוח פועל על גוף אחר.')},1);})();
 
 /* ---------- Station 4: contact, third law, reading the indices ---------- */
 (function(){const svg=$('s4'),S={busy:false};grid(svg,'g4',600,240);el('line',{x1:10,y1:202,x2:590,y2:202,class:'floor'},svg);
@@ -431,7 +508,7 @@ const fb=$('s4fb');let qa=null,qb=null;const chk=()=>{if(qa==null||qb==null)retu
  if(qa!==0)return say(fb,false,'<span class="m">F<sub>2,1</sub></span> הוא הכוח שגוף 2 מפעיל. על מי? המספר השני אומר: על גוף 1.');
  if(qb!==1)return say(fb,false,'הכוחות ששני הגופים מפעילים זה על זה שווים בגודלם, גם אם אחד הגופים כבד יותר.');
  say(fb,true,'נכון. <span class="m">F<sub>2,1</sub></span> פועל על גוף 1, ושווה בגודלו ל־<span class="m">F<sub>1,2</sub></span>. כל כוח פועל על גוף אחר. בחישוב השקול על גוף 1 כוללים רק את הכוח שפועל עליו.')};
-choice($('s4qa'),['על גוף 1','על גוף 2'],i=>{qa=i;chk()});choice($('s4qb'),['קטן יותר','שווה','גדול יותר'],i=>{qb=i;chk()});})();
+choice($('s4qa'),['על גוף 1','על גוף 2'],i=>{qa=i;chk()},0);choice($('s4qb'),['קטן יותר','שווה','גדול יותר'],i=>{qb=i;chk()},1);})();
 
 /* ---------- Station 5: ball hits a person ---------- */
 (function(){const svg=$('s5'),S={busy:false,frozen:false};grid(svg,'g5',600,330);el('line',{x1:10,y1:312,x2:590,y2:312,class:'floor'},svg);
@@ -448,7 +525,7 @@ const vb=txt(svg,520,196,'8 N','t f'),vr=txt(svg,286,170,'8 N','t o');const vis=
 const B=$('b5'),dnd=DnD(B,()=>{$('s5fb').hidden=true});const sl=el('g',{},svg);
 const sB=svgSlot(sl,288,214,112,44,'ball','מספר הגוף של הכדור'),sP=svgSlot(sl,478,254,112,44,'person','מספר הגוף של האדם'),sFb=svgSlot(sl,470,104,112,44,'blue','סימון החץ הכתום'),sFr=svgSlot(sl,150,192,112,44,'red','סימון החץ התכלת');
 sl.style.display='none';dnd.extra(svg);
-const contact=()=>{atB(CX);ab.set(386,160,516,160);ar.set(374,184,244,184);vis(true);cap.textContent='רגע המגע: ההנפשה עצרה';sl.style.display=''};
+const contact=()=>{atB(CX);ab.set(386,160,516,160);ar.set(374,184,244,184);vis(true);cap.textContent='רגע המגע: ההנפשה נעצרה';sl.style.display=''};
 $('s5p').onclick=async()=>{if(S.busy)return;S.busy=true;S.frozen=false;$('s5go').disabled=true;$('s5fb').hidden=true;sl.style.display='none';ab.hide();ar.hide();vis(false);per.setAttribute('transform','');cap.textContent='הכדור נע ימינה';
  await tween(1100,(k,raw)=>atB(40+(CX-40)*raw));
  await Promise.all([ab.grow(386,160,516,160,500),ar.grow(374,184,244,184,500)]);contact();S.frozen=true;S.busy=false;$('s5go').disabled=false};
@@ -458,7 +535,7 @@ $('s5c').onclick=()=>{const fb=$('s5fb');if(!S.frozen)return say(fb,false,'קו�
  if(v(sB)!=='1')return say(fb,false,'לפי הסיפור, הגוף שפוגע הוא גוף 1. מי פוגע במי?');
  if(v(sFb)===v(sFr))return say(fb,false,'שני החצים הם שני כוחות שונים. לכל אחד סימון אחר.');
  if(v(sFb)!=='F12')return say(fb,false,'החץ הכתום מצויר על האדם. מי מפעיל אותו? הכדור, גוף 1. על מי? על האדם, גוף 2. מה הסימון?');
- say(fb,true,'מדויק. החץ הכתום הוא <span class="m">F<sub>1,2</sub></span>: הכדור (1) מפעיל על האדם (2). החץ התכלת הוא <span class="m">F<sub>2,1</sub></span>: האדם (2) מפעיל על הכדור (1). שניהם 8N, וכל אחד פועל על גוף אחר. לחצו "המשך ההנפשה".')};
+ say(fb,true,'מדויק. החץ הכתום הוא <span class="m">F<sub>1,2</sub></span>: הכדור (1) מפעיל על האדם (2). החץ התכלת הוא <span class="m">F<sub>2,1</sub></span>: האדם (2) מפעיל על הכדור (1). גודל כל אחד מהכוחות הוא 8N, וכל אחד פועל על גוף אחר. לחצו "המשך ההנפשה".')};
 $('s5go').onclick=async()=>{if(S.busy||!S.frozen)return;S.busy=true;sl.style.display='none';cap.textContent='כוחות הדחיפה האלה פועלים רק בזמן המגע';ab.hide();ar.hide();vis(false);
  await Promise.all([tween(1100,(k,raw)=>atB(CX-170*Math.sqrt(raw))),tween(1100,(k,raw)=>per.setAttribute('transform',`rotate(${Math.sin(Math.PI*raw)*4} 440 306)`))]);
  cap.textContent='הכדור חזר לאחור. האדם כמעט לא זז.';S.busy=false;S.frozen=false;$('s5go').disabled=true};
@@ -466,7 +543,6 @@ atB(40);})();
 
 /* ---------- Station 6: parallelogram and Pythagoras, one variable at a time ---------- */
 (function(){const svg=$('s6'),O={x:220,y:240},U=40,sl=$('s6a');let th=60,busy=false,K=[1,1,1];grid(svg,'g6',600,380);const g=el('g',{},svg);
-const ms=[['השקול הגדול ביותר',m=>m>5.99],['השקול הקטן ביותר',m=>m<2.01],['שקול של בערך 4.47N',(m,a)=>Math.abs(a-90)<=1],['שקול של 4N בדיוק',m=>Math.abs(m-4)<0.04]].map(x=>{const s=document.createElement('span');s.className='mission';s.textContent=x[0];$('s6m').appendChild(s);return{s,f:x[1]}});
 let L4,L2,A4,A2,HL=0;
 function draw(){g.innerHTML='';const r=th*Math.PI/180,A={x:O.x+C.F1*U,y:O.y},Bp={x:O.x+C.F2*U*Math.cos(r),y:O.y-C.F2*U*Math.sin(r)},R={x:A.x+Bp.x-O.x,y:Bp.y},m=Math.sqrt(C.F1**2+C.F2**2+2*C.F1*C.F2*Math.cos(r));
  el('ellipse',{cx:O.x,cy:O.y,rx:50,ry:24,class:'wood'},g);
@@ -479,8 +555,8 @@ function draw(){g.innerHTML='';const r=th*Math.PI/180,A={x:O.x+C.F1*U,y:O.y},Bp=
  el('circle',{cx:Bp.x,cy:Bp.y,r:18,class:'handle'},g);
  if(HL===1)glow([A4.g,L4],true);if(HL===2)glow([A2.g,L2],true);
  $('s6ra').textContent=th+'°';$('s6rm').textContent=m.toFixed(2)+' N';
- $('s6n').textContent=th===0?'החוטים באותו כיוון: מחברים, 4 + 2 = 6.':th===180?'החוטים בכיוונים מנוגדים: מחסרים, 4 − 2 = 2.':Math.abs(th-90)<1?'הכוחות בזווית ישרה. מחשבים את גודל השקול במשפט פיתגורס.':'קווי העזר משלימים מקבילית. האלכסון הירוק מייצג את השקול. קווי העזר אינם כוחות נוספים.';
- ms.forEach(x=>{if(x.f(m,th))x.s.classList.add('done')});}
+ $('s6n').textContent=th===0?'הכוחות באותו כיוון: מחברים גדלים, 4 + 2 = 6 ניוטון.':th===180?'הכוחות בכיוונים מנוגדים: מחסרים גדלים, 4 − 2 = 2 ניוטון.':Math.abs(th-90)<1?'הכוחות בזווית ישרה. מחשבים את גודל השקול במשפט פיתגורס.':'קווי העזר משלימים מקבילית. האלכסון הירוק מייצג את השקול. קווי העזר אינם כוחות נוספים.';
+}
 const setTh=a=>{th=Math.max(0,Math.min(180,Math.round(a)));sl.value=th;draw()};
 sl.addEventListener('input',()=>{if(!busy){K=[1,1,1];setTh(+sl.value)}});
 let drag=false;svg.addEventListener('pointerdown',e=>{if(!busy&&e.target.classList&&e.target.classList.contains('handle')){drag=true;svg.setPointerCapture(e.pointerId);e.preventDefault()}});
@@ -491,35 +567,50 @@ $('s6b').onclick=async()=>{if(busy)return;busy=true;await build();busy=false};
 const steps=['py1','py2','py3','py4'].map($),nt=$('s6t');
 const unmark=()=>{HL=0;$('q1').classList.remove('hl');$('q2').classList.remove('hl');draw()};
 Stepper($('s6y'),'חישוב בזווית ישרה',[
- async()=>{HL=1;draw();$('q1').classList.add('hl');nt.innerHTML='שלב 1: מזהים את <span class="m">F<sub>1</sub></span>, הכוח של 4N. הסימון שלו מודגש בציור ובנוסחה.'},
- async()=>{nt.innerHTML='שלב 2: כותבים את המספר 4 במקום <span class="m">F<sub>1</sub></span> בנוסחה.';steps[0].classList.add('show');await fly(L4,$('pa'),'4',850);$('pa').textContent='4';$('pa').className='slot filled cf';pulse($('pa'));unmark()},
- async()=>{HL=2;draw();$('q2').classList.add('hl');nt.innerHTML='שלב 3: מזהים את <span class="m">F<sub>2</sub></span>, הכוח של 2N.'},
- async()=>{nt.innerHTML='שלב 4: כותבים את המספר 2 במקום <span class="m">F<sub>2</sub></span> בנוסחה.';await fly(L2,$('pb'),'2',850);$('pb').textContent='2';$('pb').className='slot filled cf';pulse($('pb'));unmark()},
- async()=>{nt.innerHTML='שלב 5: מעלים בריבוע: <span class="m">4² = 16</span>, <span class="m">2² = 4</span>.';steps[1].classList.add('show')},
- async()=>{nt.innerHTML='שלב 6: מחברים: <span class="m">16 + 4 = 20</span>.';steps[2].classList.add('show')},
- async()=>{nt.innerHTML='שלב 7: מוציאים שורש. שורש 20 הוא בערך 4.47, וזה גודל השקול בניוטון.';steps[3].classList.add('show')}
-],async()=>{busy=true;steps.forEach(s=>s.classList.remove('show'));['pa','pb'].forEach(i=>{$(i).innerHTML='&nbsp;';$(i).className='slot'});nt.hidden=false;nt.textContent='בונים את המקבילית בזווית ישרה...';
+ async()=>{HL=1;draw();$('q1').classList.add('hl');nt.innerHTML='שלב 1: זהו את <span class="m">F<sub>1</sub></span>, הכוח של 4N. הסימון שלו מודגש בציור ובנוסחה.'},
+ async()=>{nt.innerHTML='שלב 2: הציבו <span class="m">4 N</span> במקום <span class="m">F<sub>1</sub></span>. הריבוע חל על המספר ועל היחידה שבסוגריים.';steps[0].classList.add('show');await fly(L4,$('pa'),'4',850);setSlot($('pa'),'4');setSlot($('pua'),'N');pulse($('pa'));pulse($('pua'));unmark()},
+ async()=>{HL=2;draw();$('q2').classList.add('hl');nt.innerHTML='שלב 3: זהו את <span class="m">F<sub>2</sub></span>, הכוח של 2N.'},
+ async()=>{nt.innerHTML='שלב 4: הציבו <span class="m">2 N</span> במקום <span class="m">F<sub>2</sub></span>, עם היחידה בתוך הסוגריים.';await fly(L2,$('pb'),'2',850);setSlot($('pb'),'2');setSlot($('pub'),'N');pulse($('pb'));pulse($('pub'));unmark()},
+ async()=>{nt.innerHTML='שלב 5: העלו גם את המספר וגם את היחידה בריבוע: <span class="m">(4 N)² = 16 N²</span>, <span class="m">(2 N)² = 4 N²</span>.';steps[1].classList.add('show')},
+ async()=>{nt.innerHTML='שלב 6: חברו גדלים באותה יחידה: <span class="m">16 N² + 4 N² = 20 N²</span>.';steps[2].classList.add('show')},
+ async()=>{nt.innerHTML='שלב 7: הוציאו שורש גם מהמספר וגם מהיחידה: <span class="m">√(20 N²) ≈ 4.47 N</span>. השורש של <span class="m">N²</span> הוא <span class="m">N</span>.';steps[3].classList.add('show')}
+],async()=>{busy=true;steps.forEach(s=>s.classList.remove('show'));['pa','pua','pb','pub'].forEach(i=>setSlot($(i),''));nt.hidden=false;nt.textContent='בונים את המקבילית בזווית ישרה...';
  const a0=th;K=[1,1,1];await tween(900,k=>setTh(a0+(90-a0)*k));await build();busy=false});
 draw();
 const B=$('b6');DnD(B,()=>{$('s6fb').hidden=true});const sv=k=>B.querySelector(`.slot[data-k="${k}"]`);
-$('s6c').onclick=()=>{const fb=$('s6fb'),v=k=>sv(k).dataset.v;if(!v('a')||!v('b')||!v('r')||!v('u'))return say(fb,false,'השלימו את כל המשבצות.');
- const ab=[v('a'),v('b')].sort().join();if(ab!=='3,4')return say(fb,false,'כתבו מתחת לשורש את גדלי שני הכוחות: 3 ו־4. ליד כל משבצת כבר כתוב סימן הריבוע.');
- if(v('r')==='7')return say(fb,false,'7 מתקבל רק כשהכוחות באותו כיוון. בזווית ישרה משתמשים בפיתגורס.');
- if(v('r')==='25')return say(fb,false,'25 הוא סכום הריבועים: 9 + 16. נשאר להוציא שורש.');
- if(v('r')==='12')return say(fb,false,'12 הוא מכפלת הכוחות. בפיתגורס מעלים כל כוח בריבוע, מחברים ומוציאים שורש.');
- if(v('r')!=='5')return say(fb,false,'חשבו: 3² + 4² = 9 + 16 = 25, ושורש 25 הוא...');
- if(v('u')!=='N')return say(fb,false,'ק״ג היא יחידה של מסה. כוח מודדים בניוטון, N.');
- say(fb,true,'מדויק: <span class="m">√(3² + 4²) = √25 = 5 N</span>. גודל השקול הוא 5N. הוא גדול מכל אחד משני הכוחות, וקטן מסכום הגדלים שלהם.')};})();
+$('s6c').onclick=()=>{const fb=$('s6fb'),v=k=>sv(k).dataset.v;
+ const rows=[['a','ua','b','ub'],['a2','ua2','b2','ub2'],['s','us'],['r','u']];
+ B.querySelectorAll('.slot').forEach(s=>s.classList.remove('ok','bad'));
+ const incomplete=rows.findIndex(keys=>keys.some(k=>!v(k)));
+ if(incomplete!==-1)return say(fb,false,`השלימו מספרים ויחידות בשורה ${incomplete+1}.`);
+ const mark=(k,ok)=>sv(k).classList.add(ok?'ok':'bad');
+ const units={ua:'N',ub:'N',ua2:'N²',ub2:'N²',us:'N²',u:'N'};
+ Object.entries(units).forEach(([k,unit])=>mark(k,v(k)===unit));
+ if(v('ua')!=='N'||v('ub')!=='N')return say(fb,false,'בשורת ההצבה בחרו N ליד כל כוח. הריבוע שמחוץ לסוגריים חל על המספר ועל היחידה יחד.');
+ if(['ua2','ub2','us'].some(k=>v(k)!=='N²'))return say(fb,false,'אחרי העלאה בריבוע היחידה היא N². היא נשארת N² גם כשמחברים את הריבועים, עד להוצאת השורש.');
+ if(v('u')!=='N')return say(fb,false,'בהוצאת השורש גם היחידה משתנה: השורש של N² הוא N. כוח מודדים בניוטון.');
+ const a=+v('a'),b=+v('b'),pair=(a===3&&b===4)||(a===4&&b===3);
+ mark('a',a===3||a===4);mark('b',b===3||b===4);
+ if(!pair)return say(fb,false,'בשורה הראשונה הציבו את שני גדלי הכוחות הנתונים, 3 ו־4.');
+ const squareA=+v('a2')===a*a,squareB=+v('b2')===b*b;mark('a2',squareA);mark('b2',squareB);
+ if(!squareA||!squareB)return say(fb,false,'בשורה השנייה העלו כל מספר בריבוע. שמרו על סדר הכוחות שבחרתם בשורה הראשונה.');
+ mark('s',v('s')==='25');
+ if(v('s')!=='25')return say(fb,false,'בשורה השלישית חברו את שני הריבועים מהשורה שמעליה. היחידה נשארת N².');
+ mark('r',v('r')==='5');
+ if(v('r')==='7')return say(fb,false,'7 מתקבל כשהכוחות באותו כיוון. כאן הם בזווית ישרה. הוציאו שורש מסכום הריבועים.');
+ if(v('r')!=='5')return say(fb,false,'בשורה האחרונה הוציאו שורש מהמספר 25 ומהיחידה N².');
+ say(fb,true,'השלמתם את כל שלבי החישוב עם היחידות. סכום הריבועים הוא <span class="m">25 <span class="unit-symbol">N²</span></span>, ולכן גודל השקול הוא <span class="m">5 <span class="unit-symbol">N</span></span>.')};})();
 
 /* ---------- Station 7: riddles ---------- */
 (function(){const box=$('s7');C.riddles.forEach((r,n)=>{const d=document.createElement('div');d.className='rid';const q=document.createElement('p');q.className='q';q.textContent=(n+1)+'. '+r.q;d.appendChild(q);const fb=document.createElement('div');fb.hidden=true;
- const bs=r.o.map((o,i)=>{const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent=o;b.onclick=()=>{bs.forEach(x=>x.classList.remove('right','wrong'));b.classList.add(i===r.a?'right':'wrong');say(fb,i===r.a,r.why[i])};d.appendChild(b);return b});d.appendChild(fb);box.appendChild(d)});})();
+ const bs=r.o.map((o,i)=>{const b=document.createElement('button');b.type='button';b.className='btn ghost';b.textContent=o;b.onclick=()=>{bs.forEach(x=>{x.classList.remove('right','wrong');x.setAttribute('aria-pressed','false')});b.classList.add(i===r.a?'right':'wrong');b.setAttribute('aria-pressed','true');say(fb,i===r.a,r.why[i])};d.appendChild(b);return b});d.appendChild(fb);box.appendChild(d)});})();
 
 
 /* Theme: night by default, day for a bright classroom */
-(function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let day=false;try{day=localStorage.getItem('maslul-theme')==='day'}catch(e){}
-function set(d){day=d;if(d)r.setAttribute('data-theme','day');else r.removeAttribute('data-theme');b.textContent=d?'ערכת לילה':'ערכת יום';b.setAttribute('aria-pressed',String(d));try{localStorage.setItem('maslul-theme',d?'day':'night')}catch(e){}}
+(function(){const b=document.getElementById('themeBtn'),r=document.documentElement;let day=false;try{const v=localStorage.getItem('data-theme');day=v?v==='dark':matchMedia('(prefers-color-scheme: dark)').matches}catch(e){}
+function set(d){day=d;if(d)r.setAttribute('data-theme','dark');else r.removeAttribute('data-theme');b.textContent=d?'ערכה בהירה':'ערכה כהה';b.setAttribute('aria-pressed',String(d));try{localStorage.setItem('data-theme',d?'dark':'light')}catch(e){}}
 set(day);b.onclick=()=>set(!day);})();
+(function(){const b=document.getElementById('soundBtn');const show=()=>{b.textContent=SND.on?'צליל: פועל':'צליל: כבוי';b.setAttribute('aria-pressed',String(SND.on))};show();b.addEventListener('click',()=>{SND.set(!SND.on);show()});})();
 /* Deep links from the slides: #st1 ... #st6 */
 function go(){const t=location.hash&&document.getElementById(location.hash.slice(1));if(t)t.scrollIntoView({behavior:RM?'auto':'smooth'})}
 addEventListener('hashchange',go);setTimeout(go,60);
