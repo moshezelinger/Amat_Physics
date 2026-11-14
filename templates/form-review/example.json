@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "review_id": "demo-form-review",
+  "version": "1",
+  "title": "דוגמה להשוואת טפסים",
+  "is_demo": true,
+  "sources": [
+    {"id": "original", "label": "הטופס המקורי", "version": "0.1", "url": ""},
+    {"id": "proposed", "label": "הטיוטה המוצעת", "version": "0.2", "url": ""}
+  ],
+  "items": [
+    {
+      "id": "change-01",
+      "title": "לקצר את ההוראה?",
+      "kind": "changed",
+      "before": "עליכם למלא את כל פרטי הטופס שלפניכם ולהקפיד שלא להשאיר אף שדה ריק.",
+      "after": "מלאו את כל שדות החובה בטופס.",
+      "reason": "הנוסח המוצע קצר ומבהיר אילו שדות צריך למלא.",
+      "impact": "ניסוח בלבד. אין שינוי בשדות או בניקוד.",
+      "recommendation": "לקבל את הניסוח הקצר, אם אכן מסומנים בטופס שדות חובה.",
+      "evidence": [
+        {"source_id": "original", "location": "הוראת הפתיחה"},
+        {"source_id": "proposed", "location": "הוראת הפתיחה"}
+      ]
+    },
+    {
+      "id": "change-02",
+      "title": "להוסיף מקום להערה?",
+      "kind": "added",
+      "before": "",
+      "after": "הערה נוספת, רשות: __________________",
+      "reason": "מאפשר לממלא הטופס לציין פרט שאינו מתאים לשדות הקיימים.",
+      "impact": "נוסף שדה רשות אחד. אין שינוי בניקוד.",
+      "recommendation": "להוסיף רק אם יש מי שקורא את ההערות ומשתמש בהן.",
+      "evidence": [{"source_id": "proposed", "location": "סוף הטופס"}]
+    }
+  ]
+}
