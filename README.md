@@ -7,6 +7,8 @@
 - [דף הפתיחה](https://moshezelinger.github.io/Amat_Physics/)
 - [המצגת המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-deck/)
 - [הלומדה המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-lab/)
+- [מצגת מיפוי השמיים](https://moshezelinger.github.io/Amat_Physics/sky-deck/)
+- [לומדת מיפוי השמיים](https://moshezelinger.github.io/Amat_Physics/sky-lab/)
 
 הקישורים למעלה יפעלו אחרי הפעלת GitHub Pages בהגדרות המאגר. בוחרים Settings, אחר כך Pages, מקור Deploy from a branch, הענף `add-forces-deck-and-lab` ותיקיית `/(root)`, ולוחצים Save. המקור, נגן המצגת והלומדה נמצאים במאגר הזה.
 
@@ -15,6 +17,8 @@
 - [המצגת המקורית](https://claude.ai/artifact/T4YT8fV1DZKJwCJu4oTxCv)
 - [הלומדה המקורית](https://claude.ai/artifact/3YSQjhXKjk8EbPu2rTcWj1)
 - [מערכת העיצוב מסלול](https://claude.ai/code/artifact/c056b782-5669-4843-8452-95fa1cd76c97)
+- [מצגת מיפוי השמיים](https://claude.ai/artifact/4DKD9Rj8v55UCgww2XuJ32)
+- [לומדת מיפוי השמיים](https://claude.ai/artifact/4CoVjoCqJ1b17qjTfuTryr)
 
 העותקים ב־Claude אינם מתעדכנים אוטומטית מהמאגר ועשויים לדרוש הרשאת צפייה נפרדת.
 
@@ -24,6 +28,8 @@
 |---|---|---|
 | `forces-deck/` | המצגת "כוחות וכוח שקול", 21 שקפים | [נגן הדפדפן](forces-deck/index.html) |
 | `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [הלומדה](forces-lab/index.html) |
+| `sky-deck/` | המצגת "מיפוי השמיים ומקומנו במערכת השמש", 30 שקפים | [המצגת](https://moshezelinger.github.io/Amat_Physics/sky-deck/) |
+| `sky-lab/` | לומדת מיפוי השמיים: 20 שאלות ודוח ביצוע להגשה | [הלומדה](https://moshezelinger.github.io/Amat_Physics/sky-lab/) |
 
 המצגת והלומדה מתואמות: אותם צבעים, אותם סימונים ואותן דוגמאות. בכל שקף שיש לו תחנה מתאימה יש קישור "במעבדה: תחנה N".
 
@@ -95,6 +101,14 @@ python3 tools/renum.py                     # מספור עמודים וקישו�
 - `gen.py` בונה מחדש כמה שקפים מקוד (פתיחה, ציר אחד, ספר, בדיקת הבנה, כדור, פיתגורס). **הוא דורס עריכות ידניות בשקפים האלה.** אם ערכתם שקף ביד, אל תריצו אותו.
 - `maslul.py` ממיר שקף בעיצוב הישן לצבעים של "מסלול". `gen.py` מפעיל אותו אוטומטית.
 - `mathfix.py` הופך נוסחה בשורה אחת לשורת רכיבים עם אינדקסים וחץ וקטור.
+
+## מיפוי השמיים: `sky-deck/` ו־`sky-lab/`
+
+כל אחת מהשתיים היא קובץ `index.html` אחד, בלי ספריות חיצוניות. הן אינן בנויות בעיצוב "מסלול" ואינן חלק ממערכת הבנייה של `forces-deck`, ולכן אין להן `build_web.py` או `deck.json`. עורכים אותן ישירות בקובץ.
+
+- המצגת: חצים להחלפת שקף, רווח לחשיפת תשובה, `N` להערות מורה.
+- הלומדה: שני ניסיונות, הציון הגבוה מוגש. בסוף נוצר דוח להעתקה ל־Google Classroom.
+- [הלומדה בדפדפן, ב־GitHub Pages](https://moshezelinger.github.io/Amat_Physics/sky-lab/)
 
 ## הלומדה: `forces-lab/index.html`
 
