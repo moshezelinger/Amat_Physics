@@ -1,0 +1,6 @@
+{
+  "name": "חידון ומעבדת פיזיקה ח' עמ״ט",
+  "description": "חידון דיאגנוסטי אינטראקטיבי ומעבדת רושם זמן בתנועה לכיתות ח' עמ\"ט - מותאם למקרן כיתתי ומונגש",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
