@@ -9,6 +9,7 @@
 - [הלומדה המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-lab/)
 - [מצגת מיפוי השמיים](https://moshezelinger.github.io/Amat_Physics/sky-deck/)
 - [לומדת מיפוי השמיים](https://moshezelinger.github.io/Amat_Physics/sky-lab/)
+- [משחק חישוב זמן ומהירות](https://moshezelinger.github.io/Amat_Physics/quiz_lab_velosity/dist/)
 
 הקישורים למעלה יפעלו אחרי הפעלת GitHub Pages בהגדרות המאגר. בוחרים Settings, אחר כך Pages, מקור Deploy from a branch, הענף `add-forces-deck-and-lab` ותיקיית `/(root)`, ולוחצים Save. המקור, נגן המצגת והלומדה נמצאים במאגר הזה.
 
@@ -30,8 +31,25 @@
 | `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [הלומדה](forces-lab/index.html) |
 | `sky-deck/` | המצגת "מיפוי השמיים ומקומנו במערכת השמש", 30 שקפים | [המצגת](https://moshezelinger.github.io/Amat_Physics/sky-deck/) |
 | `sky-lab/` | לומדת מיפוי השמיים: 20 שאלות ודוח ביצוע להגשה | [הלומדה](https://moshezelinger.github.io/Amat_Physics/sky-lab/) |
+| `quiz_lab_velosity/` | משחק לימודי לתרגול חישוב זמן ומהירות | [המשחק](quiz_lab_velosity/dist/index.html) |
 
 המצגת והלומדה מתואמות: אותם צבעים, אותם סימונים ואותן דוגמאות. בכל שקף שיש לו תחנה מתאימה יש קישור "במעבדה: תחנה N".
+
+## המשחק: `quiz_lab_velosity/`
+
+משחק לימודי לתרגול חישוב זמן ומהירות. זהו תרגול מסכם של כיתה ז׳ עבור תלמידי כיתות ח׳.
+
+המשחק בנוי ב־React וב־Vite. הגרסה המוכנה לצפייה בדפדפן נמצאת ב־`quiz_lab_velosity/dist/` ומוגשת ב־GitHub Pages. הקוד המקורי נמצא ב־`quiz_lab_velosity/src/`.
+
+אחרי כל שינוי בקוד צריך לבנות מחדש ולהעלות גם את תיקיית `dist/`:
+
+```bash
+cd quiz_lab_velosity
+npm install
+npm run build -- --base=./
+```
+
+להרצה מקומית עם רענון אוטומטי: `npm run dev`.
 
 ## המצגת: `forces-deck/`
 
