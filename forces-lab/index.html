@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>מעבדת כוחות</title>
-<meta name="app-version" content="forces-units-2026-11-15">
+<meta name="app-version" content="forces-units-baseline-2026-11-15">
 <meta name="claude:viewport-fit-sides" content="cover">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Heebo:wght@400;500;600;700&family=Gveret+Levin&display=swap">
 <style>
@@ -60,10 +60,15 @@ nav a{flex:none;font-weight:600;font-size:18px;text-decoration:none;color:var(--
 .glow{filter:drop-shadow(2px 0 0 var(--hl-line)) drop-shadow(-2px 0 0 var(--hl-line)) drop-shadow(0 2px 0 var(--hl-line)) drop-shadow(0 -2px 0 var(--hl-line))}
 .slot{font:inherit;min-width:1.8em;min-height:1.55em;padding:0 .18em;border:2px solid var(--navy);border-radius:8px;background:var(--card);color:var(--ink);display:inline-flex;align-items:center;justify-content:center;cursor:pointer;transition:transform .15s}
 .slot.filled{border-color:var(--border)}
-.slot.u{font-size:.78em;min-width:1.6em;min-height:1.6em}
-.quantity{display:inline-flex;align-items:baseline;gap:.14em;white-space:nowrap}
-.quantity .slot{align-self:center}
-.unit-symbol{font-size:.78em}
+/* Typography only. Inherit colours and the base font from the host lesson. */
+.unit-calculation .quantity{display:inline-flex;align-items:baseline;gap:.14em;white-space:nowrap;direction:ltr}
+.unit-calculation .slot:not(.svgslot){box-sizing:border-box;width:2em;min-width:2em;height:1.8em;min-height:1.8em;flex:0 0 auto;font:inherit;line-height:1.3;padding:.12em .14em;display:inline-flex;align-items:baseline;justify-content:center;border-width:2px}
+.unit-calculation .slot.u{font-size:1em}
+.unit-symbol{font-size:1em;line-height:inherit;white-space:nowrap;font-style:normal}
+.unit-lower{font-size:.78em;line-height:1;vertical-align:baseline}
+.unit-symbol sup{font-size:.65em;line-height:0;vertical-align:super}
+.unit-calculation .slot.ok,.unit-calculation .slot.bad{border-width:2px}
+/* Keep unit tiles at the same dimensions and base font as numeric tiles. */
 .sqrt{display:inline-flex;align-items:stretch;max-width:100%}
 .sqrt::before{content:"√";font-size:1.25em;align-self:center}
 .radicand{display:inline-flex;align-items:center;justify-content:center;gap:.28em;border-top:1px solid currentColor;padding:.15em .1em 0}
@@ -75,14 +80,14 @@ nav a{flex:none;font-weight:600;font-size:18px;text-decoration:none;color:var(--
 .calc-line .sqrt,#s6calc .steps .sqrt{flex-shrink:0}
 #s6calc .steps .eqn{box-sizing:border-box;max-width:100%;min-width:0;justify-content:flex-start;flex-wrap:nowrap;overflow-x:auto;padding:4px 2px 8px;font-size:clamp(21px,2.2vw,29px)}
 .fb .m,.narr .m{display:inline-block;max-width:100%;overflow-x:auto;vertical-align:middle}
-.slot.u sup{font-size:.65em}
-.slot.ok{border:3px solid var(--ok);background:var(--ok-bg)}.slot.bad{border:3px solid var(--bad);background:var(--bad-bg)}
+
+.slot.ok{border-color:var(--ok);background:var(--ok-bg)}.slot.bad{border-color:var(--bad);background:var(--bad-bg)}
 .picking .slot{background:var(--cyan-soft)}
 .picking .slot.svgslot rect{stroke:var(--hl-line);stroke-width:5}
 .pop{transform:scale(1.18)}
 .tray{direction:ltr;display:flex;flex-wrap:wrap;gap:10px;justify-content:center}
 .tile{font:500 22px var(--fm);min-width:60px;min-height:54px;padding:0 12px;border-radius:8px;border:1px solid var(--border);background:var(--raised);color:var(--ink);cursor:grab;touch-action:none;user-select:none;-webkit-user-select:none}
-.tile.unit{border-color:var(--net);font-size:18px;min-width:48px;min-height:44px;align-self:center}
+.tile.unit{border-color:var(--net)}
 .tile.idt{font-family:var(--fb);font-size:22px}
 .tile.sel{background:var(--cyan-soft);border:2px solid var(--navy)}
 .dragging{position:fixed;left:0;top:0;z-index:60;pointer-events:none;opacity:.92;box-shadow:var(--shadow)}
@@ -207,7 +212,7 @@ input[type=range]{accent-color:var(--navy)}
 </div>
 <div class="work">
 <ol class="task"><li><span class="task-text">בחרו לכל כוח מספר עם סימן לפי כיוונו: ימינה פלוס, שמאלה מינוס. גררו מספר ויחידת מידה למשבצות המתאימות.</span></li><li><span class="task-text">חברו את הכוחות עם הסימנים והיחידות. השלימו תוצאה ויחידת מידה ולחצו "בדיקה". אפשר לגרור את אותה יחידה כמה פעמים.</span></li><li><span class="task-text">לעזרה, לחצו "פתרון צעד אחר צעד".</span></li></ol>
-<div class="bench" id="b1">
+<div class="bench unit-calculation" id="b1">
 <div class="eqn sym"><span>ΣF</span><span>=</span><span id="y1">F<sub>1</sub></span><span>+</span><span id="y2">F<sub>2</sub></span></div>
 <div class="eqn"><span>ΣF =</span><span class="quantity">(<button class="slot" data-k="a" aria-label="משבצת לכוח של דנה"></button><button class="slot u" data-k="ua" aria-label="יחידת מידה לכוח של דנה"></button>)</span><span>+</span><span class="quantity">(<button class="slot" data-k="b" aria-label="משבצת לכוח של יואב"></button><button class="slot u" data-k="ub" aria-label="יחידת מידה לכוח של יואב"></button>)</span><span>=</span><span class="quantity"><button class="slot" data-k="r" aria-label="משבצת לתוצאה"></button><button class="slot u" data-k="u" aria-label="יחידת מידה לתוצאה"></button></span></div>
 <div class="tray"><button class="tile" data-v="+4">+4</button><button class="tile" data-v="-4">−4</button><button class="tile" data-v="+2">+2</button><button class="tile" data-v="-2">−2</button><button class="tile" data-v="+6">+6</button><button class="tile" data-v="-6">−6</button><button class="tile unit" data-v="N">N</button><button class="tile unit" data-v="kg">kg</button><button class="tile unit" data-v="m">m</button></div>
@@ -298,7 +303,7 @@ input[type=range]{accent-color:var(--navy)}
 <div class="work">
 <ol class="task"><li><span class="task-text">שנו את הזווית בין החוטים ובדקו כיצד משתנים הגודל והכיוון של הכוח השקול.</span></li><li><span class="task-text">לחצו "בניית המקבילית". צפו כיצד קווי העזר משלימים מקבילית. האלכסון שיוצא מהסירה מייצג את השקול.</span></li><li><span class="task-text">לחצו "חישוב בזווית ישרה" לפתרון בעזרת משפט פיתגורס. עקבו אחר הצבת גדלי הכוחות בנוסחה. לחצו "שלב הבא" כדי להתקדם.</span></li></ol>
 <div class="row"><button class="btn" id="s6b">בניית המקבילית</button><button class="btn primary" id="s6y">חישוב בזווית ישרה</button></div>
-<div class="bench" id="s6calc">
+<div class="bench unit-calculation" id="s6calc">
 <div class="eqn sym"><span>|Σ<span class="vec">F</span>|</span><span>=</span><span>√(</span><span class="pw"><span id="q1">F<sub>1</sub></span><sup>2</sup></span><span>+</span><span class="pw"><span id="q2">F<sub>2</sub></span><sup>2</sup></span><span>)</span></div>
 <div class="steps">
 <div class="eqn" id="py1"><span>=</span><span class="sqrt"><span class="radicand"><span class="power-term">(<span class="quantity"><span class="slot" id="pa">&nbsp;</span><span class="slot u" id="pua">&nbsp;</span></span>)<sup>2</sup></span><span>+</span><span class="power-term">(<span class="quantity"><span class="slot" id="pb">&nbsp;</span><span class="slot u" id="pub">&nbsp;</span></span>)<sup>2</sup></span></span></span></div>
@@ -308,7 +313,7 @@ input[type=range]{accent-color:var(--navy)}
 </div>
 <p class="narr" id="s6t" hidden></p>
 </div>
-<div class="bench" id="b6">
+<div class="bench unit-calculation" id="b6">
 <p class="q">תורכם: שני כוחות, 3N ו־4N, פועלים על גוף בזווית ישרה. השלימו את חישוב גודל השקול.</p>
 <p class="hint">השלימו מספרים ויחידות בכל ארבע השורות: הצבה, העלאה בריבוע, חיבור והוצאת שורש. אפשר להשתמש באותו מספר או באותה יחידה כמה פעמים.</p>
 <div class="calc-steps">
@@ -382,17 +387,41 @@ function Stepper(btn,label,list,before){let i=-1,busy=false;const reset=()=>{i=-
  btn.addEventListener('click',async()=>{if(busy)return;busy=true;try{if(i===-1&&before)await before();i++;await list[i]();if(i>=list.length-1)reset();else btn.textContent=`שלב הבא (${i+2} מתוך ${list.length})`}finally{busy=false}});return{reset};}
 
 /* Tiles and slots: drag a tile onto a slot, or tap a tile and then a slot. Tapping a filled slot empties it. */
-const SHOW={F12:'<span class="vec">F</span><sub>1,2</sub>',F21:'<span class="vec">F</span><sub>2,1</sub>','N²':'<span>N<sup>2</sup></span>'};
+const SHOW={F12:'<span class="vec">F</span><sub>1,2</sub>',F21:'<span class="vec">F</span><sub>2,1</sub>'};
+/* Import in a browser module, then insert the returned element with replaceChildren. */
+function renderUnit(symbol, doc = document) {
+  const result = doc.createElement('span');
+  result.className = 'unit-symbol';
+  for (const glyph of String(symbol)) {
+    if ('⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺'.includes(glyph)) {
+      const exponent = doc.createElement('sup');
+      exponent.textContent = '0123456789−+'['⁰¹²³⁴⁵⁶⁷⁸⁹⁻⁺'.indexOf(glyph)];
+      result.append(exponent);
+    } else if (/\p{Ll}/u.test(glyph)) {
+      const lower = doc.createElement('span');
+      lower.className = 'unit-lower';
+      lower.textContent = glyph;
+      result.append(lower);
+    } else {
+      result.append(doc.createTextNode(glyph));
+    }
+  }
+  return result;
+}
+
+const UNIT_VALUES=new Set(['N','N²','kg','m']);
+const valueHTML=v=>SHOW[v]||(UNIT_VALUES.has(v)?renderUnit(v).outerHTML:fmt(v));
+document.querySelectorAll('.tile.unit').forEach(t=>{t.innerHTML=renderUnit(t.dataset.v).outerHTML});
 function setSlot(s,v){s.dataset.v=v||'';s.classList.remove('ok','bad');s.classList.toggle('filled',!!v);
  if(s instanceof SVGElement){const t=s.querySelector('text');t.textContent='';t.setAttribute('class',/^[12]$/.test(v)?'he':'');if(!v){t.textContent='?';}else if(/^[12]$/.test(v)){t.setAttribute('direction','rtl');t.textContent='גוף '+v}else if(v==='F12'||v==='F21'){t.setAttribute('direction','ltr');t.appendChild(document.createTextNode('F'));const sub=el('tspan',{dy:7,'font-size':'16'},t);sub.textContent=v==='F12'?'1,2':'2,1';}}
- else s.innerHTML=v?(SHOW[v]||fmt(v)):'&nbsp;';}
+ else s.innerHTML=v?valueHTML(v):'&nbsp;';}
 function DnD(root,onchange){let sel=null,drag=null;const slots=()=>[...root.querySelectorAll('.slot'),...(root._extra||[]).flatMap(x=>[...x.querySelectorAll('.slot')])];
  const clearSel=()=>{if(sel)sel.classList.remove('sel');sel=null;root.classList.remove('picking');(root._extra||[]).forEach(x=>x.classList.remove('picking'))};
  const pick=t=>{clearSel();sel=t;t.classList.add('sel');root.classList.add('picking');(root._extra||[]).forEach(x=>x.classList.add('picking'))};
  function slotAt(x,y){const e=document.elementFromPoint(x,y),s=e&&e.closest&&e.closest('.slot');return s&&slots().includes(s)?s:null}
  function put(t,s){setSlot(s,t.dataset.v);SND.fx('drop');if(!(s instanceof SVGElement))pulse(s);onchange&&onchange(s)}
  let sdrag=null,noClick=false;
- function ghostOf(v){const g=document.createElement('div');g.className='tile dragging'+(/^[12]$/.test(v)?' idt':'');g.style.cssText='display:inline-flex;align-items:center;justify-content:center';g.innerHTML=/^[12]$/.test(v)?'גוף '+v:(SHOW[v]||fmt(v));document.body.appendChild(g);return g}
+ function ghostOf(v){const g=document.createElement('div');g.className='tile dragging'+(/^[12]$/.test(v)?' idt':UNIT_VALUES.has(v)?' unit':'');g.style.cssText='display:inline-flex;align-items:center;justify-content:center';g.innerHTML=/^[12]$/.test(v)?'גוף '+v:valueHTML(v);document.body.appendChild(g);return g}
  function slotDown(e){if(e.button>0||sel)return;const s=e.target.closest&&e.target.closest('.slot');if(!s||!slots().includes(s)||!s.dataset.v)return;e.preventDefault();sdrag={s,v:s.dataset.v,x:e.clientX,y:e.clientY,g:null}}
  addEventListener('pointermove',e=>{if(!sdrag)return;if(!sdrag.g&&Math.hypot(e.clientX-sdrag.x,e.clientY-sdrag.y)>8){sdrag.g=ghostOf(sdrag.v);setSlot(sdrag.s,'')}if(sdrag.g)sdrag.g.style.transform=`translate(${e.clientX-sdrag.g.offsetWidth/2}px,${e.clientY-sdrag.g.offsetHeight/2}px)`});
  addEventListener('pointerup',e=>{if(!sdrag)return;const d=sdrag;sdrag=null;if(!d.g)return;d.g.remove();noClick=true;setTimeout(()=>{noClick=false},0);const t=slotAt(e.clientX,e.clientY);if(t){setSlot(t,d.v);SND.fx('drop');if(!(t instanceof SVGElement))pulse(t)}onchange&&onchange(d.s)});
