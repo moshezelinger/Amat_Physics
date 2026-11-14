@@ -1,0 +1,860 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#faf9f5;color:#141413}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>לומדת מיפוי השמיים</title>
+<style id="app-style">
+:root{
+  --bg:#F4F6FA;
+  --card:#FFFFFF;
+  --card-2:#EDF1F7;
+  --line:#D4DBE8;
+  --line-2:#BCC6D8;
+  --ink:#121B2C;
+  --dim:#5B6A83;
+  --accent:#1F5FA8;
+  --accent-soft:#E6EEF9;
+  --ok:#11704A;
+  --ok-soft:#E2F2EA;
+  --no:#A93226;
+  --no-soft:#FBE9E7;
+  --warn:#8A5A00;
+  --warn-soft:#FBF0DC;
+  --on-accent:#FFFFFF;
+  --font:Arial,"Arial Hebrew",Helvetica,sans-serif;
+  --r:12px;
+}
+body.dark{
+  --bg:#0D1422;
+  --card:#141D30;
+  --card-2:#1B2740;
+  --line:#2A3853;
+  --line-2:#3A4A6A;
+  --ink:#E9EEF8;
+  --dim:#94A3BC;
+  --accent:#6BA7E8;
+  --accent-soft:#1A2947;
+  --ok:#5FCB97;
+  --ok-soft:#14301F;
+  --no:#F08076;
+  --no-soft:#331A18;
+  --warn:#E8B45C;
+  --warn-soft:#30260F;
+  --on-accent:#0D1422;
+}
+*{box-sizing:border-box}
+html{direction:rtl}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--font);font-size:17px;line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+h1,h2,h3,h4{margin:0;font-weight:bold;text-wrap:balance}
+p{margin:0}
+button{font-family:inherit;font-size:inherit;color:inherit;background:none;border:none;cursor:pointer}
+input{font-family:inherit;font-size:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+[hidden]{display:none!important}
+
+/* ---------- chrome ---------- */
+.top{
+  position:sticky;top:0;z-index:20;background:var(--card);
+  border-bottom:1px solid var(--line);
+}
+.top-in{
+  max-width:860px;margin:0 auto;padding:12px 20px;
+  display:flex;align-items:center;gap:14px;flex-wrap:wrap;
+}
+.top strong{font-size:15px}
+.top .sub{font-size:13px;color:var(--dim)}
+.pill{
+  font-size:14px;font-weight:bold;color:var(--accent);background:var(--accent-soft);
+  border:1px solid var(--accent);border-radius:999px;padding:3px 14px;white-space:nowrap;
+}
+.spacer{margin-inline-start:auto}
+.tiny{
+  border:1px solid var(--line);border-radius:8px;padding:10px 13px;
+  font-size:13px;color:var(--dim);min-height:42px;
+}
+.tiny:hover{border-color:var(--accent);color:var(--accent)}
+.bar{width:100%;height:5px;background:var(--card-2);border-radius:3px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--accent);transition:width .3s ease}
+
+main{max-width:860px;margin:0 auto;padding:26px 20px 70px}
+
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:var(--r);
+  padding:26px;margin-bottom:18px;
+}
+.note{
+  background:var(--card-2);border-radius:10px;padding:14px 16px;
+  font-size:15px;color:var(--dim);
+}
+
+/* ---------- intro ---------- */
+.intro h1{font-size:27px;margin-bottom:10px}
+.intro .goal{color:var(--dim);margin-bottom:22px}
+.fields{display:grid;grid-template-columns:2fr 1fr;gap:14px;margin-bottom:20px}
+label{display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--dim);font-weight:bold}
+label input{
+  border:1px solid var(--line-2);border-radius:9px;padding:11px 13px;
+  background:var(--card);color:var(--ink);font-size:17px;font-weight:normal;
+}
+label input:focus{border-color:var(--accent)}
+ul.steps{margin:0 0 22px;padding:0;list-style:none;display:flex;flex-direction:column;gap:10px}
+ul.steps li{position:relative;padding-inline-start:26px;font-size:16px}
+ul.steps li::before{
+  content:"";position:absolute;inset-inline-start:0;top:9px;
+  width:8px;height:8px;border-radius:50%;background:var(--accent);
+}
+.cta{
+  background:var(--accent);color:var(--on-accent);font-weight:bold;
+  border-radius:10px;padding:14px 34px;font-size:18px;
+}
+.cta:hover{filter:brightness(1.1)}
+.cta:disabled{opacity:.45;cursor:not-allowed;filter:none}
+.btn{
+  border:1px solid var(--line-2);border-radius:10px;padding:12px 24px;font-size:16px;color:var(--dim);
+}
+.btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent)}
+.btn:disabled{opacity:.35;cursor:not-allowed}
+
+/* ---------- question ---------- */
+.qhead{
+  display:flex;align-items:center;gap:12px;margin-bottom:18px;
+  font-size:14px;color:var(--dim);flex-wrap:wrap;
+}
+.tag{
+  background:var(--card-2);border-radius:6px;padding:2px 10px;font-size:13px;font-weight:bold;
+}
+.qtext{font-size:23px;line-height:1.45;font-weight:bold;margin-bottom:22px}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{
+  display:flex;align-items:center;gap:13px;text-align:start;
+  border:2px solid var(--line);border-radius:11px;padding:14px 16px;font-size:17px;
+  background:var(--card);
+}
+.opt:hover{border-color:var(--line-2);background:var(--card-2)}
+.opt .k{
+  flex:none;width:28px;height:28px;border-radius:50%;border:2px solid var(--line-2);
+  display:grid;place-items:center;font-size:14px;font-weight:bold;color:var(--dim);
+}
+.opt[aria-pressed="true"]{border-color:var(--accent);background:var(--accent-soft)}
+.opt[aria-pressed="true"] .k{background:var(--accent);border-color:var(--accent);color:var(--on-accent)}
+
+/* ---------- build-a-sentence ---------- */
+.slots{
+  display:flex;flex-wrap:wrap;gap:9px;padding:16px;border-radius:11px;
+  background:var(--card-2);border:2px dashed var(--line-2);min-height:78px;align-items:center;
+}
+.slot{
+  min-width:118px;min-height:46px;border-radius:9px;border:2px dashed var(--line-2);
+  background:var(--card);display:grid;place-items:center;padding:8px 12px;
+  font-size:16px;color:var(--dim);transition:border-color .15s,background .15s;
+}
+.slot.over{border-color:var(--accent);background:var(--accent-soft)}
+.slot.full{
+  border-style:solid;border-color:var(--accent);background:var(--accent-soft);
+  color:var(--ink);font-weight:bold;cursor:pointer;
+}
+.slot .n{font-size:13px;color:var(--dim);font-weight:normal}
+.bank{display:flex;flex-wrap:wrap;gap:9px;margin-top:16px}
+.tile{
+  border:2px solid var(--line-2);border-radius:9px;background:var(--card);
+  padding:11px 16px;font-size:16px;font-weight:bold;cursor:grab;
+  touch-action:none;user-select:none;
+}
+.tile:hover{border-color:var(--accent);color:var(--accent)}
+.tile.used{opacity:0;pointer-events:none}
+.ghost{
+  position:fixed;z-index:999;pointer-events:none;
+  border:2px solid var(--accent);border-radius:9px;background:var(--card);
+  padding:11px 16px;font-size:16px;font-weight:bold;
+  box-shadow:0 8px 24px rgba(0,0,0,.22);transform:translate(-50%,-50%);
+}
+.hint{font-size:14px;color:var(--dim);margin-top:12px}
+.offline{
+  margin-top:24px;padding-top:20px;border-top:1px solid var(--line);
+  display:flex;flex-direction:column;gap:12px;align-items:flex-start;
+  font-size:15px;color:var(--dim);
+}
+
+/* ---------- nav ---------- */
+.nav{display:flex;align-items:center;gap:12px;margin-top:26px;flex-wrap:wrap}
+.dots{display:flex;flex-wrap:wrap;gap:6px;margin:0 auto}
+.dots i{
+  width:11px;height:11px;border-radius:50%;background:var(--line);display:block;cursor:pointer;
+}
+.dots i.done{background:var(--line-2)}
+.dots i.now{background:var(--accent);transform:scale(1.35)}
+
+/* ---------- report ---------- */
+.score-row{display:grid;grid-template-columns:auto 1fr;gap:26px;align-items:center;margin-bottom:24px}
+.grade{
+  text-align:center;border:3px solid var(--accent);border-radius:16px;
+  padding:16px 26px;background:var(--accent-soft);
+}
+.grade b{display:block;font-size:52px;line-height:1;font-weight:bold;font-variant-numeric:tabular-nums}
+.grade span{font-size:13px;color:var(--dim)}
+.verdict h2{font-size:21px;margin-bottom:6px}
+.verdict p{color:var(--dim);font-size:16px}
+
+.topics{display:flex;flex-direction:column;gap:12px;margin:22px 0}
+.topic{display:grid;grid-template-columns:1fr auto;gap:8px 14px;align-items:center}
+.topic .nm{font-weight:bold;font-size:16px}
+.topic .pc{font-size:15px;font-weight:bold;font-variant-numeric:tabular-nums}
+.topic .track{grid-column:1 / -1;height:10px;background:var(--card-2);border-radius:5px;overflow:hidden}
+.topic .track i{display:block;height:100%;border-radius:5px}
+.topic.good .pc{color:var(--ok)} .topic.good .track i{background:var(--ok)}
+.topic.mid .pc{color:var(--warn)} .topic.mid .track i{background:var(--warn)}
+.topic.low .pc{color:var(--no)} .topic.low .track i{background:var(--no)}
+
+.todo{border-inline-start:4px solid var(--warn);background:var(--warn-soft);border-radius:0 10px 10px 0;padding:16px 18px;margin:18px 0}
+.todo h3{font-size:16px;margin-bottom:10px}
+.todo ul{margin:0;padding-inline-start:20px;display:flex;flex-direction:column;gap:8px;font-size:15.5px}
+
+.review{display:flex;flex-direction:column;gap:12px;margin-top:8px}
+.rv{border:1px solid var(--line);border-radius:10px;padding:14px 16px;background:var(--card)}
+.rv.wrong{border-inline-start:4px solid var(--no)}
+.rv.right{border-inline-start:4px solid var(--ok)}
+.rv .q{font-weight:bold;font-size:16px;margin-bottom:7px}
+.rv .a{font-size:15px;color:var(--dim)}
+.rv .a b{color:var(--ok)}
+.rv .mine{color:var(--no)}
+
+.out{
+  width:100%;min-height:230px;border:1px solid var(--line-2);border-radius:10px;
+  padding:14px;background:var(--card-2);color:var(--ink);
+  font-family:var(--font);font-size:14px;line-height:1.7;resize:vertical;white-space:pre;
+}
+.row{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px;align-items:center}
+.said{font-size:14px;color:var(--ok);font-weight:bold}
+
+@media (max-width:620px){
+  body{font-size:16px}
+  .top-in{padding:10px 14px;gap:9px}
+  .nav .btn{flex:1;min-width:120px;min-height:48px;text-align:center}
+  .dots{order:3;width:100%;justify-content:center;margin:4px 0 0}
+  main{padding:18px 14px 60px}
+  .card{padding:18px}
+  .fields{grid-template-columns:1fr}
+  .qtext{font-size:20px}
+  .score-row{grid-template-columns:1fr;gap:16px}
+  .grade b{font-size:44px}
+  .slot{min-width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<header class="top" data-app>
+  <div class="top-in">
+    <div>
+      <strong>הארץ והחלל · שיעור 2</strong>
+      <div class="sub">מיפוי השמיים ומקומנו במערכת השמש</div>
+    </div>
+    <span class="pill" id="attemptPill" hidden>ניסיון 1 מתוך 2</span>
+    <span class="pill" id="posPill" hidden>שאלה 1 מתוך 20</span>
+    <span class="spacer"></span>
+    <button class="tiny" id="themeBtn">רקע כהה</button>
+    <div class="bar"><i id="barFill"></i></div>
+  </div>
+</header>
+
+<main data-app>
+
+  <!-- ===== intro ===== -->
+  <section class="card intro" id="scIntro">
+    <h1>לומדה ודוח ביצוע</h1>
+    <p class="goal">בסוף הלומדה תקבלו ציון, פירוט לפי נושא, ורשימה קצרה של מה ששווה לחזור עליו. את הדוח אפשר להעתיק ולהגיש ב-Google Classroom.</p>
+
+    <div class="fields">
+      <label>שם מלא
+        <input id="fName" type="text" autocomplete="name" placeholder="לדוגמה: נועה לוי">
+      </label>
+      <label>כיתה
+        <input id="fClass" type="text" placeholder="ח/3">
+      </label>
+    </div>
+
+    <ul class="steps">
+      <li><b>20 שאלות</b> בארבעה חלקים, סך הכול 100 נקודות.</li>
+      <li>אין משוב תוך כדי. הדוח בסוף מראה איפה נפלתם.</li>
+      <li>מותר <b>שני ניסיונות</b>. הציון שמוגש הוא הגבוה מביניהם.</li>
+      <li>אפשר לדלג ולחזור. בסוף יש מסך בדיקה לפני הגשה.</li>
+    </ul>
+
+    <button class="cta" id="startBtn" disabled>התחלה</button>
+    <p class="hint">מלאו שם וכיתה כדי להתחיל.</p>
+
+    <div class="offline" id="offlineBox">
+      <p>אין אינטרנט בכיתה? שמרו עותק של הלומדה בטלפון או במחשב. הקובץ נפתח בכל דפדפן גם בלי חיבור.</p>
+      <button class="btn" id="offlineBtn" type="button">שמירת עותק לשימוש בלי רשת</button>
+      <span class="said" id="offlineMsg" hidden></span>
+    </div>
+  </section>
+
+  <!-- ===== question ===== -->
+  <section class="card" id="scQ" hidden>
+    <div class="qhead">
+      <span class="tag" id="qPart"></span>
+      <span class="tag" id="qTopic"></span>
+      <span id="qPts"></span>
+    </div>
+    <p class="qtext" id="qText"></p>
+    <div id="qBody"></div>
+    <div class="nav">
+      <button class="btn" id="prevBtn">הקודמת</button>
+      <div class="dots" id="dots"></div>
+      <button class="btn" id="nextBtn">הבאה</button>
+    </div>
+  </section>
+
+  <!-- ===== check before submit ===== -->
+  <section class="card" id="scCheck" hidden>
+    <h2 style="font-size:22px;margin-bottom:10px">בדיקה לפני הגשה</h2>
+    <p class="note" id="checkNote"></p>
+    <div class="dots" id="checkDots" style="margin:20px 0"></div>
+    <div class="row">
+      <button class="cta" id="submitBtn">סיום וקבלת ציון</button>
+      <button class="btn" id="backBtn">חזרה לשאלות</button>
+    </div>
+  </section>
+
+  <!-- ===== report ===== -->
+  <section id="scReport" hidden></section>
+
+</main>
+
+<script id="app-script">
+"use strict";
+
+/* ===================== site plumbing =====================
+   כיוון הדף, שמירת עותק לשימוש בלי רשת, ושמירת קבצים.
+   ========================================================= */
+document.documentElement.lang="he";
+document.documentElement.dir="rtl";
+const APP={title:"לומדת מיפוי השמיים",file:"לומדת מיפוי השמיים.html"};
+// snapshot of the markup exactly as shipped, before any script touches it
+const PRISTINE=[...document.body.children].filter(n=>n.hasAttribute("data-app")).map(n=>n.outerHTML);
+function offlineHTML(){
+  const css=document.getElementById("app-style").textContent;
+  const js=document.getElementById("app-script").textContent;
+  return "<!doctype html>\n<html lang=\"he\" dir=\"rtl\">\n<head>\n<meta charset=\"utf-8\">\n"+
+    "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"+
+    "<title>"+APP.title+"</title>\n<style id=\"app-style\">"+css+"</style>\n</head>\n<body>\n"+
+    PRISTINE.join("\n")+"\n<script id=\"app-script\">"+js+"<\/script>\n</body>\n</html>\n";
+}
+async function saveFile(filename,data,mime){
+  let dl=null;
+  try{ if(window.claude&&typeof window.claude.use==="function") dl=await window.claude.use("downloads"); }
+  catch(e){ dl=null; }
+  if(dl){
+    try{ await dl.save({filename:filename,data:data}); return "saved"; }
+    catch(err){ if(err&&err.code==="declined")return "declined"; }
+  }
+  const blob=new Blob([data],{type:mime||"application/octet-stream"});
+  const a=document.createElement("a");
+  a.href=URL.createObjectURL(blob); a.download=filename;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  return "saved";
+}
+function wireOffline(){
+  const box=document.getElementById("offlineBox"), btn=document.getElementById("offlineBtn"),
+        msg=document.getElementById("offlineMsg");
+  if(!box||!btn)return;
+  box.hidden=(location.protocol==="file:");      // a local file is already offline
+  btn.addEventListener("click",async()=>{
+    const r=await saveFile(APP.file,offlineHTML(),"text/html;charset=utf-8");
+    if(r==="saved"){msg.textContent="נשמר. פתחו את הקובץ בדפדפן, גם בלי חיבור.";msg.hidden=false;}
+  });
+}
+
+
+/* ===================== content =====================
+   כל התוכן מבוסס על רשימת הנושאים שמסר המורה, ולא על עמודי הקריאה עצמם.
+   לפני שימוש בכיתה יש לעבור על הניסוחים מול הטקסט.
+   ==================================================== */
+
+const TOPICS={
+  groups:{name:"קבוצות כוכבים ומיפוי השמיים",
+          fix:"חזרו על ההבדל בין מה שרואים לבין מה שקיים: קבוצת כוכבים היא תבנית בקו מבט, לא מבנה בחלל."},
+  cluster:{name:"צבירי כוכבים",
+          fix:"חזרו על הפליאדות: צביר הוא קבוצת כוכבים שנולדו מאותו ענן ובאמת נמצאים יחד."},
+  planets:{name:"כוכבי לכת",
+          fix:"חזרו על שני הסימנים של כוכב לכת: הוא נודד ביחס לכוכבים, והוא מחזיר אור במקום לייצר אותו."},
+  helio:{name:"המודל ההליוצנטרי",
+          fix:"חזרו על הניסוח המדויק: השמש במרכז מערכת השמש, לא במרכז היקום."}
+};
+
+const Q=[
+// ---- חלק א: נכון או לא נכון (6 × 4 נק') ----
+{p:"א",t:"groups",pts:4,type:"mc",q:"כל הכוכבים בקבוצת כוכבים נמצאים באותו מרחק מכדור הארץ.",
+ o:["נכון","לא נכון"],c:1,
+ why:"הם נראים לנו על אותו קו מבט, אבל המרחקים שלהם מאיתנו שונים מאוד."},
+{p:"א",t:"cluster",pts:4,type:"mc",q:"צביר כוכבים הוא אוסף כוכבים שנוצרו יחד ונמצאים באמת קרוב זה לזה.",
+ o:["נכון","לא נכון"],c:0,
+ why:"זה בדיוק ההבדל מקבוצת כוכבים: הצביר הוא מבנה אמיתי בחלל."},
+{p:"א",t:"planets",pts:4,type:"mc",q:"כוכבי לכת מייצרים אור בעצמם.",
+ o:["נכון","לא נכון"],c:1,
+ why:"הם מחזירים את אור השמש, ולכן הם נעלמים כשהם נכנסים לצל."},
+{p:"א",t:"groups",pts:4,type:"mc",q:"קסיופאה נראית בצורת האות W.",
+ o:["נכון","לא נכון"],c:0,
+ why:"חמישה כוכבים בהירים בצורת W, מול הדובה הגדולה משני צדי כוכב הצפון."},
+{p:"א",t:"helio",pts:4,type:"mc",q:"במודל ההליוצנטרי כדור הארץ הוא אחד מכוכבי הלכת.",
+ o:["נכון","לא נכון"],c:0,
+ why:"ובדיוק בזה הכוח של המודל: כדור הארץ מפסיק להיות יוצא דופן."},
+{p:"א",t:"helio",pts:4,type:"mc",q:"השמש נמצאת במרכז היקום.",
+ o:["נכון","לא נכון"],c:1,
+ why:"השמש במרכז מערכת השמש בלבד. זו הטעות הנפוצה ביותר בנושא."},
+
+// ---- חלק ב: מי אני (6 × 4 נק') ----
+{p:"ב",t:"groups",pts:4,type:"mc",q:"מובילה אתכם אל כוכב הצפון. מי אני?",
+ o:["הדובה הגדולה","קסיופאה","אוריון","הפליאדות"],c:0,
+ why:"הקו שבין שני הכוכבים הקדמיים בדובה הגדולה מוביל אל כוכב הצפון."},
+{p:"ב",t:"groups",pts:4,type:"mc",q:"יש לי חגורה של שלושה כוכבים בשורה. מי אני?",
+ o:["קסיופאה","אוריון","הדובה הגדולה","הפליאדות"],c:1,
+ why:"חגורת אוריון, שלושת הכוכבים הבולטים בשמי החורף."},
+{p:"ב",t:"groups",pts:4,type:"mc",q:"אני נראית כמו האות W, מול הדובה הגדולה. מי אני?",
+ o:["אוריון","הפליאדות","קסיופאה","הדובה הקטנה"],c:2,
+ why:"קסיופאה נמצאת בצד השני של כוכב הצפון, מול הדובה הגדולה."},
+{p:"ב",t:"cluster",pts:4,type:"mc",q:"אני לא ציור. נולדנו יחד מאותו ענן. מי אני?",
+ o:["אוריון","צביר כוכבים, למשל הפליאדות","קסיופאה","קבוצת כוכבים"],c:1,
+ why:"צביר הוא משפחה אמיתית של כוכבים, לא תבנית שאנחנו מציירים."},
+{p:"ב",t:"planets",pts:4,type:"mc",q:"אני משנה מקום ביחס לכוכבים, ולכן קראו לי נודד. מי אני?",
+ o:["כוכב","כוכב לכת","צביר כוכבים","קבוצת כוכבים"],c:1,
+ why:"הכוכבים שומרים על אותה תבנית ביניהם. כוכבי הלכת נודדים על רקעה."},
+{p:"ב",t:"helio",pts:4,type:"mc",q:"אני במרכז מערכת השמש, וכולם מקיפים אותי. מי אני?",
+ o:["כדור הארץ","כוכב הצפון","השמש","הירח"],c:2,
+ why:"זה בדיוק מה שהמודל ההליוצנטרי קובע."},
+
+// ---- חלק ג: הבנה והסבר (6 × 6 נק') ----
+{p:"ג",t:"groups",pts:6,type:"mc",q:"חבר טוען שאוריון היא אשכול כוכבים שנעים יחד בחלל. מה הנימוק החזק ביותר נגד הטענה?",
+ o:["אוריון נראית רק בחורף","הכוכבים באוריון נמצאים במרחקים שונים מאוד מאיתנו","באוריון יש יותר משלושה כוכבים","אוריון גדולה יותר מהדובה הגדולה"],c:1,
+ why:"אם הם במרחקים שונים, הם לא יכולים להיות קבוצה פיזיקלית אחת שנעה יחד."},
+{p:"ג",t:"groups",pts:6,type:"mc",q:"אילו היינו עוברים לכוכב רחוק מאוד, מה היה קורה לתבנית של הדובה הגדולה?",
+ o:["הייתה נשארת זהה, כי הכוכבים קבועים","הייתה נראית אחרת, כי זווית המבט השתנתה","הייתה נעלמת, כי אין שם כוכבים","הייתה מתהפכת משמאל לימין בלבד"],c:1,
+ why:"התבנית תלויה במקום שממנו מסתכלים, ולא בכוכבים עצמם."},
+{p:"ג",t:"cluster",pts:6,type:"mc",q:"מה ההבדל העקרוני בין הפליאדות לקסיופאה?",
+ o:["בפליאדות יש יותר כוכבים","קסיופאה בהירה יותר","הפליאדות הן מבנה אמיתי בחלל, וקסיופאה היא תבנית שאנחנו מציירים","הפליאדות נראות רק בקיץ"],c:2,
+ why:"ההבדל אינו במראה אלא במה שקיים בפועל בחלל."},
+{p:"ג",t:"planets",pts:6,type:"mc",q:"עקבתם במשך שבועיים אחרי נקודה זוהרת, והיא זזה ביחס לכוכבים סביבה. מה המסקנה הסבירה?",
+ o:["זהו כוכב חדש שנולד","זהו כוכב לכת","זהו צביר כוכבים","כל הכוכבים זזו יחד"],c:1,
+ why:"תנועה ביחס לכוכבים היא בדיוק הסימן שנתן לכוכבי הלכת את שמם."},
+{p:"ג",t:"planets",pts:6,type:"mc",q:"למה כוכב לכת נעלם מהעין כשהוא נכנס לצל?",
+ o:["כי הוא מתקרר","כי הוא מפסיק לנוע","כי הוא מחזיר אור ואינו מייצר אור משלו","כי הוא מתרחק מאיתנו"],c:2,
+ why:"בלי אור שמגיע אליו אין מה להחזיר, ולכן הוא נעלם."},
+{p:"ג",t:"helio",pts:6,type:"mc",q:"מה המודל ההליוצנטרי מסביר טוב יותר מהמודל שבו כדור הארץ במרכז?",
+ o:["למה יש עונות בשנה","למה הכוכבים מרצדים","את תנועת כוכבי הלכת בשמיים","למה השמש חמה"],c:2,
+ why:"תנועת כוכבי הלכת היא הנתון שהמודל הישן התקשה להסביר, וזה מה שפתח את הסדק."},
+
+// ---- חלק ד: בניית משפט (2 × 8 נק') ----
+{p:"ד",t:"groups",pts:8,type:"build",
+ q:"בנו את ההגדרה של קבוצת כוכבים. גררו או הקישו על החלקים לפי הסדר.",
+ tiles:["קבוצת כוכבים","היא תבנית","שאנחנו רואים מכדור הארץ,","והכוכבים שבה","רחוקים זה מזה",
+        "שנעים יחד בחלל","שנולדו מאותו ענן"],
+ ans:[0,1,2,3,4],
+ why:"קבוצת כוכבים היא תבנית שאנחנו רואים מכדור הארץ, והכוכבים שבה רחוקים זה מזה. שני החלקים שנשארו בצד מתארים צביר, לא קבוצה."},
+{p:"ד",t:"helio",pts:8,type:"build",
+ q:"בנו את המשפט שמסביר את המודל ההליוצנטרי.",
+ tiles:["השמש נמצאת","במרכז מערכת השמש,","וכדור הארץ","הוא אחד מכוכבי הלכת",
+        "במרכז היקום","הוא המרכז"],
+ ans:[0,1,2,3],
+ why:"השמש נמצאת במרכז מערכת השמש, וכדור הארץ הוא אחד מכוכבי הלכת. ״במרכז היקום״ היא בדיוק הטעות שצריך להימנע ממנה."}
+];
+
+const TOTAL=Q.reduce((s,x)=>s+x.pts,0);
+
+/* ===================== state ===================== */
+let attempt=1, idx=0, ans={}, history=[], student={name:"",cls:""};
+let order={};           // per-question shuffled option order
+const el=id=>document.getElementById(id);
+
+function rng(seed){let s=seed>>>0;return()=>((s=(s*1664525+1013904223)>>>0)/4294967296);}
+function shuffleFor(qi){
+  const r=rng(qi*7919+attempt*104729), q=Q[qi];
+  const n=(q.type==="build")?q.tiles.length:q.o.length;
+  const a=[...Array(n).keys()];
+  for(let i=n-1;i>0;i--){const j=Math.floor(r()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function buildOrders(){order={};Q.forEach((_,i)=>order[i]=shuffleFor(i));}
+
+/* ===================== intro ===================== */
+function checkStart(){
+  el("startBtn").disabled=!(el("fName").value.trim()&&el("fClass").value.trim());
+}
+el("fName").addEventListener("input",checkStart);
+el("fClass").addEventListener("input",checkStart);
+el("startBtn").addEventListener("click",()=>{
+  student.name=el("fName").value.trim();
+  student.cls=el("fClass").value.trim();
+  beginAttempt();
+});
+el("themeBtn").addEventListener("click",()=>{
+  const on=document.body.classList.toggle("dark");
+  el("themeBtn").textContent=on?"רקע בהיר":"רקע כהה";
+});
+
+function beginAttempt(){
+  ans={}; idx=0; buildOrders();
+  el("scIntro").hidden=true; el("scReport").hidden=true; el("scCheck").hidden=true;
+  el("scQ").hidden=false;
+  el("attemptPill").hidden=false; el("posPill").hidden=false;
+  el("attemptPill").textContent="ניסיון "+attempt+" מתוך 2";
+  renderQ();
+  window.scrollTo({top:0});
+}
+
+/* ===================== question render ===================== */
+function renderQ(){
+  const q=Q[idx], ord=order[idx];
+  el("qPart").textContent="חלק "+q.p;
+  el("qTopic").textContent=TOPICS[q.t].name;
+  el("qPts").textContent=q.pts+" נקודות";
+  el("qText").textContent=q.q;
+  el("posPill").textContent="שאלה "+(idx+1)+" מתוך "+Q.length;
+  el("barFill").style.width=((idx+1)/Q.length*100)+"%";
+
+  const body=el("qBody"); body.replaceChildren();
+  if(q.type==="mc") renderMC(body,q,ord);
+  else renderBuild(body,q,ord);
+
+  renderDots(el("dots"),true);
+  el("prevBtn").disabled=idx===0;
+  el("nextBtn").textContent=idx===Q.length-1?"סיום":"הבאה";
+}
+
+function renderMC(body,q,ord){
+  const wrap=document.createElement("div"); wrap.className="opts";
+  const letters=["א","ב","ג","ד"];
+  ord.forEach((origIdx,pos)=>{
+    const b=document.createElement("button");
+    b.className="opt"; b.type="button";
+    b.setAttribute("aria-pressed",String(ans[idx]===origIdx));
+    b.innerHTML='<span class="k">'+letters[pos]+'</span><span>'+q.o[origIdx]+'</span>';
+    b.addEventListener("click",()=>{
+      ans[idx]=origIdx;
+      wrap.querySelectorAll(".opt").forEach(x=>x.setAttribute("aria-pressed","false"));
+      b.setAttribute("aria-pressed","true");
+      renderDots(el("dots"),true);
+    });
+    wrap.appendChild(b);
+  });
+  body.appendChild(wrap);
+}
+
+function renderBuild(body,q,ord){
+  const placed=Array.isArray(ans[idx])?ans[idx].slice():new Array(q.ans.length).fill(null);
+  ans[idx]=placed;
+
+  const slots=document.createElement("div"); slots.className="slots";
+  const bank=document.createElement("div"); bank.className="bank";
+  const hint=document.createElement("p"); hint.className="hint";
+  hint.textContent="גררו חלק אל המשבצת, או הקישו עליו והוא ייכנס למשבצת הפנויה הבאה. הקשה על משבצת מלאה מחזירה את החלק.";
+
+  function paint(){
+    slots.replaceChildren();
+    placed.forEach((v,i)=>{
+      const s=document.createElement("div");
+      s.className="slot"+(v===null?"":" full");
+      s.dataset.slot=i;
+      if(v===null){ s.innerHTML='<span class="n">'+(i+1)+'</span>'; }
+      else{
+        s.textContent=q.tiles[v];
+        s.addEventListener("click",()=>{placed[i]=null;paint();});
+      }
+      slots.appendChild(s);
+    });
+    bank.querySelectorAll(".tile").forEach(t=>
+      t.classList.toggle("used",placed.includes(+t.dataset.tile)));
+    renderDots(el("dots"),true);
+  }
+
+  ord.forEach(origIdx=>{
+    const t=document.createElement("div");
+    t.className="tile"; t.dataset.tile=origIdx; t.textContent=q.tiles[origIdx];
+    t.setAttribute("role","button"); t.tabIndex=0;
+    attachDrag(t,origIdx);
+    t.addEventListener("keydown",e=>{
+      if(e.key==="Enter"||e.key===" "){e.preventDefault();dropInto(nextFree(),origIdx);}
+    });
+    bank.appendChild(t);
+  });
+
+  function nextFree(){const i=placed.indexOf(null);return i===-1?null:i;}
+  function dropInto(slotI,tileI){
+    if(slotI===null||slotI===undefined)return;
+    const was=placed.indexOf(tileI); if(was!==-1)placed[was]=null;
+    placed[slotI]=tileI; paint();
+  }
+
+  function attachDrag(tile,tileI){
+    let ghost=null,sx=0,sy=0,moved=false,lastSlot=null;
+    tile.addEventListener("pointerdown",e=>{
+      if(e.button!==undefined&&e.button!==0)return;
+      sx=e.clientX; sy=e.clientY; moved=false;
+      tile.setPointerCapture(e.pointerId);
+      const onMove=ev=>{
+        if(!moved&&Math.hypot(ev.clientX-sx,ev.clientY-sy)<7)return;
+        if(!moved){
+          moved=true;
+          ghost=document.createElement("div");
+          ghost.className="ghost"; ghost.textContent=tile.textContent;
+          document.body.appendChild(ghost);
+          tile.style.opacity=".35";
+        }
+        ghost.style.left=ev.clientX+"px"; ghost.style.top=ev.clientY+"px";
+        ghost.style.display="none";
+        const under=document.elementFromPoint(ev.clientX,ev.clientY);
+        ghost.style.display="";
+        const s=under&&under.closest?under.closest(".slot"):null;
+        if(lastSlot&&lastSlot!==s)lastSlot.classList.remove("over");
+        if(s){s.classList.add("over");lastSlot=s;}else lastSlot=null;
+      };
+      const onUp=ev=>{
+        tile.removeEventListener("pointermove",onMove);
+        tile.removeEventListener("pointerup",onUp);
+        tile.removeEventListener("pointercancel",onUp);
+        tile.style.opacity="";
+        if(ghost){ghost.remove();ghost=null;}
+        if(lastSlot)lastSlot.classList.remove("over");
+        if(!moved){ dropInto(nextFree(),tileI); }
+        else{
+          ghost=null;
+          const under=document.elementFromPoint(ev.clientX,ev.clientY);
+          const s=under&&under.closest?under.closest(".slot"):null;
+          if(s)dropInto(+s.dataset.slot,tileI);
+        }
+        lastSlot=null;
+      };
+      tile.addEventListener("pointermove",onMove);
+      tile.addEventListener("pointerup",onUp);
+      tile.addEventListener("pointercancel",onUp);
+    });
+  }
+
+  body.appendChild(slots); body.appendChild(bank); body.appendChild(hint);
+  paint();
+}
+
+function answered(i){
+  const v=ans[i];
+  if(v===undefined||v===null)return false;
+  if(Array.isArray(v))return v.every(x=>x!==null);
+  return true;
+}
+function renderDots(host,clickable){
+  host.replaceChildren();
+  Q.forEach((_,i)=>{
+    const d=document.createElement("i");
+    d.className=(i===idx&&clickable)?"now":(answered(i)?"done":"");
+    d.title="שאלה "+(i+1)+(answered(i)?" (נענתה)":" (טרם נענתה)");
+    d.addEventListener("click",()=>{idx=i;showQ();});
+    host.appendChild(d);
+  });
+}
+function showQ(){
+  el("scCheck").hidden=true; el("scQ").hidden=false; renderQ();
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+el("prevBtn").addEventListener("click",()=>{if(idx>0){idx--;renderQ();window.scrollTo({top:0});}});
+el("nextBtn").addEventListener("click",()=>{
+  if(idx<Q.length-1){idx++;renderQ();window.scrollTo({top:0});}
+  else showCheck();
+});
+el("backBtn").addEventListener("click",showQ);
+
+function showCheck(){
+  const miss=Q.map((_,i)=>i).filter(i=>!answered(i));
+  el("scQ").hidden=true; el("scCheck").hidden=false;
+  el("checkNote").textContent = miss.length===0
+    ? "ענית על כל "+Q.length+" השאלות. אפשר להגיש."
+    : "נשארו "+miss.length+" שאלות בלי תשובה: "+miss.map(i=>i+1).join(", ")+". שאלה בלי תשובה נספרת כשגויה. אפשר ללחוץ על נקודה כדי לקפוץ אליה.";
+  renderDots(el("checkDots"),false);
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+el("submitBtn").addEventListener("click",grade);
+
+/* ===================== grading ===================== */
+function isRight(i){
+  const q=Q[i], v=ans[i];
+  if(q.type==="mc")return v===q.c;
+  if(!Array.isArray(v))return false;
+  return v.length===q.ans.length && v.every((x,k)=>x===q.ans[k]);
+}
+function grade(){
+  const per=Q.map((q,i)=>({i,ok:isRight(i),pts:isRight(i)?q.pts:0}));
+  const score=per.reduce((s,x)=>s+x.pts,0);
+  const byTopic={};
+  Object.keys(TOPICS).forEach(k=>byTopic[k]={got:0,max:0});
+  Q.forEach((q,i)=>{byTopic[q.t].max+=q.pts;byTopic[q.t].got+=per[i].pts;});
+  history.push({attempt,score,per,byTopic,answers:JSON.parse(JSON.stringify(ans))});
+  renderReport();
+}
+
+function pct(g,m){return Math.round(g/m*100);}
+function band(p){return p>=85?"good":p>=70?"mid":"low";}
+
+function renderReport(){
+  const last=history[history.length-1];
+  const best=history.reduce((a,b)=>b.score>a.score?b:a);
+  const isFinal = attempt>=2;
+  const host=el("scReport");
+  el("scQ").hidden=true; el("scCheck").hidden=true; host.hidden=false;
+  el("posPill").hidden=true;
+  el("barFill").style.width="100%";
+
+  const p=pct(last.score,TOTAL);
+  const verdict = p>=85 ? "שליטה טובה בחומר."
+                : p>=70 ? "הבסיס קיים. יש שניים או שלושה מקומות שכדאי לחדד."
+                : "חלק מהחומר עדיין לא יושב. הרשימה למטה אומרת בדיוק איפה.";
+
+  const weak=Object.keys(TOPICS)
+    .map(k=>({k,...last.byTopic[k],p:pct(last.byTopic[k].got,last.byTopic[k].max)}))
+    .filter(x=>x.p<85).sort((a,b)=>a.p-b.p);
+
+  let html='<div class="card">';
+  html+='<div class="score-row"><div class="grade"><b>'+last.score+'</b><span>מתוך '+TOTAL+'</span></div>'+
+        '<div class="verdict"><h2>דוח ביצוע · ניסיון '+last.attempt+' מתוך 2</h2><p>'+verdict+'</p></div></div>';
+
+  html+='<div class="topics">';
+  Object.keys(TOPICS).forEach(k=>{
+    const t=last.byTopic[k], pp=pct(t.got,t.max);
+    html+='<div class="topic '+band(pp)+'">'+
+          '<span class="nm">'+TOPICS[k].name+'</span>'+
+          '<span class="pc">'+t.got+' מתוך '+t.max+' · '+pp+'%</span>'+
+          '<span class="track"><i style="width:'+pp+'%"></i></span></div>';
+  });
+  html+='</div>';
+
+  if(weak.length){
+    html+='<div class="todo"><h3>לחזור ולשפר</h3><ul>';
+    weak.forEach(w=>html+='<li><b>'+TOPICS[w.k].name+' ('+w.p+'%):</b> '+TOPICS[w.k].fix+'</li>');
+    html+='</ul></div>';
+  }else{
+    html+='<div class="todo" style="border-color:var(--ok);background:var(--ok-soft)"><h3>אין נושא שדורש חזרה</h3>'+
+          '<ul><li>כל ארבעת הנושאים מעל 85%.</li></ul></div>';
+  }
+
+  // wrong-question list: attempt 1 names the questions only, attempt 2 reveals the answers
+  const wrong=last.per.filter(x=>!x.ok);
+  if(wrong.length){
+    html+='<h3 style="font-size:17px;margin:22px 0 10px">'+
+          (isFinal?'סקירת השאלות':'השאלות שנפלו ('+wrong.length+')')+'</h3>';
+    html+='<div class="review">';
+    (isFinal?last.per:wrong).forEach(x=>{
+      const q=Q[x.i];
+      html+='<div class="rv '+(x.ok?"right":"wrong")+'"><p class="q">'+(x.i+1)+'. '+q.q+'</p>';
+      if(isFinal){
+        const corr = q.type==="mc" ? q.o[q.c] : q.ans.map(k=>q.tiles[k]).join(" ");
+        html+='<p class="a">התשובה הנכונה: <b>'+corr+'</b></p>';
+        if(!x.ok){
+          const v=last.answers[x.i];
+          let mine="לא נענתה";
+          if(q.type==="mc"&&typeof v==="number")mine=q.o[v];
+          else if(Array.isArray(v)&&v.some(z=>z!==null))mine=v.map(k=>k===null?"___":q.tiles[k]).join(" ");
+          html+='<p class="a mine">מה שעניתי: '+mine+'</p>';
+        }
+        html+='<p class="a">'+q.why+'</p>';
+      }else{
+        html+='<p class="a">נושא: '+TOPICS[q.t].name+'. חזרו אליו ונסו שוב.</p>';
+      }
+      html+='</div>';
+    });
+    html+='</div>';
+  }
+
+  html+='<div class="row" style="margin-top:24px">';
+  if(!isFinal){
+    html+='<button class="cta" id="againBtn">ניסיון שני</button>'+
+          '<button class="btn" id="finishBtn">מספיק, לדוח להגשה</button>';
+  }
+  html+='</div></div>';
+
+  if(isFinal||history.length>1) html+=submitCard(best);
+  host.innerHTML=html;
+
+  if(!isFinal){
+    el("againBtn").addEventListener("click",()=>{attempt=2;beginAttempt();});
+    el("finishBtn").addEventListener("click",()=>{
+      host.insertAdjacentHTML("beforeend",submitCard(best));
+      wireSubmit(best);
+      host.lastElementChild.scrollIntoView({behavior:"smooth"});
+    });
+  }else wireSubmit(best);
+
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function reportText(best){
+  const d=new Date();
+  const date=d.getDate()+"."+(d.getMonth()+1)+"."+d.getFullYear();
+  const L=[];
+  L.push("דוח ביצוע — הארץ והחלל, שיעור 2: מיפוי השמיים");
+  L.push("שם: "+student.name+"   כיתה: "+student.cls+"   תאריך: "+date);
+  L.push("ניסיונות שבוצעו: "+history.length+" מתוך 2");
+  L.push("ציון מוגש: "+best.score+" מתוך "+TOTAL+"  ("+pct(best.score,TOTAL)+"%)");
+  if(history.length>1)
+    L.push("פירוט הניסיונות: "+history.map(h=>"ניסיון "+h.attempt+" — "+h.score).join(" | "));
+  L.push("");
+  L.push("פירוט לפי נושא (מהניסיון הטוב ביותר):");
+  Object.keys(TOPICS).forEach(k=>{
+    const t=best.byTopic[k], pp=pct(t.got,t.max);
+    L.push("  • "+TOPICS[k].name+" — "+t.got+"/"+t.max+" ("+pp+"%)"+(pp<85?"   ← לחזור":""));
+  });
+  const weak=Object.keys(TOPICS).filter(k=>pct(best.byTopic[k].got,best.byTopic[k].max)<85);
+  L.push("");
+  if(weak.length){
+    L.push("מה לחזור ולשפר:");
+    weak.forEach(k=>L.push("  • "+TOPICS[k].name+": "+TOPICS[k].fix));
+  }else L.push("מה לחזור ולשפר: אין. כל הנושאים מעל 85%.");
+  const wrong=best.per.filter(x=>!x.ok).map(x=>x.i+1);
+  L.push("");
+  L.push(wrong.length?("שאלות שנפלו: "+wrong.join(", ")):"שאלות שנפלו: אין.");
+  const note=document.getElementById("selfNote");
+  if(note&&note.value.trim()){L.push("");L.push("מה עדיין לא ברור לי: "+note.value.trim());}
+  return L.join("\n");
+}
+
+function submitCard(best){
+  return '<div class="card" id="submitCard">'+
+    '<h2 style="font-size:21px;margin-bottom:8px">הדוח להגשה</h2>'+
+    '<p class="note" style="margin-bottom:16px">העתיקו את הטקסט והדביקו אותו במשימה ב-Google Classroom. אפשר גם להוריד אותו כקובץ ולצרף.</p>'+
+    '<label style="margin-bottom:14px">מה עדיין לא ברור לי (לא חובה)'+
+      '<input id="selfNote" type="text" placeholder="משפט אחד"></label>'+
+    '<textarea class="out" id="outBox" readonly></textarea>'+
+    '<div class="row">'+
+      '<button class="cta" id="copyBtn">העתקה ללוח</button>'+
+      '<button class="btn" id="dlBtn">הורדה כקובץ</button>'+
+      '<button class="btn" id="printBtn">הדפסה או PDF</button>'+
+      '<span class="said" id="said" hidden>הועתק</span>'+
+    '</div></div>';
+}
+
+function wireSubmit(best){
+  const box=el("outBox"); if(!box)return;
+  const refresh=()=>box.value=reportText(best);
+  refresh();
+  const note=el("selfNote"); if(note)note.addEventListener("input",refresh);
+  const said=el("said");
+  const flash=(t,ok)=>{said.textContent=t;said.style.color=ok?"":"var(--no)";said.hidden=false;setTimeout(()=>said.hidden=true,3600);};
+  el("copyBtn").addEventListener("click",async()=>{
+    refresh();
+    let ok=false;
+    try{ await navigator.clipboard.writeText(box.value); ok=true; }catch(e){}
+    if(!ok){
+      box.removeAttribute("readonly"); box.focus(); box.select();
+      try{ box.setSelectionRange(0,box.value.length); ok=document.execCommand("copy"); }catch(e){}
+      box.setAttribute("readonly","");
+    }
+    flash(ok?"הועתק":"ההעתקה האוטומטית נחסמה. סמנו את הטקסט בתיבה והעתיקו ידנית.",ok);
+  });
+  el("dlBtn").addEventListener("click",async()=>{
+    refresh();
+    const safe=student.name.replace(/[\\\/:*?"<>|]/g,"").trim()||"תלמיד";
+    const r=await saveFile("דוח ביצוע - "+safe+".txt","\ufeff"+box.value,"text/plain;charset=utf-8");
+    if(r==="saved")flash("נשמר",true);
+  });
+  el("printBtn").addEventListener("click",()=>window.print());
+}
+wireOffline();
+</script>
+
+</body></html>
