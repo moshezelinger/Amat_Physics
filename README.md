@@ -7,6 +7,7 @@
 - [דף הפתיחה](https://moshezelinger.github.io/Amat_Physics/)
 - [המצגת המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-deck/)
 - [הלומדה המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-lab/)
+- [משחק חישוב זמן ומהירות](https://moshezelinger.github.io/Amat_Physics/quiz_lab_velosity/dist/)
 
 הקישורים למעלה יפעלו אחרי הפעלת GitHub Pages בהגדרות המאגר. בוחרים Settings, אחר כך Pages, מקור Deploy from a branch, הענף `add-forces-deck-and-lab` ותיקיית `/(root)`, ולוחצים Save. המקור, נגן המצגת והלומדה נמצאים במאגר הזה.
 
@@ -24,7 +25,7 @@
 |---|---|---|
 | `forces-deck/` | המצגת "כוחות וכוח שקול", 21 שקפים | [נגן הדפדפן](forces-deck/index.html) |
 | `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [הלומדה](forces-lab/index.html) |
-| `quiz_lab_velosity/` | משחק לימודי לתרגול חישוב זמן ומהירות | [תיקיית המשחק](quiz_lab_velosity/) |
+| `quiz_lab_velosity/` | משחק לימודי לתרגול חישוב זמן ומהירות | [המשחק](quiz_lab_velosity/dist/index.html) |
 
 המצגת והלומדה מתואמות: אותם צבעים, אותם סימונים ואותן דוגמאות. בכל שקף שיש לו תחנה מתאימה יש קישור "במעבדה: תחנה N".
 
@@ -32,13 +33,17 @@
 
 משחק לימודי לתרגול חישוב זמן ומהירות. זהו תרגול מסכם של כיתה ז׳ עבור תלמידי כיתות ח׳.
 
-המשחק בנוי ב־React וב־Vite, ולכן אינו נפתח ישירות מקובץ ואינו חלק מהאתר ב־GitHub Pages. להפעלה מקומית נכנסים לתיקייה, מתקינים תלויות ומריצים:
+המשחק בנוי ב־React וב־Vite. הגרסה המוכנה לצפייה בדפדפן נמצאת ב־`quiz_lab_velosity/dist/` ומוגשת ב־GitHub Pages. הקוד המקורי נמצא ב־`quiz_lab_velosity/src/`.
+
+אחרי כל שינוי בקוד צריך לבנות מחדש ולהעלות גם את תיקיית `dist/`:
 
 ```bash
 cd quiz_lab_velosity
 npm install
-npm run dev
+npm run build -- --base=./
 ```
+
+להרצה מקומית עם רענון אוטומטי: `npm run dev`.
 
 ## המצגת: `forces-deck/`
 
