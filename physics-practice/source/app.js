@@ -11,7 +11,7 @@ function save(){try{localStorage.setItem(key,JSON.stringify({schema:1,current:cu
 function refreshModel(){m=C.model(e,s);s.step=Math.min(s.step,m.stages.length-1);stage=m.stages[s.step];s.pairGroups||={};p=s.pairGroups[stage.source||'build']||=( {marks:{},cancelled:[],first:null} );}
 function load(id){cleanupDrag();selected=null;currentId=id;e=D.exercises.find(x=>x.id===id);s=records[id]||(records[id]=fresh());refreshModel();render();save();}
 function feedback(kind,lines){const box=$('#feedback');box.replaceChildren();box.hidden=!lines.length;box.className='message '+kind;if(kind){const b=document.createElement('strong');b.textContent=kind==='ok'?'✓ נכון':'✗ לא נכון';box.append(b);}for(const text of lines){const p=document.createElement('p');p.textContent=text;box.append(p);}}
-function invalidate(index=s.step){s.done=s.done.filter(id=>m.stages.findIndex(x=>x.id===id)<index);s.finished=false;for(const source of Object.keys(s.pairGroups||{})){const sourceIndex=m.stages.findIndex(x=>x.id===source);if(index<=sourceIndex)delete s.pairGroups[source];}p.first=null;$('#complete').hidden=true;$('#next').hidden=false;save();}
+function invalidate(index=s.step){s.done=s.done.filter(id=>m.stages.findIndex(x=>x.id===id)<index);s.finished=false;for(const source of Object.keys(s.pairGroups||{})){const sourceIndex=m.stages.findIndex(x=>x.id===source);if(index<=sourceIndex)delete s.pairGroups[source];}p.first=null;$('#diagram').innerHTML=diagram(e);$('#complete').hidden=true;$('#next').hidden=false;save();}
 function targetUnit(){return stage.target||(e.type==='conversion'?'m/s':e.du||'m');}
 function buildTerms(){const build=m.stages.find(x=>x.id===(stage.source||'build'));return build?.markable?C.terms(build.expr,s.values,m.fields):[];}
 function inputHTML(id,sol,readonly){const f=(sol?solutionFields:m.fields)[id],v=sol?(Array.isArray(f.expected)?f.expected[0]:f.expected):s.values[id]??'';
@@ -131,21 +131,5 @@ function renderSolution(){const x=solutionSteps[solIndex];$('#solution-note').te
  else $('#solution-work').innerHTML=`<div class="solution-step">${exprHTML(x.expr,{sol:true,reveal:x.reveal})}</div>`;
 }
 $('#solution-next').onclick=()=>{if(solIndex<solutionSteps.length-1){solIndex++;renderSolution();}};$('#solution-back').onclick=()=>{if(solIndex){solIndex--;renderSolution();}};$('#solution-close').onclick=()=>$('#solution').close();
-// SVG arrow geometry follows P-ARROW in forces-lab: arrowheads use the actual vector.
-function arrow(x,y,dx,dy,label,color='force',labelX=null,labelY=null){const L=Math.hypot(dx,dy);if(L<3)return '';const ux=dx/L,uy=dy/L,h=Math.min(18,L*.6),endX=x+dx,endY=y+dy;return `<g class="arrow ${color}"><line x1="${x}" y1="${y}" x2="${endX-ux*h*.8}" y2="${endY-uy*h*.8}" stroke-width="5"/><polygon points="${endX},${endY} ${endX-ux*h-uy*h*.5},${endY-uy*h+ux*h*.5} ${endX-ux*h+uy*h*.5},${endY-uy*h-ux*h*.5}"/></g><text x="${labelX??x+dx/2}" y="${labelY??y+dy/2-15}" text-anchor="middle" direction="ltr">${svgLabel(label)}</text>`;}
-function svgLabel(label){const m=label.match(/^F([1-3gₙ])(.*)$/);return m?'F<tspan baseline-shift="sub" font-size="70%">'+(m[1]==='ₙ'?'N':m[1])+'</tspan>'+esc(m[2]):esc(label);}
-function diagram(ex){let svg='',caption='תרשים גוף חופשי סכמטי';const vec={right:[1,0],left:[-1,0],up:[0,-1],down:[0,1]};
- if(ex.type==='third'){
-  const v=vec[ex.direction],o=vec[C.opposite[ex.direction]];caption='כל כוח פועל על גוף אחר. התרשים אינו בקנה מידה.';
-  svg=`<rect class="object" x="125" y="100" width="90" height="60" rx="4"/><rect class="object" x="385" y="100" width="90" height="60" rx="4"/><text class="he" x="170" y="200" text-anchor="middle" direction="rtl">גוף 1</text><text class="he" x="430" y="200" text-anchor="middle" direction="rtl">גוף 2</text>`+arrow(170,130,o[0]*110,o[1]*85,'F₂,₁','opp',170,65)+arrow(430,130,v[0]*110,v[1]*85,`F₁,₂ = ${ex.magnitude} N`,'force',430,65);
- }else if(ex.topic==='net'){
-  const center=[300,140],horizontal=ex.directions.every(d=>d==='left'||d==='right');svg=horizontal?'<rect class="object" x="270" y="75" width="60" height="145" rx="3"/>':'<rect class="object" x="270" y="110" width="60" height="60" rx="3"/>';
-  const scale=110/Math.max(...ex.values);
-  ex.values.forEach((n,i)=>{const v=vec[ex.directions[i]],y=horizontal?(ex.values.length===3?95+i*55:110+i*75):center[1];svg+=arrow(center[0],y,v[0]*n*scale,v[1]*n*scale,`F${i+1} = ${n} N`,i===1?'opp':'force',v[0]?center[0]+v[0]*145:center[0]+110,y+v[1]*85-15);});
- }else if(ex.diagram){
-  if(ex.diagram==='book'){svg='<rect class="object" x="265" y="105" width="70" height="55" rx="3"/>'+arrow(300,133,0,-90,ex.id==='force-5'?'Fₙ = 10 N':'Fₙ','opp',350,55)+arrow(300,133,0,90,'Fg','force',350,210)+'<text class="he" x="430" y="82" direction="rtl" text-anchor="middle">דחיפת השולחן</text><text class="he" x="430" y="195" direction="rtl" text-anchor="middle">משיכת כדור הארץ</text>';}
-  else{svg='<rect class="object" x="270" y="105" width="60" height="60" rx="3"/>';if(ex.diagram==='same')svg+=arrow(300,120,130,0,'F₁ = 4 N')+arrow(300,155,65,0,'F₂ = 2 N','opp',365,192);else if(ex.diagram==='opposed')svg+=arrow(300,135,-130,0,'F₁ = 4 N')+arrow(300,135,65,0,'F₂ = 2 N','opp',395,112);else if(ex.diagram==='perp')svg+=arrow(300,135,125,0,'F₁')+arrow(300,135,0,-95,'F₂','opp',350,65);else if(ex.diagram==='friction')svg+=arrow(300,135,110,0,'F חיכוך','opp');else svg+=arrow(300,135,125,0,'F₁');}
- }else return '';
- return `<svg viewBox="0 0 600 250" role="img" aria-label="${esc(ex.title)}"><title>${esc(ex.title)}</title>${svg}</svg><div class="muted" style="text-align:center">${caption}</div>`;
-}
+function diagram(ex){return ForceDiagrams.render(ex,s);}
 load(currentId);
