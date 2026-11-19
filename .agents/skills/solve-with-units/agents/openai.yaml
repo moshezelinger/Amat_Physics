@@ -1,4 +1,14 @@
 interface:
-  display_name: "דרך ויחידה"
-  short_description: "חישוב מלא בגרירה עם יחידות בכל שלב וכתיבה מדעית מדויקת"
-  default_prompt: "השתמשו ב־$solve-with-units כדי לבנות תרגול אינטראקטיבי של חישוב מלא, עם מספרים ויחידות לגרירה בכל שלב."
+  display_name: "דרך ויחידה: הרגלי פתרון"
+  short_description: הרגלי פתרון במתמטיקה ובפיזיקה, משוואה פעילה ומשוב על משמעות
+  default_prompt: השתמשו ב־$solve-with-units לבניית לומדה נקייה לרכישת הרגלי פתרון,
+    עם משוואה, גרירה והקלדה, משוב על משמעות והתאמה לידע שנלמד.
+  icon_small: assets/icon.svg
+  icon_large: assets/icon.svg
+policy:
+  products:
+  - chatgpt
+  - codex
+  - api
+  - atlas
+  allow_implicit_invocation: true
