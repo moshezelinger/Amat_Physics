@@ -13,6 +13,8 @@
 
 /* Text outside SVG stays readable at narrow widths; geometry is always LTR. */
 #diagram{max-width:780px}.single-force-diagram{max-width:460px;margin:auto}.force-svg{direction:ltr}.force-svg .force-math{font:22px var(--fm)}.diagram-object{fill:var(--raised);stroke:var(--border);stroke-width:1.5;stroke-linejoin:round}.diagram-object path,.diagram-object ellipse{fill:none}.angle-mark{fill:none;stroke:var(--muted);stroke-width:1.5}.rope-line{stroke:var(--force);stroke-width:3;fill:none}.floor-line{stroke:var(--border);stroke-width:1.5;fill:none}.motion-arrow{stroke:var(--muted);stroke-width:2;fill:none}.motion-caption{font-size:16px;text-align:center;color:var(--muted)}.force-key{display:flex;flex-wrap:wrap;gap:6px 20px;justify-content:center;margin:6px 0 10px;font-size:16px}.force-key>div{display:flex;align-items:baseline;gap:8px}.force-symbol{font:22px var(--fm);white-space:nowrap}.force-symbol sub{font-size:.7em}.diagram-caption{font-size:16px;color:var(--muted);text-align:center;line-height:1.5}.force-pair{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.force-body-card{border:1px solid var(--line);border-radius:6px;padding:12px}.force-body-card h4{font:500 19px var(--fd);text-align:center;margin:0 0 8px}.force-body-card>.force-symbol{text-align:center}.force-body-card .force-svg{width:100%;margin:-12px 0 -16px}.force-body-card .diagram-caption{color:var(--ink)}@media(max-width:640px){.force-pair{grid-template-columns:1fr;gap:12px}.force-body-card{max-width:400px;width:100%;margin:auto}.force-svg .force-math{font-size:23px}.force-key{justify-content:flex-start}.force-body-card .force-svg{max-height:220px}}
+
+.third-law{border-inline-start:3px solid var(--navy);padding:12px;margin:12px 0 20px;background:var(--cyan-soft)}.third-law p{font-size:16px;text-align:center;margin:6px 0}.law-math{direction:ltr;text-align:center;overflow-x:auto;padding:4px}.law-math math{font-size:28px;font-family:"Lesson Math","Cambria Math",serif}.law-math mtext{font-family:var(--fm);font-style:normal}
 </style></head><body class="unit-calculation">
 <div class="stripe"></div><header><div><div class="eyebrow">פיזיקה ח׳ · בונים דרך פתרון</div><h1>דרך ויחידה</h1></div><button class="quiet" id="theme">ערכה כהה</button></header>
 <div class="setup"><nav id="topics" aria-label="תחום התרגול"></nav><div class="select-row"><label for="exercise">תרגיל</label><select id="exercise"></select><span id="total" class="muted"></span></div><nav id="exercise-dots" aria-label="בחירת תרגיל"></nav></div>
@@ -134,6 +136,7 @@ function model(e,state={}){
   mc('body','זהו את מקבל הכוח',choice('על מי פועל F₁,₂?',[e.receiver,e.giver,'על שני הגופים יחד'],0,['האינדקס 1,2 מציין שגוף 1 מפעיל כוח על גוף 2.','גוף 1 מפעיל את הכוח F₁,₂. הכוח פועל על גוף 2.','כל אחד מכוחות הזוג פועל על גוף אחד.']));
   mc('relation','בחרו את זוג הכוחות',choice('מי מפעיל את הכוח F₂,₁?',[`${e.receiver} על ${e.giver}`,`${e.giver} על ${e.receiver}`,'הגוף מפעיל כוח על עצמו'],0,['מחליפים בין המפעיל למקבל.','זהו שוב הכוח F₁,₂ שניתן בשאלה.','כוח התגובה הוא כוח של הגוף השני על הראשון.']));
   put('build','השלימו גודל שווה',()=>equation('|F₂,₁|',[q('f',e.magnitude,'N','גודל כוח התגובה')]));
+  fields.f.nonNegative=true;
   const correct=content.directions[opposite[e.direction]],wrong=content.directions[e.direction];
   mc('direction','בחרו כיוון הפוך',choice('מה כיוון F₂,₁?',[correct,wrong,'אין לו כיוון'],0,['הכוחות בזוג שווים בגודלם והפוכים בכיוונם.','הכיוון צריך להיות הפוך לכיוון F₁,₂.','לכוח יש גודל וכיוון.']));
   mc('check','בדקו על מי פועל הכוח',e.check);
@@ -168,9 +171,19 @@ function model(e,state={}){
 function fieldError(field,value){
  if(!String(value??'').trim())return 'השלימו את השדה המסומן.';
  if(field.type==='u')return unit(value)===field.expected?null:'בדקו את יחידת המידה בשדה המסומן. שמרו גם על החזקה ועל האותיות הגדולות והקטנות.';
+ if(field.nonNegative&&num(value)<0)return 'כאן ממלאים גודל שאינו שלילי. את הכיוון בוחרים בנפרד.';
  const expected=Array.isArray(field.expected)?field.expected:[field.expected];
  return expected.some(x=>close(num(value),x))?null:'בדקו את המספר בשדה המסומן. היעזרו בנתונים ובקשר שבחרתם.';
 }
+// All draggable numeric values come from the current validation model, including signs and intermediate results.
+function bank(e,state={},stageId){
+ const m=model(e,state),stage=m.stages.find(s=>s.id===stageId);if(!stage?.fields?.length)return [];
+ const fs=stage.fields.map(id=>m.fields[id]);
+ const numbers=[...new Set(fs.filter(f=>f.type==='n').flatMap(f=>Array.isArray(f.expected)?f.expected:[f.expected]))];
+ const units=[...new Set(fs.filter(f=>f.type==='u').map(f=>f.expected))];
+ return numbers.map(v=>({type:'n',v:String(v)})).concat(units.map(v=>({type:'u',v})));
+}
+function formatNumber(n){return Number(n).toLocaleString('en-US',{maximumSignificantDigits:15});}
 function atoms(symbol,side=1){let sign=side;return unit(symbol).split('/').flatMap((part,i)=>part.split(/[·*]/).filter(Boolean).map(x=>{const m=x.match(/^([A-Za-z]+)(²)?$/);return {unit:m?m[1]:x,sign:(i?-side:side)*(m?.[2]?2:1)};}));}
 function terms(expr,values,fields){const out=[];function walk(nodes,side=1){for(const n of nodes){if(n.frac){walk(n.frac[0],side);walk(n.frac[1],-side);}else if(n.quantity){const u=n.quantity[1],symbol=u.field?unit(values[u.field]):u.text;out.push(...atoms(symbol,side));}else if(n.text&&/^(km|h|s|m)$/.test(n.text))out.push(...atoms(n.text,side));}}walk(expr);return out.map((t,i)=>({...t,id:i}));}
 function dimension(ts){const out={};ts.forEach(t=>out[t.unit]=(out[t.unit]||0)+t.sign);return Object.fromEntries(Object.entries(out).filter(([,v])=>v).sort());}
@@ -184,7 +197,7 @@ function colorError(ts,marks,target){
  return null;
 }
 function canCancel(ts,marks,a,b){return a!==b&&marks[a]!=null&&marks[a]===marks[b]&&ts[a].unit===ts[b].unit&&ts[a].sign===-ts[b].sign;}
-return {num,unit,close,model,fieldError,terms,atoms,dimension,colorError,canCancel,opposite};
+return {num,unit,close,model,fieldError,terms,atoms,dimension,colorError,canCancel,opposite,bank,formatNumber};
 })();
 if(typeof module!=='undefined')module.exports=PhysicsCore;
 </script><script>/* Import in a browser module, then insert the returned element with replaceChildren. */
@@ -325,6 +338,18 @@ const ForceDiagrams = (() => {
     return `<div class="single-force-diagram">${wrap(ex,svg,description,height)}${m.kind==='friction'?'<div class="motion-caption">החץ האפור מציין החלקה שמאלה.</div>':''}${key(m.forces)}<div class="diagram-caption">${m.caption} ${scaleNote}</div></div>`;
   }
 
+  function signedExample(ex){
+    const f12=ex.magnitude*(ex.direction==='right'||ex.direction==='up'?1:-1);
+    return {axis:ex.direction==='up'||ex.direction==='down'?'למעלה':'ימינה',f12,f21:-f12};
+  }
+  function lawHTML(ex,m){
+    const index=(a,b)=>`<mrow><mn>${a}</mn><mo>,</mo><mn>${b}</mn></mrow>`;
+    const force=(a,b,vec=true)=>`<msub>${vec?'<mover accent="true"><mi>F</mi><mo>→</mo></mover>':'<mi>F</mi>'}${index(a,b)}</msub>`;
+    const math=(inner,label)=>`<math xmlns="http://www.w3.org/1998/Math/MathML" dir="ltr" aria-label="${label}"><mrow>${inner}</mrow></math>`;
+    const f=force(1,2),r=force(2,1),n=x=>`<mn>${x<0?'−':'+'}${Math.abs(x)}</mn><mspace width=".15em"/><mtext>N</mtext>`;
+    const s=signedExample(ex),given=m.forces[1].direction;
+    return `<section class="third-law" aria-label="החוק השלישי של ניוטון"><div class="law-math">${math(f+'<mo>=</mo><mo>−</mo>'+r,'הכוח של גוף 1 על גוף 2 שווה למינוס הכוח של גוף 2 על גוף 1')}</div><p>המינוס מציין כיוונים הפוכים. הגדלים שווים.</p><div class="law-math">${math('<mo>|</mo>'+f+'<mo>|</mo><mo>=</mo><mo>|</mo>'+r+'<mo>|</mo>','גדלי שני הכוחות שווים')}</div>${given?`<p>בהצבה על ציר אחד, ${s.axis} חיובי:</p><div class="law-math">${math(force(1,2,false)+'<mo>=</mo><mo>−</mo><mo>(</mo>'+n(s.f21)+'<mo>)</mo><mo>=</mo>'+n(s.f12),'רכיב הכוח עם סימן לפי הכיוון החיובי')}</div>`:''}<p>כל כוח פועל על גוף אחר.</p></section>`;
+  }
   function pair(ex,m) {
     const cards=m.bodies.map((body,i)=>{
       const f=m.forces.find(f=>f.receiver===body),known=!!f.direction;
@@ -333,17 +358,17 @@ const ForceDiagrams = (() => {
       const description=body+': '+(known?`${f.symbol} ${directionName[f.direction]}`:'כוח שצריך למצוא');
       return `<section class="force-body-card"><h4>גוף ${i+1}: ${escape(body)}</h4><div class="force-symbol ${f.color}" dir="ltr">${scalar}</div>${wrap(ex,svg,description,290)}<div class="diagram-caption">כוח של ${escape(f.giver)} על ${escape(body)}${known?', '+directionName[f.direction]:''}.</div></section>`;
     }).join('');
-    return `<div class="force-pair">${cards}</div><div class="diagram-caption">${m.caption} כל חץ מוצג על הגוף שמקבל את הכוח. האיורים אינם בקנה מידה.</div>`;
+    return `${lawHTML(ex,m)}<div class="force-pair">${cards}</div><div class="diagram-caption">${m.caption} כל חץ מוצג על הגוף שמקבל את הכוח. האיורים אינם בקנה מידה.</div>`;
   }
 
   function render(ex,state={}) { const m=model(ex,state); return !m?'':m.kind==='pair'?pair(ex,m):single(ex,m); }
-  return {model,render,vector,opposite};
+  return {model,render,vector,opposite,signedExample};
 })();
 if (typeof module!=='undefined') module.exports=ForceDiagrams;
 </script><script>'use strict';
 const D=PhysicsContent,C=PhysicsCore,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:8});
+const fmt=C.formatNumber;
 const uh=u=>renderUnit(u).outerHTML;
 const key='physics-practice-v1';let records={},currentId='force-1',selected=null,drag=null,suppressClick=false,solIndex=0;
 try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved?.schema===1){records=saved.records||{};if(D.exercises.some(e=>e.id===saved.current))currentId=saved.current;}}catch{}
@@ -411,12 +436,7 @@ function formatTask(text){
 }
 function shortTitle(x){return ({known:'מבוקש',data:'נתונים',body:'זיהוי',axis:'כיוון חיובי',relation:'קשר',time:'המרת זמן','time-mark':'סימון זמן','time-cancel':'צמצום זמן','time-result':'זמן בשניות',half:'כיוון אחד',build:'הצבה',mark:'סימון',cancel:'צמצום',squares:'ריבועים',sum:'חיבור',calc:'חישוב',direction:'כיוון',interpret:'פירוש',check:'בקרה',q0:'זיהוי',q1:'הבנה'})[x.id]||x.title;}
 function renderBank(){if(!stage.fields?.length){$('#bank').innerHTML='';return;}
- const guided=D.exercises.filter(x=>x.topic===e.topic).indexOf(e)<2;
- const nums=guided?stage.fields.map(id=>m.fields[id]).filter(f=>f.type==='n').flatMap(f=>Array.isArray(f.expected)?f.expected:[f.expected]):[];
- // Known data are available as tiles; calculated answers in independent exercises are typed.
- const known=stage.id.startsWith('time')?[e.convertTime.n,1,e.convertTime.factor]:e.values||(e.type==='conversion'?[e.value,1000,1,3600]:e.type==='speed'?['d','v','t'].filter(k=>k!==e.target).map(k=>e[k]).concat(e.convertTime?[e.convertTime.n,e.convertTime.factor,1]:[]):[e.magnitude]).filter(x=>x!=null);
- const units=stage.fields.map(id=>m.fields[id]).filter(f=>f.type==='u').map(f=>f.expected);
- const items=[...new Set([...known,...nums])].map(v=>({type:'n',v:String(v)})).concat([...new Set([...units,...(units.includes('N²')?['N']:[]),...(e.topic==='speed'?['m','s','m/s']:[])])].map(v=>({type:'u',v})));
+ refreshModel();const items=C.bank(e,s,stage.id);
  $('#bank').innerHTML=items.map((t,i)=>`<button class="tile ${selected?.v===t.v&&selected?.type===t.type?'selected':''}" data-token="${i}" data-type="${t.type}" data-value="${esc(t.v)}" aria-label="${t.type==='u'?'יחידה':'מספר'} ${esc(t.v)}" aria-pressed="${selected?.v===t.v&&selected?.type===t.type}">${t.type==='u'?uh(t.v):fmt(Number(t.v))}</button>`).join('');
 }
 function validate(){
