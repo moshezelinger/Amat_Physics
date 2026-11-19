@@ -1,9 +1,9 @@
 /* Typography only. Inherit colours and the base font from the host lesson. */
 .unit-calculation .quantity{display:inline-flex;align-items:baseline;gap:.14em;white-space:nowrap;direction:ltr}
-.unit-calculation .slot:not(.svgslot){box-sizing:border-box;width:2em;min-width:2em;height:1.8em;min-height:1.8em;flex:0 0 auto;font:inherit;line-height:1.3;padding:.12em .14em;display:inline-flex;align-items:baseline;justify-content:center;border-width:2px}
+.unit-calculation .slot:not(.svgslot){appearance:none;box-sizing:border-box;width:var(--unit-slot-width,2.8em);min-width:var(--unit-slot-width,2.8em);height:1.85em;min-height:0;font:inherit;line-height:1.4;padding:.2em .12em;margin:0;display:inline-block;vertical-align:baseline;text-align:center;border-width:var(--unit-slot-border,1px)}
 .unit-calculation .slot.u{font-size:1em}
 .unit-symbol{font-size:1em;line-height:inherit;white-space:nowrap;font-style:normal}
-.unit-lower{font-size:.78em;line-height:1;vertical-align:baseline}
+.unit-lower{font-size:1em;line-height:inherit;vertical-align:baseline}
 .unit-symbol sup{font-size:.65em;line-height:0;vertical-align:super}
-.unit-calculation .slot.ok,.unit-calculation .slot.bad{border-width:2px}
+.unit-calculation .slot.ok,.unit-calculation .slot.bad{border-width:var(--unit-slot-border,1px)}
 /* Keep unit tiles at the same dimensions and base font as numeric tiles. */
