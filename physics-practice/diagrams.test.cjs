@@ -66,4 +66,7 @@ test('Arrow lengths preserve known force ratios, including unequal perpendicular
  const e=D.exercises.find(e=>e.id==='net-7'),as=arrows(G.render(e));
  assert.ok(Math.abs(as[0].length/as[1].length-6/8)<1e-8);
 });
+test('Third-law vector relation uses a minus, while magnitude equality does not',()=>{for(const e of diagrams.filter(x=>x.type==='third')){const html=G.render(e);assert.ok(html.includes('<mover'));assert.ok(html.includes('<mo>=</mo><mo>−</mo>'));assert.ok(html.includes('גדלי שני הכוחות שווים'));assert.ok(!html.includes('בהצבה על ציר אחד'));}});
+test('Signed demonstrations satisfy F12 = -F21 for all four directions',()=>{for(const e of diagrams.filter(x=>x.type==='third')){const s=G.signedExample(e);assert.equal(s.f12,-s.f21);assert.equal(Math.abs(s.f12),e.magnitude);assert.ok(G.render(e,complete).includes('בהצבה על ציר אחד'));assert.equal(s.axis,['up','down'].includes(e.direction)?'למעלה':'ימינה');}});
+
 console.log(groups+' diagram check groups passed');

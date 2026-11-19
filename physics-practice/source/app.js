@@ -1,7 +1,7 @@
 'use strict';
 const D=PhysicsContent,C=PhysicsCore,$=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const fmt=n=>Number(n).toLocaleString('en-US',{maximumFractionDigits:8});
+const fmt=C.formatNumber;
 const uh=u=>renderUnit(u).outerHTML;
 const key='physics-practice-v1';let records={},currentId='force-1',selected=null,drag=null,suppressClick=false,solIndex=0;
 try{const saved=JSON.parse(localStorage.getItem(key)||'null');if(saved?.schema===1){records=saved.records||{};if(D.exercises.some(e=>e.id===saved.current))currentId=saved.current;}}catch{}
@@ -69,12 +69,7 @@ function formatTask(text){
 }
 function shortTitle(x){return ({known:'מבוקש',data:'נתונים',body:'זיהוי',axis:'כיוון חיובי',relation:'קשר',time:'המרת זמן','time-mark':'סימון זמן','time-cancel':'צמצום זמן','time-result':'זמן בשניות',half:'כיוון אחד',build:'הצבה',mark:'סימון',cancel:'צמצום',squares:'ריבועים',sum:'חיבור',calc:'חישוב',direction:'כיוון',interpret:'פירוש',check:'בקרה',q0:'זיהוי',q1:'הבנה'})[x.id]||x.title;}
 function renderBank(){if(!stage.fields?.length){$('#bank').innerHTML='';return;}
- const guided=D.exercises.filter(x=>x.topic===e.topic).indexOf(e)<2;
- const nums=guided?stage.fields.map(id=>m.fields[id]).filter(f=>f.type==='n').flatMap(f=>Array.isArray(f.expected)?f.expected:[f.expected]):[];
- // Known data are available as tiles; calculated answers in independent exercises are typed.
- const known=stage.id.startsWith('time')?[e.convertTime.n,1,e.convertTime.factor]:e.values||(e.type==='conversion'?[e.value,1000,1,3600]:e.type==='speed'?['d','v','t'].filter(k=>k!==e.target).map(k=>e[k]).concat(e.convertTime?[e.convertTime.n,e.convertTime.factor,1]:[]):[e.magnitude]).filter(x=>x!=null);
- const units=stage.fields.map(id=>m.fields[id]).filter(f=>f.type==='u').map(f=>f.expected);
- const items=[...new Set([...known,...nums])].map(v=>({type:'n',v:String(v)})).concat([...new Set([...units,...(units.includes('N²')?['N']:[]),...(e.topic==='speed'?['m','s','m/s']:[])])].map(v=>({type:'u',v})));
+ refreshModel();const items=C.bank(e,s,stage.id);
  $('#bank').innerHTML=items.map((t,i)=>`<button class="tile ${selected?.v===t.v&&selected?.type===t.type?'selected':''}" data-token="${i}" data-type="${t.type}" data-value="${esc(t.v)}" aria-label="${t.type==='u'?'יחידה':'מספר'} ${esc(t.v)}" aria-pressed="${selected?.v===t.v&&selected?.type===t.type}">${t.type==='u'?uh(t.v):fmt(Number(t.v))}</button>`).join('');
 }
 function validate(){

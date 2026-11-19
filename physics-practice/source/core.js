@@ -43,6 +43,7 @@ function model(e,state={}){
   mc('body','זהו את מקבל הכוח',choice('על מי פועל F₁,₂?',[e.receiver,e.giver,'על שני הגופים יחד'],0,['האינדקס 1,2 מציין שגוף 1 מפעיל כוח על גוף 2.','גוף 1 מפעיל את הכוח F₁,₂. הכוח פועל על גוף 2.','כל אחד מכוחות הזוג פועל על גוף אחד.']));
   mc('relation','בחרו את זוג הכוחות',choice('מי מפעיל את הכוח F₂,₁?',[`${e.receiver} על ${e.giver}`,`${e.giver} על ${e.receiver}`,'הגוף מפעיל כוח על עצמו'],0,['מחליפים בין המפעיל למקבל.','זהו שוב הכוח F₁,₂ שניתן בשאלה.','כוח התגובה הוא כוח של הגוף השני על הראשון.']));
   put('build','השלימו גודל שווה',()=>equation('|F₂,₁|',[q('f',e.magnitude,'N','גודל כוח התגובה')]));
+  fields.f.nonNegative=true;
   const correct=content.directions[opposite[e.direction]],wrong=content.directions[e.direction];
   mc('direction','בחרו כיוון הפוך',choice('מה כיוון F₂,₁?',[correct,wrong,'אין לו כיוון'],0,['הכוחות בזוג שווים בגודלם והפוכים בכיוונם.','הכיוון צריך להיות הפוך לכיוון F₁,₂.','לכוח יש גודל וכיוון.']));
   mc('check','בדקו על מי פועל הכוח',e.check);
@@ -77,9 +78,19 @@ function model(e,state={}){
 function fieldError(field,value){
  if(!String(value??'').trim())return 'השלימו את השדה המסומן.';
  if(field.type==='u')return unit(value)===field.expected?null:'בדקו את יחידת המידה בשדה המסומן. שמרו גם על החזקה ועל האותיות הגדולות והקטנות.';
+ if(field.nonNegative&&num(value)<0)return 'כאן ממלאים גודל שאינו שלילי. את הכיוון בוחרים בנפרד.';
  const expected=Array.isArray(field.expected)?field.expected:[field.expected];
  return expected.some(x=>close(num(value),x))?null:'בדקו את המספר בשדה המסומן. היעזרו בנתונים ובקשר שבחרתם.';
 }
+// All draggable numeric values come from the current validation model, including signs and intermediate results.
+function bank(e,state={},stageId){
+ const m=model(e,state),stage=m.stages.find(s=>s.id===stageId);if(!stage?.fields?.length)return [];
+ const fs=stage.fields.map(id=>m.fields[id]);
+ const numbers=[...new Set(fs.filter(f=>f.type==='n').flatMap(f=>Array.isArray(f.expected)?f.expected:[f.expected]))];
+ const units=[...new Set(fs.filter(f=>f.type==='u').map(f=>f.expected))];
+ return numbers.map(v=>({type:'n',v:String(v)})).concat(units.map(v=>({type:'u',v})));
+}
+function formatNumber(n){return Number(n).toLocaleString('en-US',{maximumSignificantDigits:15});}
 function atoms(symbol,side=1){let sign=side;return unit(symbol).split('/').flatMap((part,i)=>part.split(/[·*]/).filter(Boolean).map(x=>{const m=x.match(/^([A-Za-z]+)(²)?$/);return {unit:m?m[1]:x,sign:(i?-side:side)*(m?.[2]?2:1)};}));}
 function terms(expr,values,fields){const out=[];function walk(nodes,side=1){for(const n of nodes){if(n.frac){walk(n.frac[0],side);walk(n.frac[1],-side);}else if(n.quantity){const u=n.quantity[1],symbol=u.field?unit(values[u.field]):u.text;out.push(...atoms(symbol,side));}else if(n.text&&/^(km|h|s|m)$/.test(n.text))out.push(...atoms(n.text,side));}}walk(expr);return out.map((t,i)=>({...t,id:i}));}
 function dimension(ts){const out={};ts.forEach(t=>out[t.unit]=(out[t.unit]||0)+t.sign);return Object.fromEntries(Object.entries(out).filter(([,v])=>v).sort());}
@@ -93,6 +104,6 @@ function colorError(ts,marks,target){
  return null;
 }
 function canCancel(ts,marks,a,b){return a!==b&&marks[a]!=null&&marks[a]===marks[b]&&ts[a].unit===ts[b].unit&&ts[a].sign===-ts[b].sign;}
-return {num,unit,close,model,fieldError,terms,atoms,dimension,colorError,canCancel,opposite};
+return {num,unit,close,model,fieldError,terms,atoms,dimension,colorError,canCancel,opposite,bank,formatNumber};
 })();
 if(typeof module!=='undefined')module.exports=PhysicsCore;

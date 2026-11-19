@@ -116,6 +116,18 @@ const ForceDiagrams = (() => {
     return `<div class="single-force-diagram">${wrap(ex,svg,description,height)}${m.kind==='friction'?'<div class="motion-caption">החץ האפור מציין החלקה שמאלה.</div>':''}${key(m.forces)}<div class="diagram-caption">${m.caption} ${scaleNote}</div></div>`;
   }
 
+  function signedExample(ex){
+    const f12=ex.magnitude*(ex.direction==='right'||ex.direction==='up'?1:-1);
+    return {axis:ex.direction==='up'||ex.direction==='down'?'למעלה':'ימינה',f12,f21:-f12};
+  }
+  function lawHTML(ex,m){
+    const index=(a,b)=>`<mrow><mn>${a}</mn><mo>,</mo><mn>${b}</mn></mrow>`;
+    const force=(a,b,vec=true)=>`<msub>${vec?'<mover accent="true"><mi>F</mi><mo>→</mo></mover>':'<mi>F</mi>'}${index(a,b)}</msub>`;
+    const math=(inner,label)=>`<math xmlns="http://www.w3.org/1998/Math/MathML" dir="ltr" aria-label="${label}"><mrow>${inner}</mrow></math>`;
+    const f=force(1,2),r=force(2,1),n=x=>`<mn>${x<0?'−':'+'}${Math.abs(x)}</mn><mspace width=".15em"/><mtext>N</mtext>`;
+    const s=signedExample(ex),given=m.forces[1].direction;
+    return `<section class="third-law" aria-label="החוק השלישי של ניוטון"><div class="law-math">${math(f+'<mo>=</mo><mo>−</mo>'+r,'הכוח של גוף 1 על גוף 2 שווה למינוס הכוח של גוף 2 על גוף 1')}</div><p>המינוס מציין כיוונים הפוכים. הגדלים שווים.</p><div class="law-math">${math('<mo>|</mo>'+f+'<mo>|</mo><mo>=</mo><mo>|</mo>'+r+'<mo>|</mo>','גדלי שני הכוחות שווים')}</div>${given?`<p>בהצבה על ציר אחד, ${s.axis} חיובי:</p><div class="law-math">${math(force(1,2,false)+'<mo>=</mo><mo>−</mo><mo>(</mo>'+n(s.f21)+'<mo>)</mo><mo>=</mo>'+n(s.f12),'רכיב הכוח עם סימן לפי הכיוון החיובי')}</div>`:''}<p>כל כוח פועל על גוף אחר.</p></section>`;
+  }
   function pair(ex,m) {
     const cards=m.bodies.map((body,i)=>{
       const f=m.forces.find(f=>f.receiver===body),known=!!f.direction;
@@ -124,10 +136,10 @@ const ForceDiagrams = (() => {
       const description=body+': '+(known?`${f.symbol} ${directionName[f.direction]}`:'כוח שצריך למצוא');
       return `<section class="force-body-card"><h4>גוף ${i+1}: ${escape(body)}</h4><div class="force-symbol ${f.color}" dir="ltr">${scalar}</div>${wrap(ex,svg,description,290)}<div class="diagram-caption">כוח של ${escape(f.giver)} על ${escape(body)}${known?', '+directionName[f.direction]:''}.</div></section>`;
     }).join('');
-    return `<div class="force-pair">${cards}</div><div class="diagram-caption">${m.caption} כל חץ מוצג על הגוף שמקבל את הכוח. האיורים אינם בקנה מידה.</div>`;
+    return `${lawHTML(ex,m)}<div class="force-pair">${cards}</div><div class="diagram-caption">${m.caption} כל חץ מוצג על הגוף שמקבל את הכוח. האיורים אינם בקנה מידה.</div>`;
   }
 
   function render(ex,state={}) { const m=model(ex,state); return !m?'':m.kind==='pair'?pair(ex,m):single(ex,m); }
-  return {model,render,vector,opposite};
+  return {model,render,vector,opposite,signedExample};
 })();
 if (typeof module!=='undefined') module.exports=ForceDiagrams;
