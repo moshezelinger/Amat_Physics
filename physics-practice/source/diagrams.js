@@ -29,7 +29,7 @@ const ForceDiagrams = (() => {
   }
 
   function book(gravity, normal) {
-    return {kind:'book',body:'ספר',caption:'הספר על השולחן. שני הכוחות המסומנים פועלים על הספר.',forces:[
+    return {kind:'book',body:'ספר',caption:'תרשים כוחות סכמטי על הספר. השולחן מוצג להקשר.',forces:[
       force('Fg','ספר','down',gravity,'כדור הארץ'),force('FN','ספר','up',normal,'השולחן','opp')
     ]};
   }
@@ -81,8 +81,8 @@ const ForceDiagrams = (() => {
     let svg='',height=300;
     if (m.kind==='book') {
       svg='<g class="diagram-object"><path d="M95 170H305V180H95Z M115 180V275 M285 180V275"/></g>'+object('ספר',200,152);
-      svg+=arrow(m.forces[0],222,150,120)+text(335,252,label(m.forces[0]));
-      svg+=arrow(m.forces[1],178,170,120)+text(114,58,label(m.forces[1]));
+      svg+=arrow(m.forces[0],200,152,120)+text(335,252,label(m.forces[0]));
+      svg+=arrow(m.forces[1],200,152,120)+text(114,58,label(m.forces[1]));
     } else if (m.kind==='perpendicular') {
       const max=Math.max(...m.forces.map(f=>f.magnitude||1)),scale=135/max;
       svg=object('גוף',145,215);

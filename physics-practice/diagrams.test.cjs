@@ -32,7 +32,7 @@ test('Book, rope and friction graphics include their actual surroundings',()=>{
 test('Book forces act on the book, with upward table push and downward Earth pull',()=>{
  for(const id of ['force-1','force-5','force-8','net-6']){
   const e=D.exercises.find(e=>e.id===id),fs=G.model(e).forces;
-  assert.equal(fs.find(f=>f.giver==='השולחן').direction,'up');assert.equal(fs.find(f=>f.giver==='כדור הארץ').direction,'down');assert.ok(fs.every(f=>f.receiver==='ספר'));
+  assert.equal(fs.find(f=>f.giver==='השולחן').direction,'up');assert.equal(fs.find(f=>f.giver==='כדור הארץ').direction,'down');assert.ok(fs.every(f=>f.receiver==='ספר'));const drawn=arrows(G.render(e));assert.equal(drawn[0].x,drawn[1].x);assert.equal(drawn[0].y,drawn[1].y);
  }
  const e=D.exercises.find(e=>e.id==='net-6');assert.equal(G.model(e).forces.find(f=>f.symbol==='FN').magnitude,null);assert.equal(G.model(e,complete).forces.find(f=>f.symbol==='FN').magnitude,30);
 });
