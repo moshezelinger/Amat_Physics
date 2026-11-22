@@ -8,6 +8,7 @@
 - [המצגת המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-deck/)
 - [הלומדה המתוקנת](https://moshezelinger.github.io/Amat_Physics/forces-lab/)
 - [דרך ויחידה: המרות אורך, שטח וזמן](https://moshezelinger.github.io/Amat_Physics/units-lab/)
+- [דרך ויחידה: תרגול פיזיקה לכיתה ח׳](https://moshezelinger.github.io/Amat_Physics/physics-practice/)
 - [מצגת מיפוי השמיים](https://moshezelinger.github.io/Amat_Physics/sky-deck/)
 - [לומדת מיפוי השמיים](https://moshezelinger.github.io/Amat_Physics/sky-lab/)
 
@@ -30,10 +31,15 @@
 | `forces-deck/` | המצגת "כוחות וכוח שקול", 20 שקפים | [נגן הדפדפן](forces-deck/index.html) |
 | `forces-lab/` | הלומדה "מעבדת כוחות", 6 תחנות | [הלומדה](forces-lab/index.html) |
 | `units-lab/` | דרך ויחידה: 24 תרגילי המרה לכיתה ז׳, 8 בכל נושא | [הלומדה](units-lab/index.html) |
+| `physics-practice/` | דרך ויחידה: 32 תרגילים לכיתה ח׳ בכוחות, שקול כוחות, החוק השלישי וזמן, מרחק ומהירות | [התרגול](https://moshezelinger.github.io/Amat_Physics/physics-practice/) |
 | `sky-deck/` | המצגת "מיפוי השמיים ומקומנו במערכת השמש", 30 שקפים | [המצגת](https://moshezelinger.github.io/Amat_Physics/sky-deck/) |
 | `sky-lab/` | לומדת מיפוי השמיים: 20 שאלות ודוח ביצוע להגשה | [הלומדה](https://moshezelinger.github.io/Amat_Physics/sky-lab/) |
 
 המצגת והלומדה מתואמות: אותם צבעים, אותם סימונים ואותן דוגמאות. בכל שקף שיש לו תחנה מתאימה יש קישור "במעבדה: תחנה N".
+
+## תרגול פיזיקה לכיתה ח׳: `physics-practice/`
+
+[פתיחת אתר התרגול](https://moshezelinger.github.io/Amat_Physics/physics-practice/). התרגול כולל 8 תרגילים בכל אחד מארבעת התחומים, עם בניית דרך פתרון, גרירה והקלדה של מספרים ויחידות, תרשימי כוחות ומשוב מיידי. [הוראות תחזוקה ומקורות התוכן](physics-practice/README.md) ו־[סיכום הבדיקות](physics-practice/QA.md) נמצאים בתיקיית התרגול.
 
 ## המצגת: `forces-deck/`
 
